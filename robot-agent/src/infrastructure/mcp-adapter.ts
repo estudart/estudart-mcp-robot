@@ -25,7 +25,7 @@ export class MCPAdapter {
         this._connected = true;
     }
 
-    async listTools() {
+    async listTools(): Promise<Record<string, any>[]> {
         await this._ensureConnected();
         const { tools } = await this._client.listTools();
         return tools.map((tool) => ({

@@ -1,0 +1,1 @@
+export const ROBOT_AGENT_SYSTEM_PROMPT = ""

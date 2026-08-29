@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",        // ← compiled files go here
-    "rootDir": "./src"         // ← source files come from here
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "types": ["node"]
   }
 }
