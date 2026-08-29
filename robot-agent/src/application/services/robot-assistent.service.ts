@@ -1,6 +1,5 @@
 import readline from 'node:readline/promises';
 import { RobotAgent } from "../agents/robot-agent.js";
-import { read } from 'node:fs';
 
 
 export class RobotAssistent {
