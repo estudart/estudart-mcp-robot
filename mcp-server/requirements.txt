@@ -53,11 +53,13 @@ pyperclip==1.11.0
 python-dotenv==1.2.3
 python-multipart==0.0.32
 PyYAML==6.0.3
+raspbot==0.1.2
 referencing==0.37.0
 rich==15.0.0
 rich-rst==2.1.0
 rpds-py==2026.6.3
 SecretStorage==3.5.0
+smbus2==0.6.1
 sse-starlette==3.4.8
 starlette==1.6.0
 typing-inspection==0.4.4
