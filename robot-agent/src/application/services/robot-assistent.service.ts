@@ -21,7 +21,6 @@ export class RobotAssistent {
         while (this._isActive) {
             const question = this.askUser();
             await this._robotAgent.invokeAgent(question);
-            console.log(`You have asked: ${question}`);
         }
     }
 }
