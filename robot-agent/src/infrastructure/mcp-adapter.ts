@@ -10,6 +10,7 @@ export class MCPAdapter {
     _connected;
     _client;
     _transport;
+
     constructor({ url }: MCPAdapterConfig) {
         this._transport = new StreamableHTTPClientTransport(new URL(url));
         this._client = new Client(
