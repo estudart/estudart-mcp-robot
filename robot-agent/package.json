@@ -5,6 +5,7 @@
     "@langchain/ollama": "^1.3.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "langchain": "^1.5.10",
+    "readline-sync": "^1.4.10",
     "zod": "^4.5.2"
   },
   "name": "services",
@@ -14,13 +15,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "main": "node dist/main.js"
+    "main": "npm run build && node dist/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^26.4.0",
+    "@types/readline-sync": "^1.4.8",
     "typescript": "^7.0.2"
   }
 }

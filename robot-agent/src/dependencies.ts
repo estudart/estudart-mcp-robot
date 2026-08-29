@@ -8,7 +8,7 @@ const mcpAdapter = new MCPAdapter({
 });
 const robotAgent = new RobotAgent(
     ROBOT_AGENT_SYSTEM_PROMPT,
-    process.env.OLLAMA_MODEL ?? "llama3.2:1b",
+    process.env.OLLAMA_MODEL ?? "llama3.2:3b",
     mcpAdapter,
     await mcpAdapter.listTools(),
 )
