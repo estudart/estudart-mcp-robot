@@ -71,7 +71,7 @@ docker compose up -d
 # 3. Start the MCP server (exposes robot tools over HTTP)
 cd mcp-server
 source .venv/bin/activate
-uvicorn src.application.server:app --reload
+python -m uvicorn src.application.server:app --host 0.0.0.0 --port 8000 --reload
 
 # 4. Start the agent (talks to the MCP server + Ollama)
 cd robot-agent
