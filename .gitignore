@@ -1,2 +1,6 @@
+# RobotAgent
 /robot-agent/node_modules
 /robot-agent/dist
+
+#MCPServer
+/mcp-server/.venv
