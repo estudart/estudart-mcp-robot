@@ -27,8 +27,10 @@ an **MCP (Model Context Protocol) server**, driven by a **LangChain/LangGraph ag
 2. **`mcp-server`** — a Python **FastMCP** server exposing the robot's capabilities (LEDs, motors,
    sensors) as MCP tools. It talks to the physical robot through the
    [`raspbot`](https://nbourre.github.io/raspbotv2-lib) library.
-3. **Ollama + Open WebUI** (`docker-compose.yml`) — runs the LLM locally and gives you a free
-   ChatGPT-like web UI on your own machine, alongside the agent.
+3. **Ollama + Open WebUI** — Ollama runs the LLM **natively on the host** (not in Docker —
+   performance takes a big hit running the model inside a container, especially on macOS).
+   Open WebUI still runs via `docker-compose.yml` and connects to the host's Ollama, giving you a
+   free ChatGPT-like web UI alongside the agent.
 
 ## Project structure
 
@@ -49,15 +51,29 @@ on primitives — never on details of the layer below it.
 ## Running it
 
 ```bash
-# 1. Start Ollama + Open WebUI (optional chat UI)
+# 1. Install and run Ollama natively on the host (do NOT run the model inside Docker —
+#    performance is much worse in a container, especially on macOS)
+
+# macOS
+brew install ollama
+
+# Linux / Debian (e.g. Raspberry Pi OS)
+curl -fsSL https://ollama.com/install.sh | sh
+
+# then, on either OS:
+ollama serve
+ollama pull llama3.2:3b
+ollama run llama3.2:3b
+
+# 2. (optional) Start Open WebUI, a free ChatGPT-like UI that connects to the host's Ollama
 docker compose up -d
 
-# 2. Start the MCP server (exposes robot tools over HTTP)
+# 3. Start the MCP server (exposes robot tools over HTTP)
 cd mcp-server
 source .venv/bin/activate
 uvicorn src.application.server:app --reload
 
-# 3. Start the agent (talks to the MCP server + Ollama)
+# 4. Start the agent (talks to the MCP server + Ollama)
 cd robot-agent
 npm run main
 ```
