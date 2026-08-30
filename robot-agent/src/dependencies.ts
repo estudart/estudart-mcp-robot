@@ -11,8 +11,8 @@ const client = await getClient();
 const mcpAdapter = new MCPAdapter(client);
 const robotAgent = new RobotAgent(
     ROBOT_AGENT_SYSTEM_PROMPT,
-    process.env.OLLAMA_MODEL ?? "qwen2.5:0.5b",
-    process.env.OLLAMA_BASE_URL ?? "http://host.docker.internal:11434",
+    process.env.OLLAMA_MODEL ?? "llama3.2:3b",
+    process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
     mcpAdapter,
     await mcpAdapter.listTools(),
 )
