@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express"
 
-import { robotAssistent } from "../dependencies.js";
+import { robotAssistent } from "../../dependencies.js";
 
 export const app: Application = express()
 export const port: number = Number(process.env.API_PORT) ?? 3000
