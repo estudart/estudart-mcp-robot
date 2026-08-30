@@ -17,8 +17,17 @@ services:
     ports: 
       - "8000:8000"
 
-#   robot-agent:
-#     container_name: robot-agent
+  robot-agent:
+    build:
+      context: ./robot-agent
+      dockerfile: Dockerfile
+    container_name: robot-agent
+    restart: unless-stopped
+    depends_on: 
+      - mcp-server
+    environment:
+      - MCP_SERVER_URL=http://mcp-server:8000/mcp
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
 
 #   open-webui:
 #     image: ghcr.io/open-webui/open-webui:main
