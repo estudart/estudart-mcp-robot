@@ -12,13 +12,16 @@ class RobotAdapter:
     
     # MOTOR
     def move_forward(self, speed: int):
-        self._bot.motors.forward(speed)
+        self._robot.motors.forward(speed)
 
-    def move_backwards(self, speed: int):
-        self._bot.motors.backwards(speed)
+    def move_backward(self, speed: int):
+        self._robot.motors.backward(speed)
     
     def turn_left(self, speed: int):
-        self._bot.motors.turn_left(speed)
+        self._robot.motors.turn_left(speed)
 
     def turn_right(self, speed: int):
-        self._bot.motors.turn_right(speed)
+        self._robot.motors.turn_right(speed)
+
+    def stop(self):
+        self._robot.motors.stop()

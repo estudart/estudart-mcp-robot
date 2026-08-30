@@ -32,4 +32,12 @@ def set_all_leds(color: str):
     service = get_robot_commander()
     service.set_all_leds(color)
 
+@mcp.tool
+def robot_patrol():
+    """
+    This tool allows you run a full robot patrol.
+    """
+    service = get_robot_commander()
+    service.robot_patrol()
+
 app = mcp.http_app()
