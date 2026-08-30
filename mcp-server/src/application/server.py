@@ -1,8 +1,18 @@
 from fastmcp import FastMCP
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 from src.dependencies import get_robot_commander
 
 mcp = FastMCP("mcp")
+
+
+@mcp.custom_route("/health", methods=["GET"])
+async def health_check(request: Request) -> JSONResponse:
+    return JSONResponse({
+        "status": "healthy",
+        "service": "mcp-server"
+    })
 
 @mcp.tool
 def helo_world():
@@ -21,5 +31,13 @@ def set_all_leds(color: str):
     """
     service = get_robot_commander()
     service.set_all_leds(color)
+
+@mcp.tool
+def robot_patrol():
+    """
+    This tool allows you run a full robot patrol.
+    """
+    service = get_robot_commander()
+    service.robot_patrol()
 
 app = mcp.http_app()
