@@ -16,5 +16,5 @@ class RobotCommander:
         }
     
     def set_all_leds(self, color: str) -> None:
-        get_color = self._color_map[color]
+        get_color = self._color_map[color.upper()]
         self._robot_adapter.set_all_leds(get_color)
