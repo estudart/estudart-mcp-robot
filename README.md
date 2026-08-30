@@ -61,7 +61,7 @@ brew install ollama
 curl -fsSL https://ollama.com/install.sh | sh
 
 # then, on either OS:
-ollama serve
+OLLAMA_HOST=0.0.0.0:11434 ollama serve
 ollama pull llama3.2:3b
 ollama run llama3.2:3b
 
@@ -70,8 +70,7 @@ docker compose up -d
 
 # 3. Start the MCP server (exposes robot tools over HTTP)
 cd mcp-server
-source .venv/bin/activate
-python -m uvicorn src.application.server:app --host 0.0.0.0 --port 8000 --reload
+uv run uvicorn src.application.server:app --host 0.0.0.0 --port 8000 --reload
 
 # 4. Start the agent (talks to the MCP server + Ollama)
 cd robot-agent

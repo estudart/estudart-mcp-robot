@@ -1,6 +1,0 @@
-# MCPServer
-/mcp-server/.venv
-__pycache__/
-
-# RobotAgent
-/robot-agent/dist
