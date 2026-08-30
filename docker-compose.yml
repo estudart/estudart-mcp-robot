@@ -8,19 +8,31 @@ services:
   #   volumes:
   #     - ollama_data:/root/.ollama
 
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: open-webui
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile
+    container_name: mcp-server
     restart: unless-stopped
-    # depends_on:
-    #   - ollama
-    ports:
-      - "3000:8080"
-    environment:
-      - OLLAMA_BASE_URL=http://host.docker.internal:11434
-    volumes:
-      - open_webui_data:/app/backend/data
+    ports: 
+      - "8000:8000"
 
-volumes:
-  # ollama_data:
-  open_webui_data:
+#   robot-agent:
+#     container_name: robot-agent
+
+#   open-webui:
+#     image: ghcr.io/open-webui/open-webui:main
+#     container_name: open-webui
+#     restart: unless-stopped
+#     # depends_on:
+#     #   - ollama
+#     ports:
+#       - "3000:8080"
+#     environment:
+#       - OLLAMA_BASE_URL=http://host.docker.internal:11434
+#     volumes:
+#       - open_webui_data:/app/backend/data
+
+# volumes:
+#   # ollama_data:
+#   open_webui_data:
