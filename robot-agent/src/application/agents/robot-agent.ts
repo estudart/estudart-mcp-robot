@@ -14,6 +14,7 @@ export class RobotAgent {
     constructor(
         systemPrompt: string,
         ollamaModel: string,
+        ollamaBaseUrl: string,
         mcpAdapter: MCPAdapter,
         mcpTools: Record<string, any>[]
     ) {
@@ -24,7 +25,8 @@ export class RobotAgent {
 
         this._llmChat = new ChatOllama({
             model: ollamaModel,
-            temperature: 0
+            temperature: 0,
+            baseUrl: ollamaBaseUrl,
         });
 
         this._agent = createAgent({
