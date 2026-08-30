@@ -1,7 +1,6 @@
-import { robotAssistent } from "./dependencies.js";
+import { app, port } from "./presentation/agent.route.js"
 
-function main() {
-    robotAssistent.run();
-}
-
-main();
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
