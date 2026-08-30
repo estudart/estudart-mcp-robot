@@ -238,7 +238,7 @@ docker compose logs -f
 ## Usage
 
 ```bash
-curl -X POST http://localhost:3000/robot-agent \
+curl -X POST http://localhost:8080/robot-agent \
   -H "Content-Type: application/json" \
   -d '{"question": "turn the lights red"}'
 ```
@@ -246,7 +246,7 @@ curl -X POST http://localhost:3000/robot-agent \
 Health probes:
 
 ```bash
-curl http://localhost:3000/health   # agent
+curl http://localhost:8080/health   # agent
 curl http://localhost:8000/health   # MCP server
 ```
 
@@ -254,7 +254,7 @@ curl http://localhost:8000/health   # MCP server
 
 | Variable | Service | Default | Purpose |
 | --- | --- | --- | --- |
-| `API_PORT` | robot-agent | `3000` | Port the Express API listens on |
+| `API_PORT` | robot-agent | `8080` | Port the Express API listens on |
 | `MCP_SERVER_URL` | robot-agent | `http://localhost:8000/mcp` | MCP endpoint used by the client transport |
 | `OLLAMA_MODEL` | robot-agent | `qwen2.5:0.5b` | Model backing the agent — Compose overrides this to `llama3.2:3b` |
 | `OLLAMA_BASE_URL` | robot-agent | `http://host.docker.internal:11434` | Address of the host Ollama runtime |
