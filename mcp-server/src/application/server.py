@@ -29,15 +29,23 @@ def set_all_leds(color: str):
     This tool allows you to change the robots LED color.
     Eg: "RED", "GREEN", "BLUE", "YELLOW", "CYAN", "WHITE", "OFF"
     """
-    service = get_robot_commander()
-    service.set_all_leds(color)
+    try:
+        service = get_robot_commander()
+        service.set_all_leds(color)
+    except Exception as err:
+        err_msg = f"Could not call tool, reason: {err}"
+        return JSONResponse(f"err_msg")
 
 @mcp.tool
 def robot_patrol():
     """
     This tool allows you run a full robot patrol.
     """
-    service = get_robot_commander()
-    service.robot_patrol()
+    try:
+        service = get_robot_commander()
+        service.robot_patrol()
+    except Exception as err:
+        err_msg = f"Could not call tool, reason: {err}"
+        return JSONResponse(f"err_msg")
 
 app = mcp.http_app()

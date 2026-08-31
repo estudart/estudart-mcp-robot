@@ -1,8 +1,13 @@
-import express, { Application, Request, Response } from "express"
-import http from "http"; 
+import http from "http";
+import express, { Application, Request, Response } from "express";
+import { WebSocketServer } from "ws";
+import { initWebSocket } from "./presentation/wss/wsHandler.js";
 import robotRoutes from "./presentation/routes/agent.route.js";
 
 export const app: Application = express()
+export const server: http.Server = http.createServer(app);
+export const wss = new WebSocketServer({ server });
+initWebSocket(wss);
 export const port: number = Number(process.env.API_PORT) || 8080
 
 // Enable URL-encoded form data parsing
@@ -17,8 +22,6 @@ app.use(robotRoutes);
 app.get('/health', (req: Request, res: Response) => {
     res.send("Server is up");
 });
-
-const server = http.createServer(app);
 
 // Start the server
 server.listen(port, () => {

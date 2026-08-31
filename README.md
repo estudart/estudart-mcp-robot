@@ -243,6 +243,15 @@ curl -X POST http://localhost:8080/robot-agent \
   -d '{"question": "turn the lights red"}'
 ```
 
+```js
+const ws = new WebSocket('ws://localhost:8080');
+
+ws.onopen = () => {
+    console.log('Connected!');
+    ws.send(JSON.stringify({ type: "robot-agent-command", question: "can you turn the led blue please?" }));
+};
+```
+
 Health probes:
 
 ```bash

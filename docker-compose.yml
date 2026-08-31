@@ -16,8 +16,8 @@ services:
     restart: unless-stopped
     ports: 
       - "8000:8000"
-    devices:
-      - "/dev/i2c-1:/dev/i2c-1"
+    # devices:
+    #   - "/dev/i2c-1:/dev/i2c-1"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:8000/health"]
       interval: 30s
