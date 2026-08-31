@@ -1,6 +1,7 @@
 from fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
+from fastmcp.exceptions import ToolError
 
 from src.dependencies import get_robot_commander
 
@@ -29,15 +30,33 @@ def set_all_leds(color: str):
     This tool allows you to change the robots LED color.
     Eg: "RED", "GREEN", "BLUE", "YELLOW", "CYAN", "WHITE", "OFF"
     """
-    service = get_robot_commander()
-    service.set_all_leds(color)
+    try:
+        service = get_robot_commander()
+        service.set_all_leds(color)
+    except Exception as err:
+        err_msg = (
+            f"CRITICAL ERROR: Cannot change LED to {color}. "
+            f"The physical I2C connection failed (DeviceNotFoundError). "
+            f"Hardware details: {err}. Please report this hardware failure to the user."
+        )
+        print(err_msg)
+        raise ToolError(err_msg)
 
 @mcp.tool
 def robot_patrol():
     """
     This tool allows you run a full robot patrol.
     """
-    service = get_robot_commander()
-    service.robot_patrol()
+    try:
+        service = get_robot_commander()
+        service.robot_patrol()
+    except Exception as err:
+        err_msg = (
+            f"CRITICAL ERROR: Cannot run robot patrol. "
+            f"The physical motors or sensors failed to initialize via I2C. "
+            f"Hardware details: {err}. Please report this navigation and hardware failure directly to the user."
+        )
+        print(err_msg)
+        raise ToolError(err_msg)
 
 app = mcp.http_app()
