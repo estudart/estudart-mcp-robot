@@ -1,13 +1,4 @@
 services:
-  # ollama:
-  #   image: ollama/ollama:latest
-  #   container_name: ollama
-  #   restart: unless-stopped
-  #   ports:
-  #     - "11434:11434"
-  #   volumes:
-  #     - ollama_data:/root/.ollama
-
   robot-mcp-server:
     build:
       context: ./robot-mcp-server
@@ -16,8 +7,8 @@ services:
     restart: unless-stopped
     ports: 
       - "8000:8000"
-    # devices:
-    #   - "/dev/i2c-1:/dev/i2c-1"
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:8000/health"]
       interval: 30s

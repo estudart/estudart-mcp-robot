@@ -22,6 +22,7 @@
   display: flex;
   flex-direction: row;
   flex: 1;
+  min-height: 0;
   width: 100%;
   box-sizing: border-box;
   padding: 15px;
@@ -33,7 +34,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 70%;
+  width: 80%;
+  font-size: medium;
   background-color: #12141c;
   border: 1px solid #1e2230;
   border-radius: 8px;
@@ -41,12 +43,15 @@
 }
 
 .chatHistory {
-  height: 90%;
-  width: 100%; 
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 90%;
+    width: 100%; 
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    text-align: left;
 }
 
 .chatText {
@@ -102,9 +107,33 @@
   transform: translateY(0);
 }
 
+.userMessageContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.agentMessageContainer {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.userMessage {
+    color: white;
+    background-color: #2d334a;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.agentMessage {
+    color: white;
+    padding: 4px 8px;
+}
+
 .sideBar {
   height: 100%;
-  width: 30%;
+  width: 20%;
   box-sizing: border-box;
   background-color: #12141c;
   border: 1px solid #1e2230;

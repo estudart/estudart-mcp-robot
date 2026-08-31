@@ -4,10 +4,12 @@ import styles from "./RobotChat.module.css"
 export default function Chat() {
     const [message, setMessage] = useState("");
     const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
-    const [history, setHistory] = useState<String[]>([]);
+    const [history, setHistory] = useState<Record<string, string | boolean>[]>([]);
 
     useEffect(() => {
-        const ws = new WebSocket(import.meta.env.VITE_BACKEND_URL);
+        const ws = new WebSocket(
+            import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
+        );
 
         ws.onopen = () => {
             console.log("Websocket connection opened");
@@ -17,7 +19,10 @@ export default function Chat() {
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.type === "response") {
-                setHistory(prev => [...prev, data.message])
+                setHistory(prev => [...prev, {
+                    message: data.message,
+                    isUser: false
+                }])
             }
         };
 
@@ -40,14 +45,14 @@ export default function Chat() {
             type: "robot-agent-command",
             question: message,
         }));
-        setHistory(prev => [...prev, message]);
+        setHistory(prev => [...prev, { message, isUser: true }]);
         setMessage("");
     };
 
     return (
         <div className={styles.chatPage}>
             <div className={styles.chatHeader}>
-                RaspbotV2 AI Agent
+                RaspbotV2 AI Agent 🤖
             </div>
             <div className={styles.chatBox}>
                 <div className={styles.sideBar}>
@@ -55,8 +60,12 @@ export default function Chat() {
                 </div>
                 <div className={styles.chatMessages}>
                     <div className={styles.chatHistory}>
-                        {history.map((message, index) => 
-                            <p key={index}>{message}</p>
+                        {history.map((data, index) =>
+                            <div className={data.isUser ? styles.userMessageContainer : styles.agentMessageContainer}>
+                                <p key={index} className={data.isUser ? styles.userMessage : styles.agentMessage}>
+                                    {data.message}
+                                </p>
+                            </div>
                         )}
                     </div>
                     <form
@@ -66,7 +75,7 @@ export default function Chat() {
                         <input
                             type="text"
                             className={styles.chatInputBox}
-                            placeholder="Write your message here"
+                            placeholder="Say hi to Robby!"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                         />
