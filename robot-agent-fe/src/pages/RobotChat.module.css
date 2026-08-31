@@ -46,6 +46,7 @@
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
+  text-align: left;
 }
 
 .chatText {
