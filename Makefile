@@ -7,10 +7,10 @@ run:
 run-d:
 	docker compose up -d
 
-build-run:
+build-up:
 	docker compose up --build
 
-build-run-d:
+build-up-d:
 	docker compose up -d --build
 
 down:

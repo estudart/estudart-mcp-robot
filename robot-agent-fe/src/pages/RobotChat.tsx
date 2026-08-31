@@ -7,7 +7,7 @@ export default function Chat() {
     const [history, setHistory] = useState<String[]>([]);
 
     useEffect(() => {
-        const ws = new WebSocket("ws://localhost:8080");
+        const ws = new WebSocket(import.meta.env.VITE_BACKEND_URL);
 
         ws.onopen = () => {
             console.log("Websocket connection opened");
@@ -40,6 +40,7 @@ export default function Chat() {
             question: message,
         }));
         setHistory(prev => [...prev, message]);
+        setMessage("");
     };
 
     return (
