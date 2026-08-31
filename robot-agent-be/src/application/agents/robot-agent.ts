@@ -25,7 +25,6 @@ export class RobotAgent {
 
         this._llmChat = new ChatOllama({
             model: ollamaModel,
-            temperature: 0,
             baseUrl: ollamaBaseUrl,
         });
 
