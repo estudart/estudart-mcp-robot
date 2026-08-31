@@ -9,6 +9,7 @@
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white&style=flat-square" alt="Python 3.12">
   <img src="https://img.shields.io/badge/Node.js-20-339933?logo=nodedotjs&logoColor=white&style=flat-square" alt="Node.js 20">
   <img src="https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white&style=flat-square" alt="TypeScript">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square" alt="React 19">
   <img src="https://img.shields.io/badge/FastMCP-3.4-000000?style=flat-square" alt="FastMCP">
   <img src="https://img.shields.io/badge/Ollama-local%20inference-5A5A5A?logo=ollama&logoColor=white&style=flat-square" alt="Ollama">
   <img src="https://img.shields.io/badge/uv-managed-DE5FE9?style=flat-square" alt="uv">
@@ -43,14 +44,18 @@ Everything runs on your own machines. No cloud inference, no API keys.
 ```mermaid
 flowchart LR
     Client["HTTP client<br/>curl · Postman"]
+    Browser["robot-agent-fe<br/>React · WebSocket"]
 
     subgraph agentSvc["robot-agent — Node.js · TypeScript"]
         direction TB
         API["Express API<br/>POST /robot-agent"]
+        WS["WebSocket server"]
         Assistant["RobotAssistent"]
         ReactAgent["LangChain<br/>ReAct agent"]
         MCPClient["MCP client<br/>Streamable HTTP"]
-        API --> Assistant --> ReactAgent --> MCPClient
+        API --> Assistant
+        WS --> Assistant
+        Assistant --> ReactAgent --> MCPClient
     end
 
     LLM["Ollama<br/>local inference runtime"]
@@ -73,6 +78,7 @@ flowchart LR
     end
 
     Client --> API
+    Browser <-->|"chat messages"| WS
     ReactAgent -.->|"prompt · tool schemas"| LLM
     LLM -.->|"chosen tool call"| ReactAgent
     MCPClient -->|"tools/call"| Tools
@@ -85,7 +91,8 @@ owns every conversation with the outside world, and a composition root wires the
 
 | Component | Stack | Responsibility |
 | --- | --- | --- |
-| **robot-agent** | Node.js · TypeScript · Express 5 | Exposes the public HTTP API, runs the ReAct agent loop, and acts as the MCP client |
+| **robot-agent-fe** | React 19 · TypeScript · Vite | Browser chat UI, talks to the agent over a WebSocket connection |
+| **robot-agent** | Node.js · TypeScript · Express 5 | Exposes the public HTTP/WebSocket API, runs the ReAct agent loop, and acts as the MCP client |
 | **mcp-server** | Python 3.12 · FastMCP · uvicorn | Publishes robot capabilities as MCP tools and drives the hardware |
 | **Ollama** | Host-native runtime | Serves the language model that chooses which tools to call |
 | **Raspbot V2** | Raspberry Pi 5 · ESP32 board | Executes the physical work: drive motors and the LED bar |
@@ -211,7 +218,7 @@ pointed at the same Ollama instance.
 ### 2. MCP server
 
 ```bash
-cd mcp-server
+cd robot-mcp-server
 uv run uvicorn src.application.server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
@@ -220,15 +227,26 @@ uv run uvicorn src.application.server:app --host 0.0.0.0 --port 8000 --reload
 ### 3. Agent
 
 ```bash
-cd robot-agent
+cd robot-agent-be
 npm install
 npm run main
 ```
 
+### 4. Front-end
+
+```bash
+cd robot-agent-fe
+npm install
+npm run dev
+```
+
+Vite serves the chat UI at `http://localhost:5173`. It connects back to the agent over a WebSocket
+at the address in `VITE_BACKEND_URL` (defaults to `ws://localhost:8080`).
+
 ### Running the full stack in Docker
 
-Both services are containerised, with the agent waiting on the MCP server's health check before it
-starts. Ollama stays on the host either way.
+All three services are containerised: the agent waits on the MCP server's health check, and the
+front-end waits on the agent's, before either starts. Ollama stays on the host either way.
 
 ```bash
 docker compose up -d --build
@@ -271,17 +289,18 @@ curl http://localhost:8000/health   # MCP server
 
 | Variable | Service | Default | Purpose |
 | --- | --- | --- | --- |
-| `API_PORT` | robot-agent | `8080` | Port the Express API listens on |
-| `MCP_SERVER_URL` | robot-agent | `http://localhost:8000/mcp` | MCP endpoint used by the client transport |
-| `OLLAMA_MODEL` | robot-agent | `qwen2.5:0.5b` | Model backing the agent — Compose overrides this to `llama3.2:3b` |
-| `OLLAMA_BASE_URL` | robot-agent | `http://host.docker.internal:11434` | Address of the host Ollama runtime |
+| `API_PORT` | robot-agent-be | `8080` | Port the Express API and WebSocket server listen on |
+| `MCP_SERVER_URL` | robot-agent-be | `http://localhost:8000/mcp` | MCP endpoint used by the client transport |
+| `OLLAMA_MODEL` | robot-agent-be | `qwen2.5:0.5b` | Model backing the agent — Compose overrides this to `llama3.2:3b` |
+| `OLLAMA_BASE_URL` | robot-agent-be | `http://host.docker.internal:11434` | Address of the host Ollama runtime |
+| `VITE_BACKEND_URL` | robot-agent-fe | `ws://localhost:8080` | WebSocket address the chat UI connects to; baked in at build time |
 
 ## Project structure
 
 ```
 .
 ├── docker-compose.yml
-├── mcp-server/                              # Python · FastMCP · control plane
+├── robot-mcp-server/                        # Python · FastMCP · control plane
 │   ├── pyproject.toml                       # uv-managed dependencies
 │   ├── uv.lock
 │   └── src/
@@ -291,16 +310,22 @@ curl http://localhost:8000/health   # MCP server
 │       │   └── robot_commander_service.py   # orchestration, e.g. the patrol routine
 │       └── infrastructure/
 │           └── robot_engine_adapter.py      # raspbot wrapper — the I²C boundary
-└── robot-agent/                             # Node.js · TypeScript · AI plane
+├── robot-agent-be/                          # Node.js · TypeScript · AI plane
+│   ├── package.json
+│   └── src/
+│       ├── main.ts                          # entrypoint
+│       ├── dependencies.ts                  # composition root
+│       ├── presentation/routes/             # Express routes
+│       ├── application/
+│       │   ├── agents/                      # ReAct agent and system prompt
+│       │   └── services/                    # RobotAssistent, WebSocket handler
+│       └── infrastructure/                  # MCP client adapter
+└── robot-agent-fe/                          # React · TypeScript · Vite
     ├── package.json
     └── src/
-        ├── main.ts                          # entrypoint
-        ├── dependencies.ts                  # composition root
-        ├── presentation/routes/             # Express routes
-        ├── application/
-        │   ├── agents/                      # ReAct agent and system prompt
-        │   └── services/                    # RobotAssistent
-        └── infrastructure/                  # MCP client adapter
+        ├── main.tsx                         # entrypoint
+        ├── pages/                           # RobotChat — the chat screen
+        └── components/                      # ChatMessages
 ```
 
 ## Design notes
@@ -319,4 +344,3 @@ curl http://localhost:8000/health   # MCP server
 - Expose the remaining motion primitives — `turn_left`, `turn_right`, and explicit speed control — as MCP tools
 - Sensor tooling: ultrasonic distance readings and camera frames fed back to the agent
 - Streamed responses so the agent narrates actions while they are still running
-- A React front-end for driving the robot from the browser
