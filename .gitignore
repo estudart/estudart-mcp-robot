@@ -1,7 +1,0 @@
-# RobotAgent
-/robot-agent-be/node_modules
-/robot-agent-be/dist
-
-#MCPServer
-/robot-mcp-server/.venv
-__pycache__/
