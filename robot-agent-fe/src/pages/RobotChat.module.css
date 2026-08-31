@@ -140,3 +140,15 @@
   border-radius: 8px;
   padding: 20px;
 }
+
+.sideBarOptions {
+    cursor: pointer;
+    text-align: left;
+    font-size: small;
+}
+
+.sideBarOptions:hover {
+    font-weight: bold;
+    color: #00f0ff;
+    transform: translateY(-1px);
+}

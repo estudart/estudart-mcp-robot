@@ -16,13 +16,14 @@ export function wssHandler(wss: WebSocketServer) {
                 const data = JSON.parse(message.toString()) as WSMessage;
                 console.log(`New message: ${JSON.stringify(data)}`);
 
-                if (data.type === "robot-agent-command") {
+                if (data.type === "robot-agent") {
                     response = await robotAgent.invokeAgent(data.question);
                 };
 
                 ws.send(JSON.stringify({
                     type: "response",
-                    message: response
+                    message: response,
+                    agent: "robot-agent",
                 }));
                 
             } catch (error) {
