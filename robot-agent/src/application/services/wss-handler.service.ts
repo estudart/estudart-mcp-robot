@@ -6,7 +6,7 @@ interface WSMessage {
     question?: any;
 }
 
-export function initWebSocket(wss: WebSocketServer) {
+export function wssHandler(wss: WebSocketServer) {
     wss.on("connection", (ws) => {
         console.log("New client connected");
 
@@ -16,7 +16,7 @@ export function initWebSocket(wss: WebSocketServer) {
                 const data = JSON.parse(message.toString()) as WSMessage;
                 console.log(`New message: ${JSON.stringify(data)}`);
 
-                if (data.type == "robot-agent-command") {
+                if (data.type === "robot-agent-command") {
                     response = await robotAgent.invokeAgent(data.question);
                 };
 
