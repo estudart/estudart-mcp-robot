@@ -34,7 +34,8 @@ export default function Chat() {
         };
     }, []);
 
-    const handleSendMessage = (message: string) => {
+    const handleSendMessage = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         webSocket?.send(JSON.stringify({
             type: "robot-agent-command",
             question: message,
@@ -58,7 +59,10 @@ export default function Chat() {
                             <p key={index}>{message}</p>
                         )}
                     </div>
-                    <div className={styles.chatText}>
+                    <form
+                        className={styles.chatText}
+                        onSubmit={handleSendMessage}
+                    >
                         <input
                             type="text"
                             className={styles.chatInputBox}
@@ -68,11 +72,11 @@ export default function Chat() {
                         />
                         <button 
                             className={styles.chatButton}
-                            onClick={() => handleSendMessage(message)}
+                            type="submit"
                         >
                             Send
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
