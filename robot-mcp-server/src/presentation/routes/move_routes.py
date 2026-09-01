@@ -12,3 +12,8 @@ async def move_forward():
 async def turn_left():
     get_robot_commander().turn_left()
     return {"status": "ok"}
+
+@move_router.post("/stop")
+async def move_forward():
+    get_robot_commander().stop()
+    return {"status": "ok"}
