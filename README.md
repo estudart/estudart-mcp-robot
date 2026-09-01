@@ -133,7 +133,7 @@ change on the TypeScript side.
 | --- | --- | --- |
 | `set_all_leds` | `(color: str)` | Drives the full 14-LED bar to `RED`, `GREEN`, `BLUE`, `YELLOW`, `CYAN` or `WHITE` |
 | `robot_patrol` | `()` | Scripted routine: green LEDs, forward, reverse, stop, red LEDs |
-| `helo_world` | `()` | Connectivity smoke test for the MCP transport |
+| `hello_world` | `()` | Connectivity smoke test for the MCP transport |
 
 ## Hardware
 

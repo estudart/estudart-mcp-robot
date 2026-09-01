@@ -1,10 +1,10 @@
-import { createAgent, tool, ReactAgent } from "langchain"
+import { createAgent, ReactAgent } from "langchain"
 import { ChatOllama } from "@langchain/ollama"
-import { MCPAdapter } from "../../infrastructure/mcp-adapter.js";
+import { MCPAdapter } from "../../../infrastructure/mcp-adapter.js";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 
 
-export class RobotAgent {
+export class ArchitectureAgent {
     _systemPrompt: string;
     _llmChat: ChatOllama;
     _agent: ReactAgent;
@@ -37,7 +37,7 @@ export class RobotAgent {
                     description: tool.description,
                     schema: tool.inputSchema,
                     func: async (args: Record<string, string>) => {
-                        const result = this._mcpAdapter.callTool(tool.name, args)
+                        const result = await this._mcpAdapter.callTool(tool.name, args)
                         return JSON.stringify(result);
                     }
                 }))

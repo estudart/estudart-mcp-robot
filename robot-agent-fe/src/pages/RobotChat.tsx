@@ -61,9 +61,10 @@ export default function RobotChat() {
             </div>
             <div className={styles.chatBox}>
                 <div className={styles.sideBar}>
-                    {agents.map((a) => 
+                    {agents.map((a, index) =>
                         <p
-                            className={styles.sideBarOptions}
+                            key={index}
+                            className={agent === a ? styles.sideBarOptionsSelected : styles.sideBarOptions}
                             onClick={() => setAgent(a)}
                         >
                             {a}

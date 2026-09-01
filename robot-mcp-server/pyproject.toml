@@ -57,6 +57,7 @@ dependencies = [
     "pygments==2.21.0",
     "pyjwt==2.13.0",
     "pyperclip==1.11.0",
+    "pytest>=9.1.1",
     "python-dotenv==1.2.3",
     "python-multipart==0.0.32",
     "pyyaml==6.0.3",
@@ -76,3 +77,6 @@ dependencies = [
     "watchfiles==1.2.0",
     "websockets==17.1",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
