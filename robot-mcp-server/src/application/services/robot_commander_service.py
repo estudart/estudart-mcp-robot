@@ -34,4 +34,19 @@ class RobotCommander:
         self._robot_adapter.stop()
         self.set_all_leds("red")
 
+    def move_forward(self, speed: int):
+        self._robot_adapter.forward(speed)
+
+    def move_backward(self, speed: int):
+        self._robot_adapter.backward(speed)
+    
+    def turn_left(self, speed: int):
+        self._robot_adapter.turn_left(speed)
+
+    def turn_right(self, speed: int):
+        self._robot_adapter.turn_right(speed)
+
+    def stop(self):
+        self._robot_adapter.stop()
+
 
