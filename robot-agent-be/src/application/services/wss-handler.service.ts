@@ -1,5 +1,6 @@
 import { WebSocketServer } from "ws";
 import { robotAgent } from "../../dependencies.js";
+import { architectureAgent } from "../../dependencies.js";
 
 interface WSMessage {
     type: string;
@@ -18,13 +19,24 @@ export function wssHandler(wss: WebSocketServer) {
 
                 if (data.type === "robot-agent") {
                     response = await robotAgent.invokeAgent(data.question);
+
+                    ws.send(JSON.stringify({
+                        type: "response",
+                        message: response,
+                        agent: "robot-agent",
+                    }));
                 };
 
-                ws.send(JSON.stringify({
-                    type: "response",
-                    message: response,
-                    agent: "robot-agent",
-                }));
+                if (data.type === "architecture-agent") {
+                    response = await architectureAgent.invokeAgent(data.question);
+
+                    ws.send(JSON.stringify({
+                        type: "response",
+                        message: response,
+                        agent: "architecture-agent",
+                    }));
+                };
+
                 
             } catch (error) {
                 ws.send(JSON.stringify({

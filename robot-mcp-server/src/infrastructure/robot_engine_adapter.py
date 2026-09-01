@@ -9,6 +9,9 @@ class RobotAdapter:
     ## LEDS
     def set_all_leds(self, color: LedColor):
         self._robot.leds.set_all(color=color)
+
+    def leds_off(self):
+        self._robot.leds.off_all()
     
     # MOTOR
     def move_forward(self, speed: int):

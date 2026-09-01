@@ -13,11 +13,15 @@ class RobotCommander:
             "GREEN": LedColor.GREEN,
             "BLUE": LedColor.BLUE,
             "YELLOW": LedColor.YELLOW,
+            "PURPLE": LedColor.PURPLE,
             "CYAN": LedColor.CYAN,
             "WHITE": LedColor.WHITE
         }
     
     def set_all_leds(self, color: str) -> None:
+        if color.upper() == "OFF":
+            self._robot_adapter.leds_off()
+            return
         get_color = self._color_map[color.upper()]
         self._robot_adapter.set_all_leds(get_color)
     

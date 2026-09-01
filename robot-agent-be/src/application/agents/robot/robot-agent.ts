@@ -1,6 +1,6 @@
-import { createAgent, tool, ReactAgent } from "langchain"
+import { createAgent, ReactAgent } from "langchain"
 import { ChatOllama } from "@langchain/ollama"
-import { MCPAdapter } from "../../infrastructure/mcp-adapter.js";
+import { MCPAdapter } from "../../../infrastructure/mcp-adapter.js";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 
 
