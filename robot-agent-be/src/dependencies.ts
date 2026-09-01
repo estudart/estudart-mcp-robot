@@ -8,26 +8,36 @@ import { ARCHITECTURE_AGENT_SYSTEM_PROMPT } from "./application/agents/architect
 import { RobotAssistent } from "./application/services/robot-assistent.service.js";
 
 
-const client = await getClient();
+const ROBOT_AGENT_TOOLS = ["helo_world", "set_all_leds", "robot_patrol"];
+const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
+
+const MCPUrl = process.env.MCP_SERVER_URL ?? "http://localhost:8000/mcp"
+const client = await getClient(MCPUrl);
 
 const mcpAdapter = new MCPAdapter(client);
+const mcpTools = await mcpAdapter.listTools();
+
+const pick = (names: string[]) => mcpTools.filter((tool) => names.includes(tool.name));
+
 const robotAgent = new RobotAgent(
     ROBOT_AGENT_SYSTEM_PROMPT,
     process.env.OLLAMA_MODEL ?? "llama3.2:3b",
     process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
     mcpAdapter,
-    await mcpAdapter.listTools(),
+    pick(ROBOT_AGENT_TOOLS),
 )
+
 const architectureAgent = new ArchitectureAgent(
     ARCHITECTURE_AGENT_SYSTEM_PROMPT,
     process.env.OLLAMA_MODEL ?? "llama3.2:3b",
     process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
+    mcpAdapter,
+    pick(ARCHITECTURE_AGENT_TOOLS),
 )
 
 const robotAssistent = new RobotAssistent(robotAgent, architectureAgent);
 
-async function getClient() {
-    const url = process.env.MCP_SERVER_URL ?? "http://localhost:8000/mcp"
+async function getClient(url: string) {
     const transport = new StreamableHTTPClientTransport(new URL(url));
     const client = new Client(
         { name: "robot-server", version: "1.0.0"},

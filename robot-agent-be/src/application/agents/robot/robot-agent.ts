@@ -37,7 +37,7 @@ export class RobotAgent {
                     description: tool.description,
                     schema: tool.inputSchema,
                     func: async (args: Record<string, string>) => {
-                        const result = this._mcpAdapter.callTool(tool.name, args)
+                        const result = await this._mcpAdapter.callTool(tool.name, args)
                         return JSON.stringify(result);
                     }
                 }))

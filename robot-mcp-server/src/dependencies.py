@@ -1,9 +1,9 @@
 from pathlib import Path
 
 from src.infrastructure.robot_engine_adapter import RobotAdapter
-from src.application.robot_commander_service import RobotCommander
+from src.application.services.robot_commander_service import RobotCommander
 from src.infrastructure.file_reader_adapter import FileReaderAdapter
-from src.application.file_reader_service import FileReaderService
+from src.application.services.file_reader_service import FileReaderService
 
 _documenation_file_path = "README.md"
 _robot_adapter: RobotAdapter = None
