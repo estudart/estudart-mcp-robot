@@ -16,7 +16,7 @@ async def health_check(request: Request) -> JSONResponse:
     })
 
 @mcp.tool(tags={"diagnostics"})
-def helo_world():
+def hello_world():
     """
     This tool return a hello world message, often the client will 
     ask you to call this tool in order to test your flow, when this

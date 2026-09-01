@@ -33,7 +33,7 @@ robot_patrol()
   LEDs green, drive forward, drive backward, stop, LEDs red.
   Takes no arguments and cannot be steered, shortened, or interrupted.
 
-helo_world()
+hello_world()
   A connectivity test. Call it when asked to test yourself or check your link, and put
   the returned text in your reply.
 

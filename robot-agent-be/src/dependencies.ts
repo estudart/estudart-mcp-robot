@@ -8,7 +8,7 @@ import { ARCHITECTURE_AGENT_SYSTEM_PROMPT } from "./application/agents/architect
 import { RobotAssistent } from "./application/services/robot-assistent.service.js";
 
 
-const ROBOT_AGENT_TOOLS = ["helo_world", "set_all_leds", "robot_patrol"];
+const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
 
 const MCPUrl = process.env.MCP_SERVER_URL ?? "http://localhost:8000/mcp"
