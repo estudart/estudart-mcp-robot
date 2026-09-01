@@ -1,7 +1,7 @@
 services:
   robot-mcp-server:
     build:
-      context: ./robot-mcp-server
+      context: .
       dockerfile: Dockerfile
     container_name: robot-mcp-server
     restart: unless-stopped
