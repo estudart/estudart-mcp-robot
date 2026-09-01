@@ -144,11 +144,20 @@
 .sideBarOptions {
     cursor: pointer;
     text-align: left;
-    font-size: small;
+    font-size: medium;
+}
+
+.sideBarOptionsSelected {
+    cursor: pointer;
+    text-align: left;
+    font-size: medium;
+    color: #00f0ff;
+    font-weight: bold;
+    transform: translateY(-1px);
 }
 
 .sideBarOptions:hover {
-    font-weight: bold;
     color: #00f0ff;
+    font-weight: bold;
     transform: translateY(-1px);
 }
