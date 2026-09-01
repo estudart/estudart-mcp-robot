@@ -1,21 +1,4 @@
 services:
-  # robot-mcp-server:
-  #   build:
-  #     context: ./robot-mcp-server
-  #     dockerfile: Dockerfile
-  #   container_name: robot-mcp-server
-  #   restart: unless-stopped
-  #   ports: 
-  #     - "8000:8000"
-  #   devices:
-  #     - "/dev/i2c-1:/dev/i2c-1"
-  #   healthcheck:
-  #     test: ["CMD", "curl", "http://localhost:8000/health"]
-  #     interval: 30s
-  #     timeout: 3s
-  #     retries: 5
-  #     start_period: 10s
-
   robot-agent-be:
     build:
       context: ./robot-agent-be
@@ -30,13 +13,10 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
-    # depends_on: 
-    #   robot-mcp-server:
-    #     condition: service_healthy
     environment:
       - OLLAMA_MODEL=llama3.2:3b
       - API_PORT=8080
-      - MCP_SERVER_URL=http://robot-mcp-server:8000/mcp
+      - MCP_SERVER_URL=http://10.42.0.1:8000/mcp
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
     extra_hosts:
       - "host.docker.internal:host-gateway"
