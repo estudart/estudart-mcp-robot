@@ -35,10 +35,10 @@ class RobotCommander:
         self.set_all_leds("red")
 
     def move_forward(self, speed: int = 20):
-        self._robot_adapter.forward(speed)
+        self._robot_adapter.move_forward(speed)
 
     def move_backward(self, speed: int = 20):
-        self._robot_adapter.backward(speed)
+        self._robot_adapter.move_backward(speed)
     
     def turn_left(self, speed: int = 20):
         self._robot_adapter.turn_left(speed)
