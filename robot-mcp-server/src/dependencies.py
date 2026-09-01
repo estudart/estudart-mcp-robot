@@ -1,10 +1,15 @@
+from pathlib import Path
+
 from src.infrastructure.robot_engine_adapter import RobotAdapter
 from src.application.robot_commander_service import RobotCommander
 from src.infrastructure.file_reader_adapter import FileReaderAdapter
+from src.application.file_reader_service import FileReaderService
 
+_documenation_file_path = "README.md"
 _robot_adapter: RobotAdapter = None
 _robot_commander_service: RobotCommander = None
 _file_reader_adapter: FileReaderAdapter = None
+_file_reader_service: FileReaderService = None
 
 
 def get_robot_adapter() -> RobotAdapter:
@@ -24,5 +29,16 @@ def get_robot_commander() -> RobotCommander:
 def get_file_reader_adapter() -> FileReaderAdapter:
     global _file_reader_adapter
     if not _file_reader_adapter:
-        _file_reader_adapter = FileReaderAdapter()
-    return FileReaderAdapter
+        _file_reader_adapter = FileReaderAdapter(
+            script_dir=Path(__file__).resolve().parents[1]
+        )
+    return _file_reader_adapter
+
+def get_file_reader_service() -> FileReaderService:
+    global _file_reader_service
+    if not _file_reader_service:
+        _file_reader_service = FileReaderService(
+            file_reader_adapter=get_file_reader_adapter(),
+            documentation_file_path=_documenation_file_path
+        )
+    return _file_reader_service
