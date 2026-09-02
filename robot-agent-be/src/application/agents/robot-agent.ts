@@ -2,9 +2,9 @@ import { createAgent, ReactAgent } from "langchain"
 import { ChatOllama } from "@langchain/ollama"
 import { MCPAdapter } from "../../infrastructure/mcp-adapter";
 import { DynamicStructuredTool } from "@langchain/core/tools";
+import { RobotAgentPort } from "../ports/robot-agent.port";
 
-
-export class RobotAgent {
+export class RobotAgent implements RobotAgentPort {
     _systemPrompt: string;
     _llmChat: ChatOllama;
     _agent: ReactAgent;
@@ -44,7 +44,7 @@ export class RobotAgent {
         });
     }
 
-    async invokeAgent(question: string) {
+    async invokeAgent(question: string): Promise<string | undefined> {
         const response = await this._agent.invoke({
             messages: [{ role: "user", content: question }],
         })
