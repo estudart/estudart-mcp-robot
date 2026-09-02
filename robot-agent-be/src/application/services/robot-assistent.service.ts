@@ -1,12 +1,10 @@
-import { RobotAgent } from "../agents/robot-agent";
-import { RobotAssistentPort } from "../ports/robot-assistent-service.port";
+import { RobotAgentPort } from "../ports/robot-agent.port";
 
+export class RobotAssistent {
+    _robotAgent: RobotAgentPort;
+    _architectureAgent: RobotAgentPort;
 
-export class RobotAssistent implements RobotAssistentPort {
-    _robotAgent: RobotAgent;
-    _architectureAgent: RobotAgent;
-
-    constructor(robotAgent: RobotAgent, architectureAgent: RobotAgent) {
+    constructor(robotAgent: RobotAgentPort, architectureAgent: RobotAgentPort) {
         this._robotAgent = robotAgent;
         this._architectureAgent = architectureAgent;
     }
