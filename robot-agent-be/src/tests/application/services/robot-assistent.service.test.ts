@@ -5,13 +5,21 @@ import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
 import { FakeArchAgent } from "../../fakes/fake-arch-agent";
 
 describe(RobotAssistent.name, () => {
-    let fakeRobotAgent, fakeArchAgent, sut;
+    let fakeRobotAgent!: FakeRobotAgent;
+    let fakeArchAgent!: FakeArchAgent;
+    let sut!: RobotAssistent;
+
     beforeEach(() => {
         fakeRobotAgent = new FakeRobotAgent;
         fakeArchAgent = new FakeArchAgent;
         sut = new RobotAssistent(fakeRobotAgent, fakeArchAgent);
     });
-    it('')
-        const testTrue = true;
-        assert.strictEqual(testTrue, true);
+
+    it('It tests agents responses for the RobotAssistent', async () => {
+        const question = "This is a test"
+        const robotAgentResponse = await fakeRobotAgent.invokeAgent(question);
+        const archAgentResponse = await fakeArchAgent.invokeAgent(question);
+        assert.strictEqual(robotAgentResponse, `FakeRobotAgent: ${question}`);
+        assert.strictEqual(archAgentResponse, `FakeArchAgent: ${question}`);
+    })
 });
