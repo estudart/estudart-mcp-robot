@@ -1,10 +1,10 @@
 import { createAgent, ReactAgent } from "langchain"
 import { ChatOllama } from "@langchain/ollama"
-import { MCPAdapter } from "../../../infrastructure/mcp-adapter.js";
+import { MCPAdapter } from "../../infrastructure/mcp-adapter";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 
 
-export class ArchitectureAgent {
+export class RobotAgent {
     _systemPrompt: string;
     _llmChat: ChatOllama;
     _agent: ReactAgent;

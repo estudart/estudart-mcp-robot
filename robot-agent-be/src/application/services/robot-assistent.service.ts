@@ -1,12 +1,11 @@
-import { RobotAgent } from "../agents/robot/robot-agent.js";
-import { ArchitectureAgent } from "../agents/architecture/architecture-agent.js";
+import { RobotAgent } from "../agents/robot-agent";
 
 
 export class RobotAssistent {
     _robotAgent: RobotAgent;
-    _architectureAgent: ArchitectureAgent;
+    _architectureAgent: RobotAgent;
 
-    constructor(robotAgent: RobotAgent, architectureAgent: ArchitectureAgent) {
+    constructor(robotAgent: RobotAgent, architectureAgent: RobotAgent) {
         this._robotAgent = robotAgent;
         this._architectureAgent = architectureAgent;
     }

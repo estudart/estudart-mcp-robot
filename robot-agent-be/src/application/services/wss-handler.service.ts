@@ -48,5 +48,4 @@ export function wssHandler(wss: WebSocketServer) {
 
         wss.on('close', () => console.log("Connection closed"));
     })
-    
 }
