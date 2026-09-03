@@ -5,7 +5,7 @@ import { RobotAgent } from "./application/agents/robot-agent.js";
 import { ROBOT_AGENT_SYSTEM_PROMPT } from "./application/agents/prompts/robot-agent-prompt.js"
 import { ARCHITECTURE_AGENT_SYSTEM_PROMPT } from "./application/agents/prompts/architecture-agent-prompt.js";
 import { RobotAssistent } from "./application/services/robot-assistent.service.js";
-
+import { WebSocketService } from "./application/services/wss-handler.service.js";
 
 const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
@@ -46,4 +46,6 @@ async function getClient(url: string) {
     return client;
 }
 
-export { mcpAdapter, robotAgent, robotAssistent, architectureAgent };
+const webSocketService = new WebSocketService(robotAgent, architectureAgent);
+
+export { mcpAdapter, robotAgent, robotAssistent, architectureAgent, webSocketService };
