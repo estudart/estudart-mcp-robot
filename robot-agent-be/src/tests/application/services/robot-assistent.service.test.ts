@@ -10,15 +10,15 @@ describe(RobotAssistent.name, () => {
     let sut!: RobotAssistent;
 
     beforeEach(() => {
-        fakeRobotAgent = new FakeRobotAgent;
-        fakeArchAgent = new FakeArchAgent;
+        fakeRobotAgent = new FakeRobotAgent();
+        fakeArchAgent = new FakeArchAgent();
         sut = new RobotAssistent(fakeRobotAgent, fakeArchAgent);
     });
 
     it('It tests agents responses for the RobotAssistent', async () => {
         const question = "This is a test"
-        const robotAgentResponse = await fakeRobotAgent.invokeAgent(question);
-        const archAgentResponse = await fakeArchAgent.invokeAgent(question);
+        const robotAgentResponse = await sut.invokeRobotAgent(question);
+        const archAgentResponse = await sut.invokeArchitectureAgent(question);
         assert.strictEqual(robotAgentResponse, `FakeRobotAgent: ${question}`);
         assert.strictEqual(archAgentResponse, `FakeArchAgent: ${question}`);
     })
