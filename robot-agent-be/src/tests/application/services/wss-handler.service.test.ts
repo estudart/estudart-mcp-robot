@@ -39,7 +39,7 @@ describe(WebSocketService.name, () => {
         server.close();
     })
 
-    it('It tests agent is called', async () => {
+    it('It tests RobotAgent is called', async () => {
         const question = "can you turn the led blue please?"
         const wssClient = new WebSocket(`ws://localhost:${port}`);
 
@@ -55,5 +55,23 @@ describe(WebSocketService.name, () => {
         wssClient.close();
 
         assert.deepEqual(responseMessage, `FakeRobotAgent: ${question}`);
+    });
+
+    it('It tests ArchAgent is called', async () => {
+        const question = "can you turn the led blue please?"
+        const wssClient = new WebSocket(`ws://localhost:${port}`);
+
+        const responseMessage = await new Promise( async (resolve, reject) => {
+            wssClient.onopen = () => {wssClient.send(JSON.stringify({type: "architecture-agent", question}))};
+            wssClient.onmessage = (message) => {
+                const data = JSON.parse(message.data.toString());
+                resolve(data.message);
+            }
+            setTimeout(() => reject(new Error('Wrong reponse')), 2000);
+        })
+
+        wssClient.close();
+
+        assert.deepEqual(responseMessage, `FakeArchAgent: ${question}`);
     });
 });
