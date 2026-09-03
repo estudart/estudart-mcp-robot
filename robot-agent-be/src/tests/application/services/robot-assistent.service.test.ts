@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { RobotAssistent } from "../../../application/services/robot-assistent.service";
 import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
 import { FakeArchAgent } from "../../fakes/fake-arch-agent";
+import { UnknownAgentError } from "../../../application/errors/unknown.error";
 
 describe(RobotAssistent.name, () => {
     let fakeRobotAgent!: FakeRobotAgent;
@@ -26,4 +27,13 @@ describe(RobotAssistent.name, () => {
         const archAgentResponse = await sut.invoke("architecture-agent", question);
         assert.strictEqual(archAgentResponse, `FakeArchAgent: ${question}`);
     });
+
+    it('It tests bad agent name throws UnknownAgentError', async () => {
+        const agent = "architeture-agent"
+        await assert.rejects(async () => {
+                await sut.invoke(agent, "question");
+            },
+            UnknownAgentError,
+        )
+    })
 });

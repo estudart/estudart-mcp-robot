@@ -37,13 +37,14 @@ export class WebSocketService {
                     if (error instanceof UnknownAgentError) {
                         ws.send(JSON.stringify({
                             type: "error",
-                            message: `UnknownAgentError: ${error}`
+                            message: `${error}`
+                        }));
+                    } else {
+                        ws.send(JSON.stringify({
+                            type: "error",
+                            message: `${error}`
                         }));
                     }
-                    ws.send(JSON.stringify({
-                        type: "error",
-                        message: `Error: ${error}`
-                    }));
                 };
             });
 
