@@ -8,12 +8,14 @@ import { IncomingMessage } from "node:http";
 import { WebSocketService } from "../../../application/services/wss-handler.service";
 import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
 import { FakeArchAgent } from "../../fakes/fake-arch-agent";
+import { RobotAssistent } from "../../../application/services/robot-assistent.service";
 
 
 describe(WebSocketService.name, () => {
     let port: number;
     let fakeRobotAgent!: FakeRobotAgent
     let fakeArchAgent!: FakeArchAgent;
+    let robotAssistent!: RobotAssistent
     let app!: Application;
     let server!: http.Server;
     let sut!: WebSocketService;
@@ -22,10 +24,11 @@ describe(WebSocketService.name, () => {
         port = 3000;
         fakeRobotAgent = new FakeRobotAgent();
         fakeArchAgent = new FakeArchAgent();
+        robotAssistent = new RobotAssistent(fakeRobotAgent, fakeArchAgent);
 
         app = express();
         server = http.createServer(app);
-        sut = new WebSocketService(fakeRobotAgent, fakeArchAgent)
+        sut = new WebSocketService(robotAssistent)
 
         server.on('upgrade',  (request: IncomingMessage, socket: Stream.Duplex, upgradeHead: Buffer) => {
             sut.handleUpgrade(request, socket, upgradeHead);

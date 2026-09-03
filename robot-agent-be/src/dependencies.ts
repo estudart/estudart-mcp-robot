@@ -46,6 +46,6 @@ async function getClient(url: string) {
     return client;
 }
 
-const webSocketService = new WebSocketService(robotAgent, architectureAgent);
+const webSocketService = new WebSocketService(robotAssistent);
 
 export { mcpAdapter, robotAgent, robotAssistent, architectureAgent, webSocketService };

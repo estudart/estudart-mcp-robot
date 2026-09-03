@@ -1,7 +1,7 @@
 import { WebSocketServer } from "ws";
 import { Stream } from "node:stream";
 import { IncomingMessage } from "node:http";
-import { RobotAgentPort } from "../ports/robot-agent.port.js";
+import { RobotAssistent } from "./robot-assistent.service";
 
 interface WSMessage {
     type: string;
@@ -10,16 +10,13 @@ interface WSMessage {
 
 export class WebSocketService {
     _wss: WebSocketServer;
-    _robotAgent: RobotAgentPort;
-    _architectureAgent: RobotAgentPort;
+    _robotAssistent: RobotAssistent;
 
     constructor(
-        robotAgent: RobotAgentPort,
-        architectureAgent: RobotAgentPort,
+        robotAssistent: RobotAssistent,
     ) {
         this._wss = new WebSocketServer({ noServer: true });
-        this._robotAgent = robotAgent;
-        this._architectureAgent = architectureAgent;
+        this._robotAssistent = robotAssistent;
         this.setEventHandlers();
     }
 
@@ -34,7 +31,7 @@ export class WebSocketService {
                     console.log(`New message: ${JSON.stringify(data)}`);
 
                     if (data.type === "robot-agent") {
-                        response = await this._robotAgent.invokeAgent(data.question);
+                        response = await this._robotAssistent.invokeRobotAgent(data.question);
 
                         ws.send(JSON.stringify({
                             type: "response",
@@ -44,7 +41,7 @@ export class WebSocketService {
                     };
 
                     if (data.type === "architecture-agent") {
-                        response = await this._architectureAgent.invokeAgent(data.question);
+                        response = await this._robotAssistent.invokeArchitectureAgent(data.question);
 
                         ws.send(JSON.stringify({
                             type: "response",
