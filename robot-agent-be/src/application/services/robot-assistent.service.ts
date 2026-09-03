@@ -1,21 +1,19 @@
-import { RobotAgent } from "../agents/robot/robot-agent.js";
-import { ArchitectureAgent } from "../agents/architecture/architecture-agent.js";
-
+import { RobotAgentPort } from "../ports/robot-agent.port";
 
 export class RobotAssistent {
-    _robotAgent: RobotAgent;
-    _architectureAgent: ArchitectureAgent;
+    _robotAgent: RobotAgentPort;
+    _architectureAgent: RobotAgentPort;
 
-    constructor(robotAgent: RobotAgent, architectureAgent: ArchitectureAgent) {
+    constructor(robotAgent: RobotAgentPort, architectureAgent: RobotAgentPort) {
         this._robotAgent = robotAgent;
         this._architectureAgent = architectureAgent;
     }
 
-    async invokeRobotAgent(question: string) {
+    async invokeRobotAgent(question: string): Promise<string | undefined> {
         return await this._robotAgent.invokeAgent(question);
     }
 
-    async invokeArchitectureAgent(question: string) {
+    async invokeArchitectureAgent(question: string): Promise<string | undefined> {
         return await this._architectureAgent.invokeAgent(question);
     }
 }
