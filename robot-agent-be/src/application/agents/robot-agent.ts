@@ -3,6 +3,7 @@ import { ChatOllama } from "@langchain/ollama"
 import { MCPAdapter } from "../../infrastructure/mcp-adapter";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { RobotAgentPort } from "../ports/robot-agent.port";
+import { ContentBlock } from "langchain";
 
 export class RobotAgent implements RobotAgentPort {
     _systemPrompt: string;
@@ -44,7 +45,7 @@ export class RobotAgent implements RobotAgentPort {
         });
     }
 
-    async invokeAgent(question: string): Promise<string | undefined> {
+    async invokeAgent(question: string): Promise<string | (ContentBlock | Text)[] | undefined> {
         const response = await this._agent.invoke({
             messages: [{ role: "user", content: question }],
         })

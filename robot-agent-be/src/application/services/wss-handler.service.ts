@@ -1,51 +1,61 @@
 import { WebSocketServer } from "ws";
-import { robotAgent } from "../../dependencies.js";
-import { architectureAgent } from "../../dependencies.js";
+import { Stream } from "node:stream";
+import { IncomingMessage } from "node:http";
+import { RobotAssistent } from "./robot-assistent.service";
+import { UnknownAgentError } from "../errors/unknown.error";
 
-interface WSMessage {
-    type: string;
-    question?: any;
-}
 
-export function wssHandler(wss: WebSocketServer) {
-    wss.on("connection", (ws) => {
-        console.log("New client connected");
+export class WebSocketService {
+    _wss: WebSocketServer;
+    _robotAssistent: RobotAssistent;
 
-        ws.on("message", async (message) => {
-            let response;
-            try {
-                const data = JSON.parse(message.toString()) as WSMessage;
-                console.log(`New message: ${JSON.stringify(data)}`);
+    constructor(
+        robotAssistent: RobotAssistent,
+    ) {
+        this._wss = new WebSocketServer({ noServer: true });
+        this._robotAssistent = robotAssistent;
+        this.setEventHandlers();
+    }
 
-                if (data.type === "robot-agent") {
-                    response = await robotAgent.invokeAgent(data.question);
+    setEventHandlers() {
+        this._wss.on("connection", (ws) => {
+            console.log("New client connected");
 
-                    ws.send(JSON.stringify({
-                        type: "response",
-                        message: response,
-                        agent: "robot-agent",
-                    }));
+            ws.on("message", async (message) => {
+                let response;
+                try {
+                    const data = JSON.parse(message.toString());
+                    console.log(`New message: ${JSON.stringify(data)}`);
+
+                    const agent = data.type;
+                    const question = data.question;
+
+                    response = await this._robotAssistent.invoke(agent, question);
+
+                    ws.send(JSON.stringify({ type: "response", message: response, agent }))
+                } catch (error) {
+                    if (error instanceof UnknownAgentError) {
+                        ws.send(JSON.stringify({
+                            type: "error",
+                            message: `${error}`
+                        }));
+                    } else {
+                        ws.send(JSON.stringify({
+                            type: "error",
+                            message: `${error}`
+                        }));
+                    }
                 };
+            });
 
-                if (data.type === "architecture-agent") {
-                    response = await architectureAgent.invokeAgent(data.question);
+            ws.on('close', () => console.log("Connection closed"));
+        })
+    }
 
-                    ws.send(JSON.stringify({
-                        type: "response",
-                        message: response,
-                        agent: "architecture-agent",
-                    }));
-                };
+    handleUpgrade(request: IncomingMessage, socket: Stream.Duplex, upgradeHead: Buffer) {
+        this._wss.handleUpgrade(request, socket, upgradeHead, (ws) => {
+            this._wss.emit('connection', ws, request);
+        }) 
+    }
 
-                
-            } catch (error) {
-                ws.send(JSON.stringify({
-                    type: "error",
-                    message: `Error: ${error}`
-                }));
-            };
-        });
-
-        wss.on('close', () => console.log("Connection closed"));
-    })
 }
