@@ -19,7 +19,8 @@ export class WebSocketService {
     ) {
         this._wss = new WebSocketServer({ noServer: true });
         this._robotAgent = robotAgent;
-        this._architectureAgent = architectureAgent
+        this._architectureAgent = architectureAgent;
+        this.setEventHandlers();
     }
 
     setEventHandlers() {
