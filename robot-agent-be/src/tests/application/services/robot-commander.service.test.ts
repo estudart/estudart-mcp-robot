@@ -36,9 +36,7 @@ describe(RobotCommanderService.name, () => {
             res.send("Stopped");
         })
 
-        server = app.listen(port, () => {
-            console.log(`App listening on port: ${port}`)
-        });
+        server = app.listen(port, () => {});
 
         fakeRobotAdapter = new FakeRobotRestAdapter(`http://localhost:${port}`);
         robotCommanderService = new RobotCommanderService(fakeRobotAdapter);

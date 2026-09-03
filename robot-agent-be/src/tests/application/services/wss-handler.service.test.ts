@@ -1,5 +1,5 @@
 import WebSocket from "ws";
-import { describe, it, beforeEach, afterEach } from "node:test";
+import { describe, it, afterEach, before, after } from "node:test";
 import assert from "node:assert/strict";
 import http from "http";
 import express, { Application } from "express";
@@ -9,7 +9,6 @@ import { WebSocketService } from "../../../application/services/wss-handler.serv
 import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
 import { FakeArchAgent } from "../../fakes/fake-arch-agent";
 import { RobotAssistent } from "../../../application/services/robot-assistent.service";
-import { UnknownAgentError } from "../../../application/errors/unknown.error";
 
 
 describe(WebSocketService.name, () => {
@@ -21,7 +20,7 @@ describe(WebSocketService.name, () => {
     let server!: http.Server;
     let sut!: WebSocketService;
     
-    beforeEach(() => {
+    before(() => {
         port = 3000;
         fakeRobotAgent = new FakeRobotAgent();
         fakeArchAgent = new FakeArchAgent();
@@ -34,14 +33,14 @@ describe(WebSocketService.name, () => {
         server.on('upgrade',  (request: IncomingMessage, socket: Stream.Duplex, upgradeHead: Buffer) => {
             sut.handleUpgrade(request, socket, upgradeHead);
         });
-        server.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
-        });
+        server.listen(port, () => {});
     });
 
-    afterEach(() => {
-        server.close();
-    })
+    after(() => {
+        return new Promise<void>((resolve) => {
+            server.close(() => resolve());
+        });
+    });
 
     it('It tests RobotAgent is called', async () => {
         const question = "can you turn the led blue please?"
