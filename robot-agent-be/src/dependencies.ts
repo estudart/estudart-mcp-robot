@@ -10,12 +10,11 @@ import { RobotRestAdapter } from "./infrastructure/robot-rest-adapter.js";
 
 const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
+const robotServerUrl = process.env.ROBOT_SERVER_URL ?? "http://localhost:8000"
 
-const robotRestAdapter = new RobotRestAdapter(
-    process.env.ROBOT_SERVER_URL ?? "http://localhost:8000"
-);
+const robotRestAdapter = new RobotRestAdapter(robotServerUrl);
 
-const MCPUrl = `${process.env.ROBOT_SERVER_URL ?? "http://localhost:8000"}/mcp`
+const MCPUrl = `${robotServerUrl}/mcp`
 const client = await getClient(MCPUrl);
 
 const mcpAdapter = new MCPAdapter(client);

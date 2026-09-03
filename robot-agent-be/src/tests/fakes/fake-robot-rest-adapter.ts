@@ -1,13 +1,8 @@
 import axios, { AxiosResponse } from "axios"
-import { RobotRestAdapterPort } from "./ports/robot-rest-adapter.port";
+import { RobotRestAdapterPort } from "../../infrastructure/ports/robot-rest-adapter.port";
+import { RobotError } from "../../infrastructure/robot-rest-adapter";
 
-export class RobotError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "RobotError";
-    }
-}
-export class RobotRestAdapter implements RobotRestAdapterPort {
+export class FakeRobotRestAdapter implements RobotRestAdapterPort {
     _apiClientUrl: string;
 
     constructor(apiClientUrl: string) {
