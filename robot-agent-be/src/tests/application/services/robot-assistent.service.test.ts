@@ -17,13 +17,13 @@ describe(RobotAssistent.name, () => {
 
     it('It tests RobotAgent response for the RobotAssistent', async () => {
         const question = "This is a test"
-        const robotAgentResponse = await sut.invokeRobotAgent(question);
+        const robotAgentResponse = await sut.invoke("robot-agent", question);
         assert.strictEqual(robotAgentResponse, `FakeRobotAgent: ${question}`);
     });
 
     it('It tests ArchitectureAgent response for the RobotAssistent', async () => {
         const question = "This is a test"
-        const archAgentResponse = await sut.invokeArchitectureAgent(question);
+        const archAgentResponse = await sut.invoke("architecture-agent", question);
         assert.strictEqual(archAgentResponse, `FakeArchAgent: ${question}`);
     });
 });

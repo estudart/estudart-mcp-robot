@@ -4,7 +4,7 @@ import { IncomingMessage } from "node:http";
 import { RobotAssistent } from "./robot-assistent.service";
 
 interface WSMessage {
-    type: string;
+    type: "robot-agent" | "architecture-agent";
     question?: any;
 }
 
@@ -30,27 +30,12 @@ export class WebSocketService {
                     const data = JSON.parse(message.toString()) as WSMessage;
                     console.log(`New message: ${JSON.stringify(data)}`);
 
-                    if (data.type === "robot-agent") {
-                        response = await this._robotAssistent.invokeRobotAgent(data.question);
+                    const agent = data.type;
+                    const question = data.question;
 
-                        ws.send(JSON.stringify({
-                            type: "response",
-                            message: response,
-                            agent: "robot-agent",
-                        }));
-                    };
+                    response = await this._robotAssistent.invoke(agent, question);
 
-                    if (data.type === "architecture-agent") {
-                        response = await this._robotAssistent.invokeArchitectureAgent(data.question);
-
-                        ws.send(JSON.stringify({
-                            type: "response",
-                            message: response,
-                            agent: "architecture-agent",
-                        }));
-                    };
-
-                    
+                    ws.send(JSON.stringify({ type: "response", message: response, agent }))                    
                 } catch (error) {
                     ws.send(JSON.stringify({
                         type: "error",
