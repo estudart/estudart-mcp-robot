@@ -1,3 +1,4 @@
+import { ContentBlock } from "langchain";
 import { RobotAgentPort } from "../ports/robot-agent.port";
 
 export class RobotAssistent {
@@ -9,11 +10,15 @@ export class RobotAssistent {
         this._architectureAgent = architectureAgent;
     }
 
-    async invokeRobotAgent(question: string): Promise<string | undefined> {
+    async invokeRobotAgent(
+        question: string
+    ): Promise<string | (ContentBlock | Text)[] | undefined> {
         return await this._robotAgent.invokeAgent(question);
     }
 
-    async invokeArchitectureAgent(question: string): Promise<string | undefined> {
+    async invokeArchitectureAgent(
+        question: string
+    ): Promise<string | (ContentBlock | Text)[] | undefined> {
         return await this._architectureAgent.invokeAgent(question);
     }
 }
