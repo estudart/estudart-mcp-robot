@@ -1,5 +1,5 @@
-import { ContentBlock } from "langchain";
 import { RobotAgentPort } from "../ports/robot-agent.port";
+import { UnknownAgentError } from "../errors/unknown.error";
 
 export class RobotAssistent {
     _robotAgent: RobotAgentPort;
@@ -16,18 +16,11 @@ export class RobotAssistent {
     }
 
     async invoke(agent: string, question: string) {
-        return this._agentMap[agent].invokeAgent(question);
-    }
-
-    private async invokeRobotAgent(
-        question: string
-    ): Promise<string | (ContentBlock | Text)[] | undefined> {
-        return await this._robotAgent.invokeAgent(question);
-    }
-
-    private async invokeArchitectureAgent(
-        question: string
-    ): Promise<string | (ContentBlock | Text)[] | undefined> {
-        return await this._architectureAgent.invokeAgent(question);
+        if (Object.keys(this._agentMap).includes(agent)) {
+            return this._agentMap[agent].invokeAgent(question);
+        } else {
+            throw new UnknownAgentError(`Agent ${agent} does not exist!`);
+        }
+        
     }
 }

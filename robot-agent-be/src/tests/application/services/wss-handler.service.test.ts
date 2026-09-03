@@ -65,7 +65,9 @@ describe(WebSocketService.name, () => {
         const wssClient = new WebSocket(`ws://localhost:${port}`);
 
         const responseMessage = await new Promise( async (resolve, reject) => {
-            wssClient.onopen = () => {wssClient.send(JSON.stringify({type: "architecture-agent", question}))};
+            wssClient.onopen = () => { 
+                wssClient.send(JSON.stringify({type: "archiecture-agent", question}))
+            };
             wssClient.onmessage = (message) => {
                 const data = JSON.parse(message.data.toString());
                 resolve(data.message);

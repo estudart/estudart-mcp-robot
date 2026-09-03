@@ -7,6 +7,7 @@ import { ARCHITECTURE_AGENT_SYSTEM_PROMPT } from "./application/agents/prompts/a
 import { RobotAssistent } from "./application/services/robot-assistent.service.js";
 import { WebSocketService } from "./application/services/wss-handler.service.js";
 
+
 const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
 

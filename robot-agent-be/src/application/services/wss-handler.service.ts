@@ -2,11 +2,8 @@ import { WebSocketServer } from "ws";
 import { Stream } from "node:stream";
 import { IncomingMessage } from "node:http";
 import { RobotAssistent } from "./robot-assistent.service";
+import { UnknownAgentError } from "../errors/unknown.error";
 
-interface WSMessage {
-    type: "robot-agent" | "architecture-agent";
-    question?: any;
-}
 
 export class WebSocketService {
     _wss: WebSocketServer;
@@ -27,7 +24,7 @@ export class WebSocketService {
             ws.on("message", async (message) => {
                 let response;
                 try {
-                    const data = JSON.parse(message.toString()) as WSMessage;
+                    const data = JSON.parse(message.toString());
                     console.log(`New message: ${JSON.stringify(data)}`);
 
                     const agent = data.type;
@@ -35,8 +32,14 @@ export class WebSocketService {
 
                     response = await this._robotAssistent.invoke(agent, question);
 
-                    ws.send(JSON.stringify({ type: "response", message: response, agent }))                    
+                    ws.send(JSON.stringify({ type: "response", message: response, agent }))
                 } catch (error) {
+                    if (error instanceof UnknownAgentError) {
+                        ws.send(JSON.stringify({
+                            type: "error",
+                            message: `UnknownAgentError: ${error}`
+                        }));
+                    }
                     ws.send(JSON.stringify({
                         type: "error",
                         message: `Error: ${error}`
