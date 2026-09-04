@@ -1,0 +1,173 @@
+.robotCommanderPage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  box-sizing: border-box;
+  padding: 16px;
+  gap: 16px;
+  background: var(--bg);
+}
+
+/* ---------------- joystick panel ---------------- */
+
+.joyStickView {
+  position: relative;
+  flex: 0 0 clamp(180px, 26%, 300px);
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.joyStickView::before {
+  content: 'Controls';
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #4a5369;
+}
+
+.joyStickView::after {
+  content: 'W A S D  ·  SPACE';
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: #454e64;
+}
+
+/* .Commands is a plain global class in the JSX, not a CSS-module class */
+.joyStickView :global(.Commands) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.secondJoyStickLine {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0;
+}
+
+.joyStickButton {
+  width: 62px;
+  height: 62px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text-h);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.joyStickButton:hover {
+  background: var(--surface-2);
+  border-color: var(--accent-line);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+  transform: translateY(-2px);
+}
+
+.joyStickButton:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: none;
+}
+
+/* ---------------- camera panel ---------------- */
+
+.cameraView {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #4a5369;
+  background:
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px) 0 0 / 100% 4px,
+    linear-gradient(90deg, var(--border-soft) 1px, transparent 1px) 0 0 / 32px
+      100%,
+    linear-gradient(var(--border-soft) 1px, transparent 1px) 0 0 / 100% 32px,
+    #0b0d13;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* recording dot */
+.cameraView::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4d6d;
+  box-shadow: 0 0 10px rgba(255, 77, 109, 0.8);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 560px) {
+  .robotCommanderPage {
+    flex-direction: column-reverse;
+    padding: 10px;
+    gap: 10px;
+  }
+  .joyStickView {
+    flex: 0 0 auto;
+    height: auto;
+    padding: 34px 0 30px;
+  }
+  .cameraView {
+    flex: 1;
+    min-height: 0;
+  }
+}

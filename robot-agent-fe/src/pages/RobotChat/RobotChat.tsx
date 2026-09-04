@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ChatMessages from "../components/ChatMessages";
-import styles from "./RobotChat.module.css"
+import ChatMessages from "../../components/ChatMessages";
+import styles from "../RobotChat/RobotChat.module.css"
 
 export default function RobotChat() {
     const [message, setMessage] = useState("");
@@ -56,9 +56,6 @@ export default function RobotChat() {
 
     return (
         <div className={styles.chatPage}>
-            <div className={styles.chatHeader}>
-                RaspbotV2 AI Agent 🤖
-            </div>
             <div className={styles.chatBox}>
                 <div className={styles.sideBar}>
                     {agents.map((a, index) =>

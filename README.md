@@ -219,7 +219,7 @@ pointed at the same Ollama instance.
 
 ```bash
 cd robot-mcp-server
-uv run uvicorn src.application.server:app --host 0.0.0.0 --port 8000 --reload
+uv run uvicorn src.presentation.mcp_server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 `uv run` provisions the virtual environment from `uv.lock` on first use — no manual activation step.
