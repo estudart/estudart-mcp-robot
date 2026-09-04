@@ -1,0 +1,38 @@
+.robotCommanderPage {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    align-items: center;
+}
+
+.joyStickView {
+    width: 20%;
+}
+
+.joyStickButton {
+    font-size: 2.5rem;
+    background-color: rgb(103, 32, 190);
+    border: 1px solid white;
+    border-radius: 8px;
+}
+
+.joyStickButton:hover {
+    cursor: pointer;
+    color: #00f0ff;
+    font-weight: bold;
+    transform: translateY(-1px);
+}
+
+.secondJoyStickLine {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 2%;
+}
+
+.cameraView {
+    height: 100vh;
+    width: 80%;
+    background-color: gray;
+}

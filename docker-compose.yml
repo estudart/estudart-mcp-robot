@@ -27,6 +27,7 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_BACKEND_URL: ws://localhost:8080
+        VITE_BACKEND_REST_URL: http://localhost:8080
     container_name: robot-agent-fe
     restart: unless-stopped
     ports: 

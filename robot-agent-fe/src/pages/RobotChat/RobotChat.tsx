@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ChatMessages from "../components/ChatMessages";
-import styles from "./RobotChat.module.css"
+import ChatMessages from "../../components/ChatMessages";
+import styles from "../RobotChat/RobotChat.module.css"
 
 export default function RobotChat() {
     const [message, setMessage] = useState("");

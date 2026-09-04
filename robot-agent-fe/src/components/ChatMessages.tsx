@@ -1,4 +1,4 @@
-import styles from "../pages/RobotChat.module.css"
+import styles from "../pages/RobotChat/RobotChat.module.css"
 
 interface ChatProps {
     agent: string;
