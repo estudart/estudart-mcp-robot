@@ -1,4 +1,4 @@
-import { describe, it, beforeEach } from "node:test";
+import { describe, it, before } from "node:test";
 import assert from "node:assert/strict";
 import { RobotAssistent } from "../../../application/services/robot-assistent.service";
 import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
@@ -6,11 +6,11 @@ import { FakeArchAgent } from "../../fakes/fake-arch-agent";
 import { UnknownAgentError } from "../../../application/errors/unknown.error";
 
 describe(RobotAssistent.name, () => {
-    let fakeRobotAgent!: FakeRobotAgent;
-    let fakeArchAgent!: FakeArchAgent;
-    let sut!: RobotAssistent;
+    let fakeRobotAgent: FakeRobotAgent;
+    let fakeArchAgent: FakeArchAgent;
+    let sut: RobotAssistent;
 
-    beforeEach(() => {
+    before(() => {
         fakeRobotAgent = new FakeRobotAgent();
         fakeArchAgent = new FakeArchAgent();
         sut = new RobotAssistent(fakeRobotAgent, fakeArchAgent);
