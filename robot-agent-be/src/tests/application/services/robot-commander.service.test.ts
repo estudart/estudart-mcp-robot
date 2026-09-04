@@ -4,7 +4,6 @@ import http from "http";
 import { RobotCommanderService } from "../../../application/services/robot-commander.service";
 import express, { Application, Request, Response } from "express";
 import { FakeRobotRestAdapter } from "../../fakes/fake-robot-rest-adapter";
-import { resolve } from "node:dns";
 
 
 describe(RobotCommanderService.name, () => {
