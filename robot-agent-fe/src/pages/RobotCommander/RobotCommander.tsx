@@ -1,5 +1,6 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
+import { useEffect } from "react";
 
 function RobotCommander () {
     const commanderUrl = (
@@ -9,7 +10,36 @@ function RobotCommander () {
         const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
         return moveResponse.data;
     };
+    useEffect(() => {
+        const handleKeyDown = async (event: KeyboardEvent) => {
+            const selectedKey = event.key;
+            switch (selectedKey) {
+                case " ":
+                    await handleMove("stop");
+                    break;
+                case "w":
+                    await handleMove("forward");
+                    break;
+                case "s":
+                    await handleMove("backward");
+                    break;
+                case "a":
+                    await handleMove("turn-left");
+                    break;
+                case "d":
+                    await handleMove("turn-right");
+                    break;
+                default:
+                    console.log(`Unavailable key: ${selectedKey}`)
+            };
+        };
 
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [])
     return (
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
