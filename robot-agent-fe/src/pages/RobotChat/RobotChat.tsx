@@ -56,9 +56,6 @@ export default function RobotChat() {
 
     return (
         <div className={styles.chatPage}>
-            <div className={styles.chatHeader}>
-                RaspbotV2 AI Agent 🤖
-            </div>
             <div className={styles.chatBox}>
                 <div className={styles.sideBar}>
                     {agents.map((a, index) =>
