@@ -3,12 +3,12 @@ import assert from "node:assert/strict";
 import http from "http";
 import { RobotCommanderService } from "../../../application/services/robot-commander.service";
 import express, { Application, Request, Response } from "express";
-import { FakeRobotRestAdapter } from "../../fakes/fake-robot-rest-adapter";
+import { RobotRestAdapter } from "../../../infrastructure/robot-rest-adapter";
 
 
 describe(RobotCommanderService.name, () => {
     let app: Application;
-    let fakeRobotAdapter: FakeRobotRestAdapter;
+    let robotAdapter: RobotRestAdapter;
     let port: number;
     let robotCommanderService: RobotCommanderService;
     let server: http.Server;
@@ -37,8 +37,8 @@ describe(RobotCommanderService.name, () => {
 
         server = app.listen(port, () => {});
 
-        fakeRobotAdapter = new FakeRobotRestAdapter(`http://localhost:${port}`);
-        robotCommanderService = new RobotCommanderService(fakeRobotAdapter);
+        robotAdapter = new RobotRestAdapter(`http://localhost:${port}`);
+        robotCommanderService = new RobotCommanderService(robotAdapter);
     });
 
     after(() => {
