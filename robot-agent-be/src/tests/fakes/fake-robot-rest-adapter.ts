@@ -31,7 +31,7 @@ export class FakeRobotRestAdapter implements RobotRestAdapterPort {
         };
     };
 
-    async turLeft(): Promise<AxiosResponse<any, any, {}, any>> {
+    async turnLeft(): Promise<AxiosResponse<any, any, {}, any>> {
         try {
             const response = await axios.post(
                 `${this._apiClientUrl}/move/turn-left`

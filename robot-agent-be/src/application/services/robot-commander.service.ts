@@ -15,7 +15,7 @@ export class RobotCommanderService {
     }
 
     async turnLeft() {
-        return await this._robotAdapter.turLeft()
+        return await this._robotAdapter.turnLeft()
     }
 
     async turnRight() {

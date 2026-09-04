@@ -7,12 +7,14 @@ import { ARCHITECTURE_AGENT_SYSTEM_PROMPT } from "./application/agents/prompts/a
 import { RobotAssistent } from "./application/services/robot-assistent.service.js";
 import { WebSocketService } from "./application/services/wss-handler.service.js";
 import { RobotRestAdapter } from "./infrastructure/robot-rest-adapter.js";
+import { RobotCommanderService } from "./application/services/robot-commander.service.js";
 
 const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
 const robotServerUrl = process.env.ROBOT_SERVER_URL ?? "http://localhost:8000"
 
 const robotRestAdapter = new RobotRestAdapter(robotServerUrl);
+const robotCommanderService = new RobotCommanderService(robotRestAdapter);
 
 const MCPUrl = `${robotServerUrl}/mcp`
 const client = await getClient(MCPUrl);
@@ -52,4 +54,4 @@ async function getClient(url: string) {
 
 const webSocketService = new WebSocketService(robotAssistent);
 
-export { mcpAdapter, robotAgent, robotAssistent, architectureAgent, webSocketService };
+export { mcpAdapter, robotAgent, robotAssistent, architectureAgent, webSocketService, robotCommanderService };
