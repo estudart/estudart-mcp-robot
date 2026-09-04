@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios"
-import { RobotRestAdapterPort } from "./ports/robot-rest-adapter.port";
+import { RobotRestAdapterPort } from "./ports/robot-rest-adapter.port.js";
 
 export class RobotError extends Error {
     constructor(message: string) {

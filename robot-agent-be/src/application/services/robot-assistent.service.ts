@@ -1,4 +1,4 @@
-import { RobotAgentPort } from "../ports/robot-agent.port";
+import { RobotAgentPort } from "../ports/robot-agent.port.js";
 import { UnknownAgentError } from "../errors/unknown-agent.error.js";
 
 export class RobotAssistent {

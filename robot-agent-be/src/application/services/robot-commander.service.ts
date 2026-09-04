@@ -1,4 +1,4 @@
-import { RobotRestAdapterPort } from "../../infrastructure/ports/robot-rest-adapter.port";
+import { RobotRestAdapterPort } from "../../infrastructure/ports/robot-rest-adapter.port.js";
 
 export class RobotCommanderService {
     _robotAdapter: RobotRestAdapterPort;

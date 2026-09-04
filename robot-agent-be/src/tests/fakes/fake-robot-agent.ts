@@ -1,4 +1,4 @@
-import { RobotAgentPort } from "../../application/ports/robot-agent.port";
+import { RobotAgentPort } from "../../application/ports/robot-agent.port.js";
 
 export class FakeRobotAgent implements RobotAgentPort {
     async invokeAgent(question: string): Promise<string | undefined> {

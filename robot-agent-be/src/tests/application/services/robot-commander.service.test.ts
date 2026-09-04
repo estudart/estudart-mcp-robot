@@ -1,9 +1,9 @@
 import { describe, it, after, before } from "node:test";
 import assert from "node:assert/strict";
 import http from "http";
-import { RobotCommanderService } from "../../../application/services/robot-commander.service";
+import { RobotCommanderService } from "../../../application/services/robot-commander.service.js";
 import express, { Application, Request, Response } from "express";
-import { RobotRestAdapter } from "../../../infrastructure/robot-rest-adapter";
+import { RobotRestAdapter } from "../../../infrastructure/robot-rest-adapter.js";
 
 
 describe(RobotCommanderService.name, () => {

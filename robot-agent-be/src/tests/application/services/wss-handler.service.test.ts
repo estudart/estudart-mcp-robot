@@ -5,10 +5,10 @@ import http from "http";
 import express, { Application } from "express";
 import { Stream } from "node:stream";
 import { IncomingMessage } from "node:http";
-import { WebSocketService } from "../../../application/services/wss-handler.service";
-import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
-import { FakeArchAgent } from "../../fakes/fake-arch-agent";
-import { RobotAssistent } from "../../../application/services/robot-assistent.service";
+import { WebSocketService } from "../../../application/services/wss-handler.service.js";
+import { FakeRobotAgent } from "../../fakes/fake-robot-agent.js";
+import { FakeArchAgent } from "../../fakes/fake-arch-agent.js";
+import { RobotAssistent } from "../../../application/services/robot-assistent.service.js";
 
 
 describe(WebSocketService.name, () => {

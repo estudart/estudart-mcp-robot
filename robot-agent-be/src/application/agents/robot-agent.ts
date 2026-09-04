@@ -1,8 +1,8 @@
 import { createAgent, ReactAgent } from "langchain"
 import { ChatOllama } from "@langchain/ollama"
-import { MCPAdapter } from "../../infrastructure/mcp-adapter";
+import { MCPAdapter } from "../../infrastructure/mcp-adapter.js";
 import { DynamicStructuredTool } from "@langchain/core/tools";
-import { RobotAgentPort } from "../ports/robot-agent.port";
+import { RobotAgentPort } from "../ports/robot-agent.port.js";
 import { ContentBlock } from "langchain";
 
 export class RobotAgent implements RobotAgentPort {

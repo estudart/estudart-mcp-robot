@@ -1,5 +1,5 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { MCPPort } from "../application/ports/mcp-adapter.port";
+import { MCPPort } from "../application/ports/mcp-adapter.port.js";
 
 
 export class MCPAdapter implements MCPPort {
