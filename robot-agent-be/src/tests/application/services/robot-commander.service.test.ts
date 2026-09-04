@@ -14,7 +14,7 @@ describe(RobotCommanderService.name, () => {
     let server: http.Server;
 
     before(() => {
-        port = 8080;
+        port = 11;
         app = express();
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json());
