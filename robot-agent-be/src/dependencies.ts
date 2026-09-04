@@ -13,7 +13,7 @@ const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
 const robotServerUrl = process.env.ROBOT_SERVER_URL ?? "http://localhost:8000"
 
-const robotRestAdapter = new RobotRestAdapter(robotServerUrl);
+const robotRestAdapter = new RobotRestAdapter(`${robotServerUrl}/api`);
 const robotCommanderService = new RobotCommanderService(robotRestAdapter);
 
 const MCPUrl = `${robotServerUrl}/mcp`

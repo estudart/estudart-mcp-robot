@@ -1,8 +1,8 @@
 import { WebSocketServer } from "ws";
 import { Stream } from "node:stream";
 import { IncomingMessage } from "node:http";
-import { RobotAssistent } from "./robot-assistent.service";
-import { UnknownAgentError } from "../errors/unknown.error";
+import { RobotAssistent } from "./robot-assistent.service.js";
+import { UnknownAgentError } from "../errors/unknown-agent.error.js";
 
 
 export class WebSocketService {

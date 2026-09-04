@@ -1,9 +1,9 @@
 import { describe, it, before } from "node:test";
 import assert from "node:assert/strict";
-import { RobotAssistent } from "../../../application/services/robot-assistent.service";
-import { FakeRobotAgent } from "../../fakes/fake-robot-agent";
-import { FakeArchAgent } from "../../fakes/fake-arch-agent";
-import { UnknownAgentError } from "../../../application/errors/unknown.error";
+import { RobotAssistent } from "../../../application/services/robot-assistent.service.js";
+import { FakeRobotAgent } from "../../fakes/fake-robot-agent.js";
+import { FakeArchAgent } from "../../fakes/fake-arch-agent.js";
+import { UnknownAgentError } from "../../../application/errors/unknown-agent.error.js";
 
 describe(RobotAssistent.name, () => {
     let fakeRobotAgent: FakeRobotAgent;

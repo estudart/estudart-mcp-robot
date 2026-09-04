@@ -1,5 +1,5 @@
 import { RobotAgentPort } from "../ports/robot-agent.port";
-import { UnknownAgentError } from "../errors/unknown.error";
+import { UnknownAgentError } from "../errors/unknown-agent.error.js";
 
 export class RobotAssistent {
     _robotAgent: RobotAgentPort;
