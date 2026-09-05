@@ -20,7 +20,7 @@ export class WebSocketService {
     }
 
     setEventHandlers() {
-        this._wss.on("connection", (ws: WebSocket, request) => {
+        this._wss.on("connection", (ws: WebSocket, request: IncomingMessage) => {
             const urlParams = new URL(
                 request.url || '', 'http://localhost'
             ).searchParams;
