@@ -26,16 +26,14 @@ const pick = (names: string[]) => mcpTools.filter((tool) => names.includes(tool.
 
 const robotAgent = new RobotAgent(
     ROBOT_AGENT_SYSTEM_PROMPT,
-    process.env.OLLAMA_MODEL ?? "llama3.2:3b",
-    process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
+    process.env.MODEL ?? "gpt-4o-mini",
     mcpAdapter,
     pick(ROBOT_AGENT_TOOLS),
 )
 
 const architectureAgent = new RobotAgent(
     ARCHITECTURE_AGENT_SYSTEM_PROMPT,
-    process.env.OLLAMA_MODEL ?? "llama3.2:3b",
-    process.env.OLLAMA_BASE_URL ?? "http://localhost:11434",
+    process.env.MODEL ?? "gpt-4o-mini",
     mcpAdapter,
     pick(ARCHITECTURE_AGENT_TOOLS),
 )

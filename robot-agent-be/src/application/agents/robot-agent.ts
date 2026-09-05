@@ -1,5 +1,5 @@
-import { createAgent, ReactAgent } from "langchain"
-import { ChatOllama } from "@langchain/ollama"
+import { createAgent, ReactAgent } from "langchain";
+import { ChatOpenAI } from "@langchain/openai";
 import { MCPAdapter } from "../../infrastructure/mcp-adapter.js";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { RobotAgentPort } from "../ports/robot-agent.port.js";
@@ -7,15 +7,14 @@ import { ContentBlock } from "langchain";
 
 export class RobotAgent implements RobotAgentPort {
     _systemPrompt: string;
-    _llmChat: ChatOllama;
+    _llmChat: ChatOpenAI;
     _agent: ReactAgent;
     _mcpAdapter: MCPAdapter;
     _mcpTools: Record<string, any>[];
 
     constructor(
         systemPrompt: string,
-        ollamaModel: string,
-        ollamaBaseUrl: string,
+        model: string,
         mcpAdapter: MCPAdapter,
         mcpTools: Record<string, any>[]
     ) {
@@ -24,9 +23,9 @@ export class RobotAgent implements RobotAgentPort {
         this._mcpAdapter = mcpAdapter;
         this._mcpTools = mcpTools;
 
-        this._llmChat = new ChatOllama({
-            model: ollamaModel,
-            baseUrl: ollamaBaseUrl,
+        this._llmChat = new ChatOpenAI({ 
+            model: model,
+            
         });
 
         this._agent = createAgent({

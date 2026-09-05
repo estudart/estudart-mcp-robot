@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: robot-agent-be
     restart: unless-stopped
-    ports: 
+    ports:
       - "8080:8080"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:8080/health"]
@@ -13,11 +13,12 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
+    env_file:
+      - ./robot-agent-be/.env
     environment:
-      - OLLAMA_MODEL=qwen3:14b
+      - MODEL=gpt-4o-mini
       - API_PORT=8080
       - ROBOT_SERVER_URL=http://raspberrypi.local:8000
-      - OLLAMA_BASE_URL=http://host.docker.internal:11434
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
