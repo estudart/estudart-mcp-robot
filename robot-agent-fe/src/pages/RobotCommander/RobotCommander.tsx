@@ -13,10 +13,11 @@ function RobotCommander () {
     };
 
     useEffect(() => {
-        const ws = new WebSocket(
+        const url = (
             import.meta.env.VITE_BACKEND_URL ?? 
-            "ws://localhost:8080/?subscribeType=camera-frame-consumer"
-        );
+            "ws://localhost:8080"
+        )
+        const ws = new WebSocket(`${url}/?subscribeType=camera-frame-consumer`);
 
         ws.onopen = () => {
             console.log("Websocket connection opened");
