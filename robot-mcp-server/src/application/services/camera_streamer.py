@@ -38,6 +38,6 @@ class CameraStreamer:
             )
             response = json.loads(await self._web_socket_adapter.recv())
 
-            print(f"Received response from server: {response['type']}")
+            # print(f"Received response from server: {response['type']}")
 
-            await asyncio.sleep(0.1)
+            # await asyncio.sleep(0.1)

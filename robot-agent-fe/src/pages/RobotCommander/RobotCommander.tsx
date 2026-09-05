@@ -104,7 +104,6 @@ function RobotCommander () {
                     <img
                         src={frame}
                     />
-                    
                 ) : <p>Aguardando frame...</p>}
             </div>
         </div>

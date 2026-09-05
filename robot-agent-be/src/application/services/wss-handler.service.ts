@@ -36,9 +36,9 @@ export class WebSocketService {
                 let response;
                 try {
                     const data = JSON.parse(message.toString());
-                    console.log(`New message: ${JSON.stringify(data.type)}`);
+                    // console.log(`New message: ${JSON.stringify(data.type)}`);
                     if (data.type === "camera-frame") {
-                        console.log("received message from camera");
+                        // console.log("received message from camera");
                         if (this._connections.length) {
                             this._connections.forEach((connection) => {
                                 connection.send(JSON.stringify({ type: "camera-frame", frame: data.message }))
