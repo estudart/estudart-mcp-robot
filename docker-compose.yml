@@ -59,8 +59,8 @@ services:
       context: ./robot-agent-fe
       dockerfile: Dockerfile
       args:
-        VITE_BACKEND_URL: ws://raspberrypi.local:8080
-        VITE_BACKEND_REST_URL: http://raspberrypi.local:8080
+        VITE_BACKEND_URL: ws://10.42.0.1/:8080
+        VITE_BACKEND_REST_URL: http://10.42.0.1/:8080
     container_name: robot-agent-fe
     restart: unless-stopped
     ports:
