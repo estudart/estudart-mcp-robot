@@ -1,4 +1,21 @@
 services:
+  robot-mcp-server:
+    build:
+      context: ./robot-mcp-server
+      dockerfile: src/application/servers/mcp_server/Dockerfile
+    container_name: robot-mcp-server
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+
   robot-agent-be:
     build:
       context: ./robot-agent-be
@@ -18,9 +35,24 @@ services:
     environment:
       - MODEL=gpt-4o-mini
       - API_PORT=8080
-      - ROBOT_SERVER_URL=http://raspberrypi.local:8000
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - ROBOT_SERVER_URL=http://robot-mcp-server:8000
+    depends_on:
+      robot-mcp-server:
+        condition: service_healthy
+
+  robot-streamer:
+    build:
+      context: ./robot-mcp-server
+      dockerfile: src/application/servers/streamer/Dockerfile
+    container_name: robot-streamer
+    restart: unless-stopped
+    environment:
+      - WS_SERVER_URL=ws://robot-agent-be:8080
+    devices:
+      - "/dev/video0:/dev/video0"
+    depends_on:
+      robot-agent-be:
+        condition: service_healthy
 
   robot-agent-fe:
     build:
@@ -31,8 +63,8 @@ services:
         VITE_BACKEND_REST_URL: http://localhost:8080
     container_name: robot-agent-fe
     restart: unless-stopped
-    ports: 
+    ports:
       - "5173:80"
-    depends_on: 
-      robot-agent-be:
-        condition: service_healthy
+    depends_on:
+      robot-streamer:
+        condition: service_started
