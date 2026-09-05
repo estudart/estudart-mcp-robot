@@ -1,6 +1,6 @@
-import { WebSocketServer } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
 import { Stream } from "node:stream";
-import { Agent, IncomingMessage } from "node:http";
+import { IncomingMessage } from "node:http";
 import { RobotAssistent } from "./robot-assistent.service.js";
 import { UnknownAgentError } from "../errors/unknown-agent.error.js";
 
@@ -8,6 +8,7 @@ import { UnknownAgentError } from "../errors/unknown-agent.error.js";
 export class WebSocketService {
     _wss: WebSocketServer;
     _robotAssistent: RobotAssistent;
+    _connections: WebSocket[];
 
     constructor(
         robotAssistent: RobotAssistent,
@@ -15,11 +16,13 @@ export class WebSocketService {
         this._wss = new WebSocketServer({ noServer: true });
         this._robotAssistent = robotAssistent;
         this.setEventHandlers();
+        this._connections = [];
     }
 
     setEventHandlers() {
-        this._wss.on("connection", (ws) => {
+        this._wss.on("connection", (ws: WebSocket) => {
             console.log("New client connected");
+            this._connections.push(ws)
 
             ws.on("message", async (message) => {
                 let response;
@@ -29,7 +32,9 @@ export class WebSocketService {
 
                     if (data.type === "camera-frame") {
                         console.log("received message from camera");
-                        ws.send(JSON.stringify({ type: "response", message: response, agent: data.type }))
+                        this._connections.forEach((connection) => {
+                            connection.send(JSON.stringify({ type: "camera-frame", frame: data.message }))
+                        })
                     } else {
                         const agent = data.type;
                         const question = data.question;
