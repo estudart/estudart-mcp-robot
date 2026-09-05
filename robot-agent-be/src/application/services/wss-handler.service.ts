@@ -20,21 +20,30 @@ export class WebSocketService {
     }
 
     setEventHandlers() {
-        this._wss.on("connection", (ws: WebSocket) => {
+        this._wss.on("connection", (ws: WebSocket, request) => {
+            const urlParams = new URL(
+                request.url || '', 'http://localhost'
+            ).searchParams;
+            const subscribeType = urlParams.get("subscribeType");
+
+            if (subscribeType === "camera-frame-consumer") {
+                this._connections.push(ws);
+            }
+            this._connections.push(ws);
             console.log("New client connected");
-            this._connections.push(ws)
 
             ws.on("message", async (message) => {
                 let response;
                 try {
                     const data = JSON.parse(message.toString());
                     console.log(`New message: ${JSON.stringify(data.type)}`);
-
                     if (data.type === "camera-frame") {
                         console.log("received message from camera");
-                        this._connections.forEach((connection) => {
-                            connection.send(JSON.stringify({ type: "camera-frame", frame: data.message }))
-                        })
+                        if (this._connections.length) {
+                            this._connections.forEach((connection) => {
+                                connection.send(JSON.stringify({ type: "camera-frame", frame: data.message }))
+                            })
+                        }
                     } else {
                         const agent = data.type;
                         const question = data.question;

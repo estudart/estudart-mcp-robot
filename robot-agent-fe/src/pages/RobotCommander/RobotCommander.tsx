@@ -1,8 +1,9 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function RobotCommander () {
+    const [frame, setFrame] = useState("");
     const commanderUrl = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
     );
@@ -10,7 +11,28 @@ function RobotCommander () {
         const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
         return moveResponse.data;
     };
+
     useEffect(() => {
+        const ws = new WebSocket(
+            import.meta.env.VITE_BACKEND_URL ?? 
+            "ws://localhost:8080/?subscribeType=camera-frame-consumer"
+        );
+
+        ws.onopen = () => {
+            console.log("Websocket connection opened");
+        }
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === "camera-frame") {
+                setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
+            };
+        };
+
+        ws.onclose = () => {
+            console.log("Connection was closed");
+        }
+
         const handleKeyDown = async (event: KeyboardEvent) => {
             const selectedKey = event.key;
             switch (selectedKey) {
@@ -37,9 +59,13 @@ function RobotCommander () {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
+            if (ws) {
+                ws.close();
+            }
             window.removeEventListener('keydown', handleKeyDown);
         }
-    }, [])
+    }, []);
+
     return (
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
@@ -74,7 +100,12 @@ function RobotCommander () {
                 </div>
             </div>
             <div className={styles.cameraView}>
-                CAMERA
+                {frame ? (
+                    <img
+                        src={frame}
+                    />
+                    
+                ) : <p>Aguardando frame...</p>}
             </div>
         </div>
     )
