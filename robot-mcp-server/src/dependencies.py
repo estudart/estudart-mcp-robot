@@ -17,6 +17,7 @@ _camera_adapter: CameraAdapter = None
 _web_socket_adapter: WebSocketAdapter = None
 _camera_streamer: CameraStreamer = None
 
+WS_SERVER_URL = f"ws://RIO-DXRY4LFCF:8080"
 
 def get_robot_adapter() -> RobotAdapter:
     global _robot_adapter
@@ -58,7 +59,7 @@ def get_camera_adapter() -> CameraAdapter:
 def get_web_socket_adapter() -> WebSocketAdapter:
     global _web_socket_adapter
     if not _web_socket_adapter:
-        _web_socket_adapter = WebSocketAdapter()
+        _web_socket_adapter = WebSocketAdapter(uri=WS_SERVER_URL)
     return _web_socket_adapter
 
 def get_camera_streamer() -> CameraStreamer:

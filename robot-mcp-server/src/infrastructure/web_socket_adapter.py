@@ -5,8 +5,8 @@ from websockets.asyncio.client import connect, ClientConnection
 
 
 class WebSocketAdapter:
-    def __init__(self):
-        self._uri = "ws://localhost:8080"
+    def __init__(self, uri: str):
+        self._uri = uri
         self._wss: ClientConnection = None
     
     async def connect(self):

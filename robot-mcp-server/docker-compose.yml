@@ -17,6 +17,6 @@ services:
     container_name: robot-streamer
     restart: unless-stopped
     environment:
-      - name=value
+      - WS_SERVER_URL=RIO-DXRY4LFCF
     devices:
       - "/dev/video0:/dev/video0"
