@@ -18,14 +18,13 @@ class RobotCommander:
             "WHITE": LedColor.WHITE
         }
     
-    def set_all_leds(self, color: str) -> None:
-        if not self._color_map.get(color.upper()):
-            raise ValueError(f"Color {color}, is not valid")
+    def set_all_leds(self, color: str) -> str:
         if color.upper() == "OFF":
-            self._robot_adapter.leds_off()
-            return
+            return self._robot_adapter.leds_off()
+        if color.upper() not in self._color_map:
+            raise ValueError(f"Color {color}, is not valid")
         get_color = self._color_map[color.upper()]
-        self._robot_adapter.set_all_leds(get_color)
+        return self._robot_adapter.set_all_leds(get_color)
     
     def robot_patrol(self) -> None:
         self.set_all_leds("green")

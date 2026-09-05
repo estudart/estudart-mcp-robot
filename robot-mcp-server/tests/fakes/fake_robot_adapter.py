@@ -3,10 +3,10 @@ from raspbot.types import LedColor
 class FakeRobotAdapter:
     ## LEDS
     def set_all_leds(self, color: LedColor):
-        print(f"All leds set to: {color}")
+        return f"All leds set to: {color.name}"
 
     def leds_off(self):
-        print("All leds off")
+        return "All leds off"
     
     # MOTOR
     def move_forward(self, speed: int):
