@@ -4,7 +4,7 @@ from starlette.responses import JSONResponse
 from fastmcp.exceptions import ToolError
 
 from src.dependencies import get_robot_commander, get_file_reader_service
-from src.presentation.rest_server import rest_app
+from src.application.servers.mcp_server.rest_server import rest_app
 
 mcp = FastMCP("mcp")
 
