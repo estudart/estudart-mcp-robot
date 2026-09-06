@@ -36,7 +36,6 @@ class CameraStreamer:
                 msg_type="camera-frame",
                 message=self.from_frame_to_b64(frame=frame)
             )
-            response = json.loads(await self._web_socket_adapter.recv())
 
             # print(f"Received response from server: {response['type']}")
 
