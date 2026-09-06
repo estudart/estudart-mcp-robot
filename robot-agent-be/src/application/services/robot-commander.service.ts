@@ -23,6 +23,10 @@ export class RobotCommanderService {
     }
 
     async stop() {
-        return await this._robotAdapter.stop()
+        return await this._robotAdapter.stop();
+    }
+
+    async setAllLeds(color: string) {
+        return await this._robotAdapter.setAllLeds(color);
     }
 }

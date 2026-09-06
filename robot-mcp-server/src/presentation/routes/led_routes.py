@@ -6,6 +6,7 @@ led_router = APIRouter(prefix="/led", tags=["led"])
 @led_router.post("/set-all-leds")
 async def set_all_leds(color: str):
     color = color.upper()
+    print(color)
     try:
         get_robot_commander().set_all_leds(color=color)
         return {"status": "ok"}
