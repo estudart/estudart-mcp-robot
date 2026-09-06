@@ -101,7 +101,11 @@ function RobotCommander () {
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
                 <div>
-                    {<p>Distance: {distance}</p>}
+                    {<p
+                        className={ styles.distanceTracker }
+                    >
+                        Distance: {distance}
+                    </p>}
                 </div>
                 <div className={styles.colorPannel}>
                     {Object.entries(ledColorsOptions).map((color) => 
