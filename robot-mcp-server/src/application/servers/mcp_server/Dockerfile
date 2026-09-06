@@ -16,4 +16,4 @@ COPY . .
 
 RUN uv sync --frozen --no-cache
 
-CMD ["uvicorn", "src.application.servers.mcp_server.mcp_server:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "src.application.servers.mcp_server.rest_server:app", "--host", "0.0.0.0", "--port", "8000"]

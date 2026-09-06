@@ -4,9 +4,8 @@ from starlette.responses import JSONResponse
 from fastmcp.exceptions import ToolError
 
 from src.dependencies import get_robot_commander, get_file_reader_service
-from src.application.servers.mcp_server.rest_server import rest_app
 
-mcp = FastMCP("mcp")
+mcp = FastMCP("Robot Tools")
 
 
 @mcp.custom_route("/health", methods=["GET"])
@@ -75,8 +74,3 @@ def read_documentation():
         )
         print(err_msg)
         raise ToolError(err_msg)
-
-
-
-app = mcp.http_app()
-app.mount("/api", rest_app)
