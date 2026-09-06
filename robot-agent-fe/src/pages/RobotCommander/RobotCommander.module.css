@@ -195,5 +195,7 @@
   .cameraView {
     flex: 1;
     min-height: 0;
+    height: fit-content;
+    width: fit-content;
   }
 }
