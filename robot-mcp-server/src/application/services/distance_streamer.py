@@ -31,5 +31,3 @@ class DistanceStreamer:
                 msg_type="distance-cm",
                 message=distance
             )
-
-            await asyncio.sleep(0.1)
