@@ -5,6 +5,8 @@ services:
       dockerfile: src/application/servers/mcp_server/Dockerfile
     container_name: robot-mcp-server
     restart: unless-stopped
+    environment:
+      - WS_SERVER_URL=ws://robot-agent-be:8080
     ports:
       - "8000:8000"
     healthcheck:
