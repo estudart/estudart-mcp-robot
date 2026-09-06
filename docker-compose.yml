@@ -54,19 +54,19 @@ services:
       robot-agent-be:
         condition: service_healthy
 
-  # robot-distance-streamer:
-  #   build:
-  #     context: ./robot-mcp-server
-  #     dockerfile: src/application/servers/distance_streamer/Dockerfile
-  #   container_name: robot-distance-streamer
-  #   restart: unless-stopped
-  #   environment:
-  #     - WS_SERVER_URL=ws://robot-agent-be:8080
-  #   devices:
-  #     - "/dev/i2c-1:/dev/i2c-1"
-  #   depends_on:
-  #     robot-agent-be:
-  #       condition: service_healthy
+  robot-distance-streamer:
+    build:
+      context: ./robot-mcp-server
+      dockerfile: src/application/servers/distance_streamer/Dockerfile
+    container_name: robot-distance-streamer
+    restart: unless-stopped
+    environment:
+      - WS_SERVER_URL=ws://robot-agent-be:8080
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+    depends_on:
+      robot-agent-be:
+        condition: service_healthy
 
   robot-agent-fe:
     build:
