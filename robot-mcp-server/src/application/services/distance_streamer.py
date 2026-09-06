@@ -14,8 +14,16 @@ class DistanceStreamer:
         self._web_socket_adapter = web_socket_adapter
 
     async def connect_stream(self):
-        await self._web_socket_adapter.connect()
-        print("Connection stablished")
+        retries = 0
+        while retries < 5:
+            try:
+                await self._web_socket_adapter.connect()
+                print("Connection stablished")
+            except Exception as err:
+                print("Could not connect to WebSocket Server")
+            retries+=1
+            await asyncio.sleep(10)
+
     
     def get_distance_cm(self):
         distance = self._robot_adapter.get_distance_cm()
