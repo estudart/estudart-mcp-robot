@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function RobotCommander () {
     const [frame, setFrame] = useState("");
-    const [ledColor, setLedColor] = useState<string>("");
+    const [ledColor, setLedColor] = useState<string>("WHITE");
 
     const ledColorsOptions = [
         "BLUE", "RED", "GREEN", "YELLOW", "PURPLE", "CYAN", "WHITE"
@@ -83,11 +83,11 @@ function RobotCommander () {
             <div className={styles.joyStickView}>
                 <div className={styles.colorPannel}>
                     {ledColorsOptions.map((color) => 
-                        <div
+                        <button
                             onClick={() => handleLedColorChange(color)}
                         >
                             {color}
-                        </div>
+                        </button>
                     )}
                 </div>
                 <div className="Commands">
