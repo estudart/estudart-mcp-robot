@@ -32,3 +32,14 @@ robotCommanderRoutes.post('/move/turn-right', (req: Request, res: Response) =>
 robotCommanderRoutes.post('/move/stop', (req: Request, res: Response) =>
     runCommand(res, () => robotCommanderService.stop())
 );
+
+robotCommanderRoutes.post('/led/setAllLeds', (req: Request, res: Response) => {
+    const { color } = req.query;
+    if (color !== undefined && typeof color === 'string') {
+        runCommand(res, () => robotCommanderService.setAllLeds(color));
+    } else {
+        res.status(502).json({
+            status: "error", message: "Color must be sent in the query params"
+        });
+    };
+});

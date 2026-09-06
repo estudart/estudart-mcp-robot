@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <NavBar />
       <Routes>
-        <Route path='/robot-commander' element={<RobotCommander/>}/>
+        <Route path='/' element={<RobotCommander/>}/>
       </Routes>
       <Routes>
         <Route path='/robot-chat' element={<RobotChat/>}/>

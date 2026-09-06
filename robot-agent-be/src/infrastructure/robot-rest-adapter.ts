@@ -7,6 +7,7 @@ export class RobotError extends Error {
         this.name = "RobotError";
     }
 }
+
 export class RobotRestAdapter implements RobotRestAdapterPort {
     _apiClientUrl: string;
 
@@ -66,6 +67,17 @@ export class RobotRestAdapter implements RobotRestAdapterPort {
             return response;
         } catch (error) {
             throw new RobotError(`Robot failed to move: ${error}`);
+        }
+    }
+
+    async setAllLeds(color: String): Promise<AxiosResponse<any, any, {}, any>> {
+        try {
+            const response = await axios.post(
+                `${this._apiClientUrl}/led/set-all-leds?color=${color}`
+            );
+            return response;
+        } catch (error) {
+            throw new RobotError(`Robot failed to change color: ${error}`);
         }
     }
 }

@@ -7,4 +7,5 @@ export interface RobotRestAdapterPort {
     turnLeft(): Promise<AxiosResponse<any, any, {}, any>>;
     turnRight(): Promise<AxiosResponse<any, any, {}, any>>;
     stop(): Promise<AxiosResponse<any, any, {}, any>>;
+    setAllLeds(color: String): Promise<AxiosResponse<any, any, {}, any>>;
 }
