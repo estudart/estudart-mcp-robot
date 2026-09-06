@@ -158,7 +158,7 @@ function RobotCommander () {
                         className={ styles.cameraFrame }
                         src={frame}
                     />
-                ) : <p>Aguardando frame...</p>}
+                ) : <p>Waiting frame...</p>}
             </div>
         </div>
     )
