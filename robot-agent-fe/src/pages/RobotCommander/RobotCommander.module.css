@@ -74,7 +74,16 @@
   font-family: var(--mono);
   border-color: black;
   border-radius: 5px;
-  font-weight: bolder;
+  font-weight: 500;
+  color: black;
+}
+
+.colorPannelButtonClicked {
+  font-family: var(--mono);
+  border-color: black;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 4px #75638f;
+  font-weight: 1000;
   color: black;
 }
 

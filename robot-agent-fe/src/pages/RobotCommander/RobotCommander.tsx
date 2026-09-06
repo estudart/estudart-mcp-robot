@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function RobotCommander () {
     const [frame, setFrame] = useState("");
-    const [ledColor, setLedColor] = useState<string>("#00cef2");
+    const [ledColor, setLedColor] = useState<string>("WHITE");
 
     const ledColorsOptions = {
         "BLUE": "#0000FF",
@@ -25,7 +25,7 @@ function RobotCommander () {
         return moveResponse.data;
     };
     const handleLedColorChange = async (color: string) => {
-        await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
+        // await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
         setLedColor(color);
     }
 
@@ -90,9 +90,13 @@ function RobotCommander () {
                 <div className={styles.colorPannel}>
                     {Object.entries(ledColorsOptions).map((color) => 
                         <button
-                            className={styles.colorPannelButton}
+                            className={ 
+                                ledColor === color[0] 
+                                ? styles.colorPannelButtonClicked 
+                                : styles.colorPannelButton
+                            }
                             style={{ backgroundColor: color[1] }}
-                            onClick={() => handleLedColorChange(color[1])}
+                            onClick={() => handleLedColorChange(color[0])}
                         >
                             {color[0]}
                         </button>
