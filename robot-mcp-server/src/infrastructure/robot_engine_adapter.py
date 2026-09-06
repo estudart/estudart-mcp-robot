@@ -28,3 +28,12 @@ class RobotAdapter:
 
     def stop(self):
         self._robot.motors.stop()
+    
+    # ULTRASONIC
+    def get_distance_mm(self) -> int:
+        distance = self._robot.ultrasonic.read_mm()
+        return distance
+
+    def get_distance_cm(self) -> int:
+        distance = self._robot.ultrasonic.read_cm()
+        return distance

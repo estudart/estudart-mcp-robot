@@ -23,3 +23,9 @@ class FakeRobotAdapter:
 
     def stop(self):
         print("Stopped")
+
+    def get_distance_mm(self) -> int:
+        return 1000
+
+    def get_distance_cm(self) -> int:
+        return 100

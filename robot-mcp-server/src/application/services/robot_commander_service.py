@@ -52,4 +52,10 @@ class RobotCommander:
     def stop(self):
         self._robot_adapter.stop()
 
+    def get_distance_mm(self) -> int:
+        distance = self._robot_adapter.get_distance_mm()
+        return distance
 
+    def get_distance_cm(self) -> int:
+        distance = self._robot_adapter.get_distance_cm()
+        return distance

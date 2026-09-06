@@ -23,3 +23,12 @@ def test_led_off_is_accepted():
     robot_commander_service = RobotCommander(robot_adapter=robot_adapter)
     response = robot_commander_service.set_all_leds(color=color)
     assert response == "All leds off"
+
+def test_get_distance_is_called_correctly():
+    robot_adapter = FakeRobotAdapter()
+    robot_commander_service = RobotCommander(robot_adapter=robot_adapter)
+    distance_cm = robot_commander_service.get_distance_cm()
+    distance_mm = robot_commander_service.get_distance_mm()
+    assert distance_cm == 100
+    assert distance_mm == 1000
+
