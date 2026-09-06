@@ -34,7 +34,7 @@ class DistanceStreamer:
 
         while True:
             try:
-                distance = self.get_distance_cm()
+                distance = 42 # self.get_distance_cm()
 
                 await self._web_socket_adapter.send_message(
                     msg_type="distance-cm",
