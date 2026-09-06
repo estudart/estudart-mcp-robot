@@ -4,13 +4,24 @@ import { useEffect, useState } from "react";
 
 function RobotCommander () {
     const [frame, setFrame] = useState("");
+    const [ledColor, setLedColor] = useState<string>("");
+
+    const ledColorsOptions = [
+        "BLUE", "RED", "GREEN", "YELLOW", "PURPLE", "CYAN", "WHITE"
+    ];
+
     const commanderUrl = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
     );
+
     const handleMove = async (direction: string) => {
         const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
         return moveResponse.data;
     };
+    const handleLedColorChange = async (color: string) => {
+        await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
+        setLedColor(color);
+    }
 
     useEffect(() => {
         const url = (
@@ -70,6 +81,15 @@ function RobotCommander () {
     return (
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
+                <div className={styles.colorPannel}>
+                    {ledColorsOptions.map((color) => 
+                        <div
+                            onClick={() => handleLedColorChange(color)}
+                        >
+                            {color}
+                        </div>
+                    )}
+                </div>
                 <div className="Commands">
                     <button className={styles.joyStickButton}
                         onClick={() => handleMove("forward")}
