@@ -65,8 +65,17 @@
 .colorPannel {
   display: grid;
   grid-template-columns: auto auto auto;
+  gap: 5px;
   width: auto;
   margin: 10%;
+}
+
+.colorPannelButton {
+  font-family: var(--mono);
+  border-color: black;
+  border-radius: 5px;
+  font-weight: bolder;
+  color: black;
 }
 
 .secondJoyStickLine {

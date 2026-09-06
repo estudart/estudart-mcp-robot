@@ -4,11 +4,17 @@ import { useEffect, useState } from "react";
 
 function RobotCommander () {
     const [frame, setFrame] = useState("");
-    const [ledColor, setLedColor] = useState<string>("WHITE");
+    const [ledColor, setLedColor] = useState<string>("#00cef2");
 
-    const ledColorsOptions = [
-        "BLUE", "RED", "GREEN", "YELLOW", "PURPLE", "CYAN", "WHITE"
-    ];
+    const ledColorsOptions = {
+        "BLUE": "#0000FF",
+        "RED": "#FF0000",
+        "GREEN": "#00FF00",
+        "YELLOW": "#FFFF00",
+        "PURPLE": "#800080",
+        // "CYAN": "#00FFFF",
+        "WHITE": "#FFFFFF"
+    };
 
     const commanderUrl = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
@@ -82,11 +88,13 @@ function RobotCommander () {
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
                 <div className={styles.colorPannel}>
-                    {ledColorsOptions.map((color) => 
+                    {Object.entries(ledColorsOptions).map((color) => 
                         <button
-                            onClick={() => handleLedColorChange(color)}
+                            className={styles.colorPannelButton}
+                            style={{ backgroundColor: color[1] }}
+                            onClick={() => handleLedColorChange(color[1])}
                         >
-                            {color}
+                            {color[0]}
                         </button>
                     )}
                 </div>
