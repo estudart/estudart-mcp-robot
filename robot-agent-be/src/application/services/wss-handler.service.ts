@@ -26,7 +26,7 @@ export class WebSocketService {
             ).searchParams;
             const subscribeType = urlParams.get("subscribeType");
 
-            if (subscribeType === "camera-frame-consumer") {
+            if (subscribeType === "robot-data-consumer") {
                 this._connections.push(ws);
             }
             this._connections.push(ws);
@@ -36,16 +36,23 @@ export class WebSocketService {
                 let response;
                 try {
                     const data = JSON.parse(message.toString());
+                    const dataType = data.type;
                     // console.log(`New message: ${JSON.stringify(data.type)}`);
-                    if (data.type === "camera-frame") {
+                    if (dataType === "camera-frame") {
                         // console.log("received message from camera");
                         if (this._connections.length) {
                             this._connections.forEach((connection) => {
-                                connection.send(JSON.stringify({ type: "camera-frame", frame: data.message }))
+                                connection.send(JSON.stringify({ type: dataType, frame: data.message }))
+                            })
+                        }
+                    } else if (dataType === "distance-cm") {
+                        if (this._connections.length) {
+                            this._connections.forEach((connection) => {
+                                connection.send(JSON.stringify({ type: dataType, distance: data.message }))
                             })
                         }
                     } else {
-                        const agent = data.type;
+                        const agent = dataType;
                         const question = data.question;
 
                         response = await this._robotAssistent.invoke(agent, question);
