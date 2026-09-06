@@ -144,6 +144,7 @@ function RobotCommander () {
             <div className={styles.cameraView}>
                 {frame ? (
                     <img
+                        className={ styles.cameraFrame }
                         src={frame}
                     />
                 ) : <p>Aguardando frame...</p>}
