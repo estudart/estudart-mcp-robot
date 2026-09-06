@@ -39,4 +39,4 @@ class CameraStreamer:
 
             # print(f"Received response from server: {response['type']}")
 
-            # await asyncio.sleep(0.1)
+            await asyncio.sleep(0.1)
