@@ -32,6 +32,4 @@ class DistanceStreamer:
                 message=distance
             )
 
-            response = json.loads(await self._web_socket_adapter.recv())
-
             await asyncio.sleep(0.1)

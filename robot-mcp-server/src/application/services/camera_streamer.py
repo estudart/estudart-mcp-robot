@@ -36,7 +36,3 @@ class CameraStreamer:
                 msg_type="camera-frame",
                 message=self.from_frame_to_b64(frame=frame)
             )
-
-            # print(f"Received response from server: {response['type']}")
-
-            await asyncio.sleep(0.1)

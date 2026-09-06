@@ -21,15 +21,12 @@ export class WebSocketService {
 
     setEventHandlers() {
         this._wss.on("connection", (ws: WebSocket, request: IncomingMessage) => {
-            const urlParams = new URL(
-                request.url || '', 'http://localhost'
-            ).searchParams;
-            const subscribeType = urlParams.get("subscribeType");
+            const urlParams = new URL(request.url || '', 'http://localhost').searchParams;
 
-            if (subscribeType === "robot-data-consumer") {
+            if (urlParams.get("subscribeType") === "robot-data-consumer") {
                 this._connections.push(ws);
             }
-            this._connections.push(ws);
+
             console.log("New client connected");
 
             ws.on("message", async (message) => {
