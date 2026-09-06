@@ -42,7 +42,7 @@
 }
 
 .joyStickView::after {
-  content: 'W A S D  ·  SPACE';
+  content: 'W A S D  ·  P';
   position: absolute;
   bottom: 14px;
   left: 0;

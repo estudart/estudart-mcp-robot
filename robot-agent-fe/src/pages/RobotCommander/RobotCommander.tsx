@@ -66,8 +66,11 @@ function RobotCommander () {
 
         const handleKeyDown = async (event: KeyboardEvent) => {
             const selectedKey = event.key;
+            if (selectedKey == " ") event.preventDefault();
+            if (event.repeat) return;
+
             switch (selectedKey) {
-                case " ":
+                case "p":
                     await handleMove("stop");
                     break;
                 case "w":
