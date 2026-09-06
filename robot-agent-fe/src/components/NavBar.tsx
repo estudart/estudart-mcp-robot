@@ -6,7 +6,7 @@ export default function NavBar() {
       <nav className={styles.navbar}>
         <header className={styles.navbarTitle}>RaspbotV2 🤖</header>
         <Link to="/robot-chat">RobotChat</Link> |{" "}
-        <Link to="/robot-commander">RobotCommander</Link>
+        <Link to="/">RobotCommander</Link>
       </nav>
     )
 }

@@ -21,13 +21,22 @@ function RobotCommander () {
     );
 
     const handleMove = async (direction: string) => {
-        const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
-        return moveResponse.data;
+        try {
+            const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
+            return moveResponse.data;
+        } catch (error) {
+            console.log(`Could not move robot, reason: ${error}`);
+        };
     };
+
     const handleLedColorChange = async (color: string) => {
-        // await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
-        setLedColor(color);
-    }
+        try {
+            await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
+            setLedColor(color);
+        } catch (error) {
+            console.log(`Could not update LedColor, reason: ${error}`);
+        };
+    };
 
     useEffect(() => {
         const url = (
