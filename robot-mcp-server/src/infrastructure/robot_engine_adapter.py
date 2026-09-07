@@ -36,4 +36,5 @@ class RobotAdapter:
 
     def get_distance_cm(self) -> int:
         distance = self._robot.ultrasonic.read_cm()
+        self._robot.ultrasonic.disable()
         return distance
