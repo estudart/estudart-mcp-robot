@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 
 from src.dependencies import get_robot_commander
 
@@ -9,6 +9,10 @@ async def set_pan_angle(angle: int):
     service = get_robot_commander()
     try:
         service.set_pan_angle(angle=angle)
+        return Response(
+            content="Pan angle updated!",
+            status_code=200
+        )
     except Exception as err:
         raise HTTPException(
             status_code=400,
