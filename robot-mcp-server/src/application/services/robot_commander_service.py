@@ -59,3 +59,12 @@ class RobotCommander:
     def get_distance_cm(self) -> int:
         distance = self._robot_adapter.get_distance_cm()
         return distance
+
+    def set_pan_angle(self, angle: int) -> None:
+        self._robot_adapter.set_pan_angle(angle=int(angle))
+
+    def set_tilt_angle(self, angle: int) -> None:
+        self._robot_adapter.set_tilt_angle(angle=int(angle))
+    
+    def servo_home(self) -> None:
+        self._robot_adapter.servo_home()
