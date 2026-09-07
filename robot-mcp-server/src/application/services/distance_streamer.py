@@ -34,13 +34,13 @@ class DistanceStreamer:
 
         while True:
             try:
-                distance = 42 # self.get_distance_cm()
+                distance = self.get_distance_cm()
 
                 await self._web_socket_adapter.send_message(
                     msg_type="distance-cm",
                     message=distance
                 )
-
-                await asyncio.sleep(1)
             except Exception as err:
                 print(f"Could not send robot distance, reason: {err}")
+
+            await asyncio.sleep(1)
