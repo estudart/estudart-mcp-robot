@@ -28,7 +28,7 @@ class CameraStreamer:
 
     async def stream_frame(self):
         await self.connect_stream()
-
+        print("Starting camera streaming...")
         while True:
             frame = self._camera_adapter.get_frame()
 

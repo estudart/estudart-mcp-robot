@@ -14,7 +14,7 @@ async def app_lifespan(app: FastAPI):
     service = get_distance_streamer()
     task = asyncio.create_task(service.stream_distance())
     yield
-    await task.cancel()
+    task.cancel()
 
 mcp_app = mcp.http_app()
 
