@@ -43,4 +43,4 @@ class DistanceStreamer:
             except Exception as err:
                 print(f"Could not send robot distance, reason: {err}")
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.4)
