@@ -39,3 +39,13 @@ class RobotAdapter:
         distance = self._robot.ultrasonic.read_cm()
         self._robot.ultrasonic.disable()
         return distance
+
+    # SERVOS
+    def set_pan_angle(self, angle: int) -> None:
+        self._robot.servos.pan.set_angle(angle)
+
+    def set_tilt_angle(self, angle: int) -> None:
+        self._robot.servos.tilt.set_angle(angle)
+    
+    def servo_home(self) -> None:
+        self._robot.servos.home()
