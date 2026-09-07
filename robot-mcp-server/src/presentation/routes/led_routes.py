@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from src.dependencies import get_robot_commander
 
-led_router = APIRouter(prefix="/led", tags=["led"])
+led_router = APIRouter(prefix="/api/led", tags=["led"])
 
 @led_router.post("/set-all-leds")
 async def set_all_leds(color: str):

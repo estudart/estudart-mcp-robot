@@ -3,6 +3,7 @@ import styles from "./RobotCommander.module.css"
 import { useEffect, useState } from "react";
 
 function RobotCommander () {
+    const [distance, setDistance] = useState<string>("0")
     const [frame, setFrame] = useState("");
     const [ledColor, setLedColor] = useState<string>("WHITE");
 
@@ -43,7 +44,7 @@ function RobotCommander () {
             import.meta.env.VITE_BACKEND_URL ?? 
             "ws://localhost:8080"
         )
-        const ws = new WebSocket(`${url}/?subscribeType=camera-frame-consumer`);
+        const ws = new WebSocket(`${url}/?subscribeType=robot-data-consumer`);
 
         ws.onopen = () => {
             console.log("Websocket connection opened");
@@ -51,8 +52,11 @@ function RobotCommander () {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.type === "camera-frame") {
+            const dataType = data.type;
+            if (dataType === "camera-frame") {
                 setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
+            } else if (dataType === "distance-cm") {
+                setDistance(data.distance);
             };
         };
 
@@ -62,8 +66,11 @@ function RobotCommander () {
 
         const handleKeyDown = async (event: KeyboardEvent) => {
             const selectedKey = event.key;
+            if (selectedKey == " ") event.preventDefault();
+            if (event.repeat) return;
+
             switch (selectedKey) {
-                case " ":
+                case "p":
                     await handleMove("stop");
                     break;
                 case "w":
@@ -96,6 +103,9 @@ function RobotCommander () {
     return (
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
+                <div className={styles.distanceTracker}>
+                    {<p>Distance: {distance}</p>}
+                </div>
                 <div className={styles.colorPannel}>
                     {Object.entries(ledColorsOptions).map((color) => 
                         <button
@@ -147,7 +157,7 @@ function RobotCommander () {
                         className={ styles.cameraFrame }
                         src={frame}
                     />
-                ) : <p>Aguardando frame...</p>}
+                ) : <p>Waiting frame...</p>}
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from src.dependencies import get_robot_commander
 
-move_router = APIRouter(prefix="/move", tags=["move"])
+move_router = APIRouter(prefix="/api/move", tags=["move"])
 
 @move_router.post("/forward")
 async def move_forward():
