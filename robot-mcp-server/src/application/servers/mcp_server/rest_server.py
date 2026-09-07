@@ -25,4 +25,6 @@ app.include_router(move_router)
 app.include_router(health_router)
 app.include_router(led_router)
 
+print("Starting MCP Server...")
+
 app.mount("/", mcp_app)
