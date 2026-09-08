@@ -80,4 +80,37 @@ export class RobotRestAdapter implements RobotRestAdapterPort {
             throw new RobotError(`Robot failed to change color: ${error}`);
         }
     }
+
+    async setPanAngle(angle: number) {
+        try {
+            const { data } = await axios.post(
+                `${this._apiClientUrl}/servo/set-pan-angle${angle}`
+            )
+            return data;
+        } catch (error) {
+            throw new RobotError("Could not set pan angle")
+        }
+    }
+
+    async setTiltAngle(angle: number) {
+        try {
+            const { data } = await axios.post(
+                `${this._apiClientUrl}/servo/set-tilt-angle${angle}`
+            )
+            return data;
+        } catch (error) {
+            throw new RobotError("Could not set tilt angle")
+        }
+    }
+
+    async setServoHome() {
+        try {
+            const { data } = await axios.post(
+                `${this._apiClientUrl}/servo/servo-home`
+            )
+            return data;
+        } catch (error) {
+            throw new RobotError("Could not set servo to home angle")
+        }
+    }
 }
