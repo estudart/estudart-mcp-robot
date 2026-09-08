@@ -8,4 +8,7 @@ export interface RobotRestAdapterPort {
     turnRight(): Promise<AxiosResponse<any, any, {}, any>>;
     stop(): Promise<AxiosResponse<any, any, {}, any>>;
     setAllLeds(color: String): Promise<AxiosResponse<any, any, {}, any>>;
+    setPanAngle(angle: number): Promise<AxiosResponse<any, any, {}, any>>;
+    setTiltAngle(angle: number): Promise<AxiosResponse<any, any, {}, any>>;
+    setServoHome(): Promise<AxiosResponse<any, any, {}, any>>;
 }
