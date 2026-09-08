@@ -43,3 +43,31 @@ robotCommanderRoutes.post('/led/setAllLeds', (req: Request, res: Response) => {
         });
     };
 });
+
+robotCommanderRoutes.post("/servo/setPanAngle", (req: Request, res: Response) => {
+    const { angle } = req.body;
+    const casted = Number(angle);
+    if (angle !== undefined && !Number.isNaN(casted)) {
+        runCommand(res, () => robotCommanderService.setPanAngle(Number(angle)));
+    } else {
+        res.status(502).json({
+            status: "error", message: "Could not set pan angle"
+        });
+    };
+});
+
+robotCommanderRoutes.post("/servo/setTiltAngle", (req: Request, res: Response) => {
+    const { angle } = req.body;
+    const casted = Number(angle);
+    if (angle !== undefined && !Number.isNaN(casted)) {
+        runCommand(res, () => robotCommanderService.setTiltAngle(Number(angle)));
+    } else {
+        res.status(502).json({
+            status: "error", message: "Could not set tilt angle"
+        });
+    };
+});
+
+robotCommanderRoutes.post("/servo/servoHome", (req: Request, res: Response) => {
+    runCommand(res, () => robotCommanderService.setServoHome());
+});
