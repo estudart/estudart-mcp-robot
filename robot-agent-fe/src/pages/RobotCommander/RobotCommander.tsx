@@ -3,6 +3,8 @@ import styles from "./RobotCommander.module.css"
 import { useEffect, useState } from "react";
 
 function RobotCommander () {
+    const [tiltAngle, setTiltAngle] = useState<number>(0);
+    const [panAngle, setPanAngle] = useState<number>(0);
     const [distance, setDistance] = useState<string>("0")
     const [frame, setFrame] = useState("");
     const [ledColor, setLedColor] = useState<string>("WHITE");
@@ -13,13 +15,32 @@ function RobotCommander () {
         "GREEN": "#00FF00",
         "YELLOW": "#FFFF00",
         "PURPLE": "#800080",
-        // "CYAN": "#00FFFF",
         "WHITE": "#FFFFFF"
     };
 
     const commanderUrl = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
     );
+
+    const handlePanAngle = async (angle: number) => {
+        try {
+            const response = await axios.post(`${commanderUrl}/servo/setPanAngle?${angle}`);
+            setPanAngle(angle);
+            return response.data;
+        } catch (error) {
+            console.log(`Could not set pan angle, reason: ${error}`);
+        };
+    };
+
+    const handleTiltAngle = async (angle: number) => {
+        try {
+            const response = await axios.post(`${commanderUrl}/servo/setTiltAngle?${angle}`);
+            setTiltAngle(angle);
+            return response.data;
+        } catch (error) {
+            console.log(`Could not set pan angle, reason: ${error}`);
+        };
+    };
 
     const handleMove = async (direction: string) => {
         try {
