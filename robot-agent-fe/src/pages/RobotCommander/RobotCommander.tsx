@@ -22,23 +22,41 @@ function RobotCommander () {
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
     );
 
-    const handlePanAngle = async (angle: number) => {
+    const handlePanAngle = async (angle: number = 20, direction: string) => {
         try {
+            let newAngle: number;
+            if (direction == "left") {
+                newAngle = panAngle - angle;
+            } else if (direction == "right") {
+                newAngle = panAngle + angle;
+            } else {
+                console.log(`Invalid direction: ${direction}`)
+                return;
+            }
             const response = await axios.post(`${commanderUrl}/servo/setPanAngle?${angle}`);
-            setPanAngle(angle);
+            setPanAngle(newAngle)
             return response.data;
         } catch (error) {
             console.log(`Could not set pan angle, reason: ${error}`);
         };
     };
 
-    const handleTiltAngle = async (angle: number) => {
+    const handleTiltAngle = async (angle: number = 20, direction: string) => {
         try {
+            let newAngle: number;
+            if (direction == "down") {
+                newAngle = tiltAngle - angle;
+            } else if (direction == "up") {
+                newAngle = tiltAngle + angle;
+            } else {
+                console.log(`Invalid direction: ${direction}`)
+                return;
+            }
             const response = await axios.post(`${commanderUrl}/servo/setTiltAngle?${angle}`);
-            setTiltAngle(angle);
+            setTiltAngle(newAngle)
             return response.data;
         } catch (error) {
-            console.log(`Could not set pan angle, reason: ${error}`);
+            console.log(`Could not set tilt angle, reason: ${error}`);
         };
     };
 
