@@ -24,9 +24,13 @@ function RobotCommander () {
     );
 
     const handlePanAngle = async (angle: number = 20, direction: string) => {
-        if (direction == "left") setPanAngle(prevAngle => prevAngle - angle);
-        else if (direction == "right") setPanAngle(prevAngle => prevAngle + angle);
-        else console.log(`Invalid direction: ${direction}`);
+        if (direction == "left") {
+            if (panAngle <= 0) return;
+            setPanAngle(prevAngle => prevAngle - angle)
+        } else if (direction == "right") {
+            if (panAngle >= 180) return;
+            setPanAngle(prevAngle => prevAngle + angle);
+        } else console.log(`Invalid direction: ${direction}`);
     };
 
     useEffect(() => {
