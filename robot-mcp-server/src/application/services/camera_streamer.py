@@ -45,6 +45,7 @@ class CameraStreamer:
                     msg_type="camera-frame",
                     message=self.from_frame_to_b64(frame=frame)
                 )
+                self._count_frame+=1
             except Exception as err:
                 print(f"Could not stream frame, reason: {err}")
                 asyncio.sleep(10)
