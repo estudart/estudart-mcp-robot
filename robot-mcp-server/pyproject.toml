@@ -45,6 +45,7 @@ dependencies = [
     "mcp==1.29.1",
     "mdurl==0.1.2",
     "more-itertools==11.1.0",
+    "ncnn>=1.0.20260526",
     "openapi-pydantic==0.5.1",
     "opencv-python>=5.0.0.93",
     "opentelemetry-api==1.44.0",
