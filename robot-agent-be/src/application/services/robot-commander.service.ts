@@ -29,4 +29,16 @@ export class RobotCommanderService {
     async setAllLeds(color: string) {
         return await this._robotAdapter.setAllLeds(color);
     }
+
+    async setPanAngle(angle: number) {
+        return await this._robotAdapter.setPanAngle(angle);
+    }
+
+    async setTiltAngle(angle: number) {
+        return await this._robotAdapter.setTiltAngle(angle);
+    }
+
+    async setServoHome() {
+        return await this._robotAdapter.setServoHome();
+    }
 }

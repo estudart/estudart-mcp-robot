@@ -1,8 +1,11 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
 import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 function RobotCommander () {
+    const [tiltAngle, setTiltAngle] = useState<number>(25);
+    const [panAngle, setPanAngle] = useState<number>(90);
     const [distance, setDistance] = useState<string>("0")
     const [frame, setFrame] = useState("");
     const [ledColor, setLedColor] = useState<string>("WHITE");
@@ -13,13 +16,34 @@ function RobotCommander () {
         "GREEN": "#00FF00",
         "YELLOW": "#FFFF00",
         "PURPLE": "#800080",
-        // "CYAN": "#00FFFF",
         "WHITE": "#FFFFFF"
     };
 
     const commanderUrl = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
     );
+
+    const handlePanAngle = async (angle: number = 20, direction: string) => {
+        if (direction == "left") setPanAngle(prevAngle => prevAngle - angle);
+        else if (direction == "right") setPanAngle(prevAngle => prevAngle + angle);
+        else console.log(`Invalid direction: ${direction}`);
+    };
+
+    useEffect(() => {
+        axios.post(`${commanderUrl}/servo/setPanAngle?angle=${panAngle}`)
+        .catch(err => console.log(`Could not set pan angle, reason: ${err}`));
+    }, [panAngle]);
+
+    const handleTiltAngle = async (angle: number = 20, direction: string) => {
+        if (direction == "down") setTiltAngle(prevAngle => prevAngle - angle);
+        else if (direction == "up") setTiltAngle(prevAngle => prevAngle + angle);
+        else console.log(`Invalid direction: ${direction}`);
+    };
+
+    useEffect(() => {
+        axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`)
+        .catch(err => console.log(`Could not set tilt angle, reason: ${err}`));
+    }, [tiltAngle]);
 
     const handleMove = async (direction: string) => {
         try {
@@ -31,13 +55,13 @@ function RobotCommander () {
     };
 
     const handleLedColorChange = async (color: string) => {
-        try {
-            await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
-            setLedColor(color);
-        } catch (error) {
-            console.log(`Could not update LedColor, reason: ${error}`);
-        };
+        setLedColor(color);
     };
+
+    useEffect(() => {
+        axios.post(`${commanderUrl}/led/setAllLeds?color=${ledColor}`)
+        .catch(err => console.log(`Could not change led color, reason: ${err}`));
+    }, [ledColor])
 
     useEffect(() => {
         const url = (
@@ -153,10 +177,32 @@ function RobotCommander () {
             </div>
             <div className={styles.cameraView}>
                 {frame ? (
-                    <img
-                        className={ styles.cameraFrame }
-                        src={frame}
-                    />
+                    <>
+                        <img
+                            className={ styles.cameraFrame }
+                            src={frame}
+                        />
+                        <div className={styles.cameraViewArrows}>
+                            <div className={styles.cameraViewArrowsTop}>
+                                <ChevronUp
+                                    onClick={() => handleTiltAngle(10, "up")}
+                                />
+                            </div>
+                            <div className={styles.cameraViewArrowsMiddles}>
+                                <ChevronLeft 
+                                    onClick={() => handlePanAngle(10, "left")}
+                                />
+                                <ChevronRight
+                                    onClick={() => handlePanAngle(10, "right")}
+                                />
+                            </div>
+                            <div className={styles.cameraViewArrowsTop}>
+                                <ChevronDown
+                                    onClick={() => handleTiltAngle(10, "down")}
+                                />
+                            </div>
+                        </div>
+                    </>
                 ) : <p>Waiting frame...</p>}
             </div>
         </div>
