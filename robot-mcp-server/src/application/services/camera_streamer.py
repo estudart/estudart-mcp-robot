@@ -3,10 +3,10 @@ import json
 
 import cv2 as cv
 import base64
-from ultralytics import YOLO
 
 from src.infrastructure.camera_adapter import CameraAdapter
 from src.infrastructure.web_socket_adapter import WebSocketAdapter
+from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
 
 
 class CameraStreamer:
@@ -14,10 +14,11 @@ class CameraStreamer:
         self,
         camera_adapter: CameraAdapter,
         web_socket_adapter: WebSocketAdapter,
+        image_predictor_adapter: ImagePredictorAdapter,
     ) -> None:
         self._camera_adapter = camera_adapter
         self._web_socket_adapter = web_socket_adapter
-        self._model = YOLO("yolo11n_ncnn_model")
+        self._image_predictor_adapter = image_predictor_adapter
         self._last_result = None
         self._count_frame = 0
     
@@ -38,7 +39,10 @@ class CameraStreamer:
                 frame = self._camera_adapter.get_frame()
 
                 if self._count_frame >= 5:
-                    self._last_result = self._model.predict(frame, show=False)[0]
+                    self._last_result = (
+                        self._image_predictor_adapter
+                        .predict_image(frame=frame)
+                    )
                     self._count_frame = 0
 
                 if self._last_result:
