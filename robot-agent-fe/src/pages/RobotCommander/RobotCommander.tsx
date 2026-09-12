@@ -24,29 +24,26 @@ function RobotCommander () {
     );
 
     const handlePanAngle = async (angle: number = 20, direction: string) => {
-        try {
-            if (direction == "left") {
-                setPanAngle(prevAngle => prevAngle - angle);
-            } else if (direction == "right") {
-                setPanAngle(prevAngle => prevAngle + angle);
-            } else {
-                console.log(`Invalid direction: ${direction}`)
-                return;
-            }
-            const response = await axios.post(
-                `${commanderUrl}/servo/setPanAngle?angle=${panAngle}`
-            );
-            return response.data;
-        } catch (error) {
-            console.log(`Could not set pan angle, reason: ${error}`);
-        };
+        if (direction == "left") setPanAngle(prevAngle => prevAngle - angle);
+        else if (direction == "right") setPanAngle(prevAngle => prevAngle + angle);
+        else console.log(`Invalid direction: ${direction}`);
     };
+
+    useEffect(() => {
+        axios.post(`${commanderUrl}/servo/setPanAngle?angle=${panAngle}`)
+        .catch(err => console.log(`Could not set pan angle, reason: ${err}`));
+    }, [panAngle]);
 
     const handleTiltAngle = async (angle: number = 20, direction: string) => {
         if (direction == "down") setTiltAngle(prevAngle => prevAngle - angle);
         else if (direction == "up") setTiltAngle(prevAngle => prevAngle + angle);
         else console.log(`Invalid direction: ${direction}`);
     };
+
+    useEffect(() => {
+        axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`)
+        .catch(err => console.log(`Could not set tilt angle, reason: ${err}`));
+    }, [tiltAngle]);
 
     const handleMove = async (direction: string) => {
         try {
@@ -58,18 +55,13 @@ function RobotCommander () {
     };
 
     const handleLedColorChange = async (color: string) => {
-        try {
-            await axios.post(`${commanderUrl}/led/setAllLeds?color=${color}`);
-            setLedColor(color);
-        } catch (error) {
-            console.log(`Could not update LedColor, reason: ${error}`);
-        };
+        setLedColor(color);
     };
 
     useEffect(() => {
-        axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`)
-        .catch(err => console.log(`Could not set pan angle, reason: ${err}`));
-    }, [tiltAngle]);
+        axios.post(`${commanderUrl}/led/setAllLeds?color=${ledColor}`)
+        .catch(err => console.log(`Could not change led color, reason: ${err}`));
+    }, [ledColor])
 
     useEffect(() => {
         const url = (
