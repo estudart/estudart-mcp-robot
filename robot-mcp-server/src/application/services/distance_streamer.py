@@ -36,4 +36,4 @@ class DistanceStreamer:
                 print(f"Could not send robot distance, reason: {err}")
                 await asyncio.sleep(10)
 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.3)
