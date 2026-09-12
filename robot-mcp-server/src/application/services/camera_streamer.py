@@ -30,9 +30,12 @@ class CameraStreamer:
         await self.connect_stream()
         print("Starting camera streaming...")
         while True:
-            frame = self._camera_adapter.get_frame()
+            try:
+                frame = self._camera_adapter.get_frame()
 
-            await self._web_socket_adapter.send_message(
-                msg_type="camera-frame",
-                message=self.from_frame_to_b64(frame=frame)
-            )
+                await self._web_socket_adapter.send_message(
+                    msg_type="camera-frame",
+                    message=self.from_frame_to_b64(frame=frame)
+                )
+            except Exception as err:
+                print(f"Could not stream frame, reason: {err}")
