@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Response
 
 from src.dependencies import get_robot_commander
 
-servos_router = APIRouter("/servo")
+servos_router = APIRouter(prefix="/api/servo", tags=["servo"])
 
 @servos_router.post("/set-pan-angle")
 async def set_pan_angle(angle: int):
