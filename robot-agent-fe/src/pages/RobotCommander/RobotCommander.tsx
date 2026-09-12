@@ -43,22 +43,9 @@ function RobotCommander () {
     };
 
     const handleTiltAngle = async (angle: number = 20, direction: string) => {
-        try {
-            if (direction == "down") {
-                setTiltAngle(prevAngle => prevAngle - angle)
-            } else if (direction == "up") {
-                setTiltAngle(prevAngle => prevAngle + angle)
-            } else {
-                console.log(`Invalid direction: ${direction}`)
-                return;
-            }
-            const response = await axios.post(
-                `${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`
-            );
-            return response.data;
-        } catch (error) {
-            console.log(`Could not set tilt angle, reason: ${error}`);
-        };
+        if (direction == "down") setTiltAngle(prevAngle => prevAngle - angle);
+        else if (direction == "up") setTiltAngle(prevAngle => prevAngle + angle);
+        else console.log(`Invalid direction: ${direction}`);
     };
 
     const handleMove = async (direction: string) => {
@@ -78,6 +65,11 @@ function RobotCommander () {
             console.log(`Could not update LedColor, reason: ${error}`);
         };
     };
+
+    useEffect(() => {
+        axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`)
+        .catch(err => console.log(`Could not set pan angle, reason: ${err}`));
+    }, [tiltAngle]);
 
     useEffect(() => {
         const url = (
