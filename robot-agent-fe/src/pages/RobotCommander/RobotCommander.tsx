@@ -35,9 +35,13 @@ function RobotCommander () {
     }, [panAngle]);
 
     const handleTiltAngle = async (angle: number = 20, direction: string) => {
-        if (direction == "down") setTiltAngle(prevAngle => prevAngle - angle);
-        else if (direction == "up") setTiltAngle(prevAngle => prevAngle + angle);
-        else console.log(`Invalid direction: ${direction}`);
+        if (direction == "down") {
+            if (tiltAngle >= 110) return;
+            setTiltAngle(prevAngle => prevAngle - angle);
+        } else if (direction == "up") {
+            if (tiltAngle <= 0) return;
+            setTiltAngle(prevAngle => prevAngle + angle);
+        } else console.log(`Invalid direction: ${direction}`);
     };
 
     useEffect(() => {
