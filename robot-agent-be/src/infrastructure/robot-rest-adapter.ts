@@ -84,7 +84,7 @@ export class RobotRestAdapter implements RobotRestAdapterPort {
     async setPanAngle(angle: number) {
         try {
             const { data } = await axios.post(
-                `${this._apiClientUrl}/servo/set-pan-angle${angle}`
+                `${this._apiClientUrl}/servo/set-pan-angle?angle=${angle}`
             )
             return data;
         } catch (error) {
@@ -95,7 +95,7 @@ export class RobotRestAdapter implements RobotRestAdapterPort {
     async setTiltAngle(angle: number) {
         try {
             const { data } = await axios.post(
-                `${this._apiClientUrl}/servo/set-tilt-angle${angle}`
+                `${this._apiClientUrl}/servo/set-tilt-angle?angle=${angle}`
             )
             return data;
         } catch (error) {
