@@ -34,7 +34,7 @@ function RobotCommander () {
                 console.log(`Invalid direction: ${direction}`)
                 return;
             }
-            const response = await axios.post(`${commanderUrl}/servo/setPanAngle?${angle}`);
+            const response = await axios.post(`${commanderUrl}/servo/setPanAngle?angle=${angle}`);
             setPanAngle(newAngle)
             return response.data;
         } catch (error) {
@@ -53,7 +53,7 @@ function RobotCommander () {
                 console.log(`Invalid direction: ${direction}`)
                 return;
             }
-            const response = await axios.post(`${commanderUrl}/servo/setTiltAngle?${angle}`);
+            const response = await axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${angle}`);
             setTiltAngle(newAngle)
             return response.data;
         } catch (error) {
