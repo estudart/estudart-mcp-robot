@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 function RobotCommander () {
-    const [tiltAngle, setTiltAngle] = useState<number>(0);
-    const [panAngle, setPanAngle] = useState<number>(0);
+    const [tiltAngle, setTiltAngle] = useState<number>(25);
+    const [panAngle, setPanAngle] = useState<number>(90);
     const [distance, setDistance] = useState<string>("0")
     const [frame, setFrame] = useState("");
     const [ledColor, setLedColor] = useState<string>("WHITE");
