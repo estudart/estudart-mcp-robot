@@ -17,7 +17,7 @@ class CameraStreamer:
     ) -> None:
         self._camera_adapter = camera_adapter
         self._web_socket_adapter = web_socket_adapter
-        self._model = YOLO("yolo11n.pt")
+        self._model = YOLO("yolo11n_ncnn_model")
     
     async def connect_stream(self):
         await self._web_socket_adapter.connect()
