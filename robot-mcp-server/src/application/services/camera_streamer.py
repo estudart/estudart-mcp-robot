@@ -39,3 +39,4 @@ class CameraStreamer:
                 )
             except Exception as err:
                 print(f"Could not stream frame, reason: {err}")
+                asyncio.sleep(10)
