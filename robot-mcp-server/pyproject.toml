@@ -52,6 +52,7 @@ dependencies = [
     "packaging==26.3",
     "pathable==0.6.0",
     "platformdirs==4.11.5",
+    "pnnx>=20260526",
     "py-key-value-aio==0.4.5",
     "pycparser==3.0",
     "pydantic==2.13.5",
