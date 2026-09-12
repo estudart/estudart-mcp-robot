@@ -18,6 +18,7 @@ class CameraStreamer:
         self._camera_adapter = camera_adapter
         self._web_socket_adapter = web_socket_adapter
         self._model = YOLO("yolo11n_ncnn_model")
+        self._last_result = None
         self._count_frame = 0
     
     async def connect_stream(self):
@@ -37,9 +38,11 @@ class CameraStreamer:
                 frame = self._camera_adapter.get_frame()
 
                 if self._count_frame >= 5:
-                    results = self._model.predict(frame, show=False)
-                    frame = results[0].plot()
+                    self._last_result = self._model.predict(frame, show=False)[0]
                     self._count_frame = 0
+
+                if self._last_result:
+                    frame = self._last_result.plot(img=frame)
 
                 await self._web_socket_adapter.send_message(
                     msg_type="camera-frame",
@@ -48,4 +51,4 @@ class CameraStreamer:
                 self._count_frame+=1
             except Exception as err:
                 print(f"Could not stream frame, reason: {err}")
-                asyncio.sleep(10)
+                await asyncio.sleep(10)
