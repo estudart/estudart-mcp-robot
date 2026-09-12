@@ -53,15 +53,6 @@ function RobotCommander () {
         .catch(err => console.log(`Could not set tilt angle, reason: ${err}`));
     }, [tiltAngle]);
 
-    const handleMove = async (direction: string) => {
-        try {
-            const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
-            return moveResponse.data;
-        } catch (error) {
-            console.log(`Could not move robot, reason: ${error}`);
-        };
-    };
-
     const handleLedColorChange = async (color: string) => {
         setLedColor(color);
     };
@@ -70,6 +61,15 @@ function RobotCommander () {
         axios.post(`${commanderUrl}/led/setAllLeds?color=${ledColor}`)
         .catch(err => console.log(`Could not change led color, reason: ${err}`));
     }, [ledColor])
+
+    const handleMove = async (direction: string) => {
+        try {
+            const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
+            return moveResponse.data;
+        } catch (error) {
+            console.log(`Could not move robot, reason: ${error}`);
+        };
+    };
 
     useEffect(() => {
         const url = (
