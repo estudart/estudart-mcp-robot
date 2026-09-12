@@ -201,20 +201,20 @@ function RobotCommander () {
                         <div className={styles.cameraViewArrows}>
                             <div className={styles.cameraViewArrowsTop}>
                                 <ChevronUp
-                                    onClick={() => handleTiltAngle(20, "up")}
+                                    onClick={() => handleTiltAngle(10, "up")}
                                 />
                             </div>
                             <div className={styles.cameraViewArrowsMiddles}>
                                 <ChevronLeft 
-                                    onClick={() => handlePanAngle(20, "left")}
+                                    onClick={() => handlePanAngle(10, "left")}
                                 />
                                 <ChevronRight
-                                    onClick={() => handlePanAngle(20, "right")}
+                                    onClick={() => handlePanAngle(10, "right")}
                                 />
                             </div>
                             <div className={styles.cameraViewArrowsTop}>
                                 <ChevronDown
-                                    onClick={() => handleTiltAngle(20, "down")}
+                                    onClick={() => handleTiltAngle(10, "down")}
                                 />
                             </div>
                         </div>
