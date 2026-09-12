@@ -191,31 +191,35 @@ function RobotCommander () {
                     </button>
                 </div>
             </div>
-            {/* <div className={styles.cameraView}>
-                {frame ? (
-                    <img
-                        className={ styles.cameraFrame }
-                        src={frame}
-                    />
-                ) : <p>Waiting frame...</p>}
-            </div> */}
             <div className={styles.cameraView}>
-                <img
-                    className={ styles.cameraFrame }
-                    src="https://picsum.photos/id/237/200/300"
-                />
-                <div className={styles.cameraViewArrows}>
-                    <div className={styles.cameraViewArrowsTop}>
-                        <ChevronUp />
-                    </div>
-                    <div className={styles.cameraViewArrowsMiddles}>
-                        <ChevronLeft />
-                        <ChevronRight />
-                    </div>
-                    <div className={styles.cameraViewArrowsTop}>
-                        <ChevronDown/>
-                    </div>
-                </div>
+                {frame ? (
+                    <>
+                        <img
+                            className={ styles.cameraFrame }
+                            src={frame}
+                        />
+                        <div className={styles.cameraViewArrows}>
+                            <div className={styles.cameraViewArrowsTop}>
+                                <ChevronUp
+                                    onClick={() => handleTiltAngle(20, "up")}
+                                />
+                            </div>
+                            <div className={styles.cameraViewArrowsMiddles}>
+                                <ChevronLeft 
+                                    onClick={() => handlePanAngle(20, "left")}
+                                />
+                                <ChevronRight
+                                    onClick={() => handlePanAngle(20, "right")}
+                                />
+                            </div>
+                            <div className={styles.cameraViewArrowsTop}>
+                                <ChevronDown
+                                    onClick={() => handleTiltAngle(20, "down")}
+                                />
+                            </div>
+                        </div>
+                    </>
+                ) : <p>Waiting frame...</p>}
             </div>
         </div>
     )
