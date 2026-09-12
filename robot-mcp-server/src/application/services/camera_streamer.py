@@ -3,6 +3,7 @@ import json
 
 import cv2 as cv
 import base64
+from ultralytics import YOLO
 
 from src.infrastructure.camera_adapter import CameraAdapter
 from src.infrastructure.web_socket_adapter import WebSocketAdapter
@@ -16,6 +17,7 @@ class CameraStreamer:
     ) -> None:
         self._camera_adapter = camera_adapter
         self._web_socket_adapter = web_socket_adapter
+        self._model = YOLO("yolo11n.pt")
     
     async def connect_stream(self):
         await self._web_socket_adapter.connect()
@@ -32,10 +34,12 @@ class CameraStreamer:
         while True:
             try:
                 frame = self._camera_adapter.get_frame()
+                results = self._model.predict(frame, show=False)
+                annotated_frame = results[0].plot()
 
                 await self._web_socket_adapter.send_message(
                     msg_type="camera-frame",
-                    message=self.from_frame_to_b64(frame=frame)
+                    message=self.from_frame_to_b64(frame=annotated_frame)
                 )
             except Exception as err:
                 print(f"Could not stream frame, reason: {err}")
