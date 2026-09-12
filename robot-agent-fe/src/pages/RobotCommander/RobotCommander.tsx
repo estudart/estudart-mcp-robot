@@ -34,7 +34,7 @@ function RobotCommander () {
                 return;
             }
             const response = await axios.post(
-                `${commanderUrl}/servo/setPanAngle?angle=${angle}`
+                `${commanderUrl}/servo/setPanAngle?angle=${panAngle}`
             );
             return response.data;
         } catch (error) {
@@ -53,7 +53,7 @@ function RobotCommander () {
                 return;
             }
             const response = await axios.post(
-                `${commanderUrl}/servo/setTiltAngle?angle=${angle}`
+                `${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`
             );
             return response.data;
         } catch (error) {
