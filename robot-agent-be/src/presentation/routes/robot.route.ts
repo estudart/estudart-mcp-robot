@@ -45,7 +45,7 @@ robotCommanderRoutes.post('/led/setAllLeds', (req: Request, res: Response) => {
 });
 
 robotCommanderRoutes.post("/servo/setPanAngle", (req: Request, res: Response) => {
-    const { angle } = req.body;
+    const { angle } = req.query;
     const casted = Number(angle);
     if (angle !== undefined && !Number.isNaN(casted)) {
         runCommand(res, () => robotCommanderService.setPanAngle(Number(angle)));
@@ -57,7 +57,7 @@ robotCommanderRoutes.post("/servo/setPanAngle", (req: Request, res: Response) =>
 });
 
 robotCommanderRoutes.post("/servo/setTiltAngle", (req: Request, res: Response) => {
-    const { angle } = req.body;
+    const { angle } = req.query;
     const casted = Number(angle);
     if (angle !== undefined && !Number.isNaN(casted)) {
         runCommand(res, () => robotCommanderService.setTiltAngle(Number(angle)));
