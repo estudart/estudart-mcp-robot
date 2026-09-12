@@ -1,6 +1,7 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
 import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 function RobotCommander () {
     const [tiltAngle, setTiltAngle] = useState<number>(0);
@@ -190,13 +191,31 @@ function RobotCommander () {
                     </button>
                 </div>
             </div>
-            <div className={styles.cameraView}>
+            {/* <div className={styles.cameraView}>
                 {frame ? (
                     <img
                         className={ styles.cameraFrame }
                         src={frame}
                     />
                 ) : <p>Waiting frame...</p>}
+            </div> */}
+            <div className={styles.cameraView}>
+                <img
+                    className={ styles.cameraFrame }
+                    src="https://picsum.photos/id/237/200/300"
+                />
+                <div className={styles.cameraViewArrows}>
+                    <div className={styles.cameraViewArrowsTop}>
+                        <ChevronUp />
+                    </div>
+                    <div className={styles.cameraViewArrowsMiddles}>
+                        <ChevronLeft />
+                        <ChevronRight />
+                    </div>
+                    <div className={styles.cameraViewArrowsTop}>
+                        <ChevronDown/>
+                    </div>
+                </div>
             </div>
         </div>
     )
