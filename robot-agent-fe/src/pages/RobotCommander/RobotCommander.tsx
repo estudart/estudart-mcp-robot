@@ -25,17 +25,17 @@ function RobotCommander () {
 
     const handlePanAngle = async (angle: number = 20, direction: string) => {
         try {
-            let newAngle: number;
             if (direction == "left") {
-                newAngle = panAngle - angle;
+                setPanAngle(prevAngle => prevAngle - angle);
             } else if (direction == "right") {
-                newAngle = panAngle + angle;
+                setPanAngle(prevAngle => prevAngle + angle);
             } else {
                 console.log(`Invalid direction: ${direction}`)
                 return;
             }
-            const response = await axios.post(`${commanderUrl}/servo/setPanAngle?angle=${angle}`);
-            setPanAngle(newAngle)
+            const response = await axios.post(
+                `${commanderUrl}/servo/setPanAngle?angle=${angle}`
+            );
             return response.data;
         } catch (error) {
             console.log(`Could not set pan angle, reason: ${error}`);
@@ -44,17 +44,17 @@ function RobotCommander () {
 
     const handleTiltAngle = async (angle: number = 20, direction: string) => {
         try {
-            let newAngle: number;
             if (direction == "down") {
-                newAngle = tiltAngle - angle;
+                setTiltAngle(prevAngle => prevAngle - angle)
             } else if (direction == "up") {
-                newAngle = tiltAngle + angle;
+                setTiltAngle(prevAngle => prevAngle + angle)
             } else {
                 console.log(`Invalid direction: ${direction}`)
                 return;
             }
-            const response = await axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${angle}`);
-            setTiltAngle(newAngle)
+            const response = await axios.post(
+                `${commanderUrl}/servo/setTiltAngle?angle=${angle}`
+            );
             return response.data;
         } catch (error) {
             console.log(`Could not set tilt angle, reason: ${error}`);
