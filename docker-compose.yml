@@ -5,18 +5,16 @@ services:
       dockerfile: src/application/servers/mcp_server/Dockerfile
     container_name: robot-mcp-server
     restart: unless-stopped
-    environment:
-      - WS_SERVER_URL=ws://robot-agent-be:8080
     ports:
       - "8000:8000"
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:8000/health"]
       interval: 30s
       timeout: 3s
       retries: 5
       start_period: 10s
-    devices:
-      - "/dev/i2c-1:/dev/i2c-1"
 
   robot-agent-be:
     build:
@@ -42,16 +40,30 @@ services:
       robot-mcp-server:
         condition: service_healthy
 
-  robot-streamer:
+  robot-camera-streamer:
     build:
       context: ./robot-mcp-server
-      dockerfile: src/application/servers/streamer/Dockerfile
-    container_name: robot-streamer
+      dockerfile: src/application/servers/camera_streamer/Dockerfile
+    container_name: robot-camera-streamer
     restart: unless-stopped
     environment:
       - WS_SERVER_URL=ws://robot-agent-be:8080
     devices:
       - "/dev/video0:/dev/video0"
+    depends_on:
+      robot-agent-be:
+        condition: service_healthy
+
+  robot-distance-streamer:
+    build:
+      context: ./robot-mcp-server
+      dockerfile: src/application/servers/distance_streamer/Dockerfile
+    container_name: robot-distance-streamer
+    restart: unless-stopped
+    environment:
+      - WS_SERVER_URL=ws://robot-agent-be:8080
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
     depends_on:
       robot-agent-be:
         condition: service_healthy
@@ -68,5 +80,7 @@ services:
     ports:
       - "5173:80"
     depends_on:
-      robot-streamer:
+      robot-camera-streamer:
+        condition: service_started
+      robot-distance-streamer:
         condition: service_started
