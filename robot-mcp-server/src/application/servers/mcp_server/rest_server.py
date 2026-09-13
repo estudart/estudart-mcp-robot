@@ -10,17 +10,9 @@ from src.presentation.routes.led_routes import led_router
 from src.presentation.routes.servos_routes import servos_router
 from src.application.servers.mcp_server.mcp_server import mcp
 
-@asynccontextmanager
-async def app_lifespan(app: FastAPI):
-    service = get_distance_streamer()
-    task = asyncio.create_task(service.stream_distance())
-    yield
-    task.cancel()
-
 mcp_app = mcp.http_app()
 
-app = FastAPI(title="Robot REST API", lifespan=combine_lifespans(
-    app_lifespan, mcp_app.lifespan))
+app = FastAPI(title="Robot REST API", lifespan=mcp_app.lifespan)
 
 app.include_router(move_router)
 app.include_router(health_router)

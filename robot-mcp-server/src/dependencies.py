@@ -9,6 +9,7 @@ from src.infrastructure.camera_adapter import CameraAdapter
 from src.infrastructure.web_socket_adapter import WebSocketAdapter
 from src.application.services.camera_streamer import CameraStreamer
 from src.application.services.distance_streamer import DistanceStreamer
+from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
 
 _documenation_file_path = "README.md"
 _robot_adapter: RobotAdapter = None
@@ -19,6 +20,7 @@ _camera_adapter: CameraAdapter = None
 _web_socket_adapter: WebSocketAdapter = None
 _camera_streamer: CameraStreamer = None
 _distance_streamer: DistanceStreamer = None
+_image_predictor_adapter: ImagePredictorAdapter = None
 
 WS_SERVER_URL = os.getenv("WS_SERVER_URL", "ws://localhost:8080")
 
@@ -65,12 +67,19 @@ def get_web_socket_adapter() -> WebSocketAdapter:
         _web_socket_adapter = WebSocketAdapter(uri=WS_SERVER_URL)
     return _web_socket_adapter
 
+def get_image_predictor_adapter() -> ImagePredictorAdapter:
+    global _image_predictor_adapter
+    if not _image_predictor_adapter:
+        _image_predictor_adapter = ImagePredictorAdapter()
+    return _image_predictor_adapter
+
 def get_camera_streamer() -> CameraStreamer:
     global _camera_streamer
     if not _camera_streamer:
         _camera_streamer = CameraStreamer(
             camera_adapter=get_camera_adapter(),
-            web_socket_adapter=get_web_socket_adapter()
+            web_socket_adapter=get_web_socket_adapter(),
+            image_predictor_adapter=get_image_predictor_adapter()
         )
     return _camera_streamer
 
@@ -79,6 +88,6 @@ def get_distance_streamer() -> DistanceStreamer:
     if not _distance_streamer:
         _distance_streamer = DistanceStreamer(
             robot_adapter=get_robot_adapter(),
-            web_socket_adapter=get_web_socket_adapter()
+            web_socket_adapter=get_web_socket_adapter(),
         )
     return _distance_streamer

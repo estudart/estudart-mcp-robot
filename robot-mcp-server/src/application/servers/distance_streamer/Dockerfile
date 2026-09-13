@@ -16,4 +16,4 @@ COPY . .
 
 RUN uv sync --frozen --no-cache
 
-CMD ["uv", "run", "python", "-m", "src.application.servers.streamer.streamer"]
+CMD ["uv", "run", "python", "-m", "src.application.servers.distance_streamer.streamer"]
