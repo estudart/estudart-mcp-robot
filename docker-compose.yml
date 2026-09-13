@@ -48,6 +48,7 @@ services:
     restart: unless-stopped
     environment:
       - WS_SERVER_URL=ws://robot-agent-be:8080
+      - SHOULD_PREDICT=false
     devices:
       - "/dev/video0:/dev/video0"
     depends_on:
