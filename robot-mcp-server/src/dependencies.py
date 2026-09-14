@@ -10,6 +10,7 @@ from src.infrastructure.web_socket_adapter import WebSocketAdapter
 from src.application.services.camera_streamer import CameraStreamer
 from src.application.services.distance_streamer import DistanceStreamer
 from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
+from src.config import settings
 
 _documenation_file_path = "README.md"
 _robot_adapter: RobotAdapter = None
@@ -22,7 +23,8 @@ _camera_streamer: CameraStreamer = None
 _distance_streamer: DistanceStreamer = None
 _image_predictor_adapter: ImagePredictorAdapter = None
 
-WS_SERVER_URL = os.getenv("WS_SERVER_URL", "ws://localhost:8080")
+WS_SERVER_URL = settings.WS_SERVER_URL
+SHOULD_PREDICT = settings.SHOULD_PREDICT
 
 def get_robot_adapter() -> RobotAdapter:
     global _robot_adapter
@@ -79,7 +81,8 @@ def get_camera_streamer() -> CameraStreamer:
         _camera_streamer = CameraStreamer(
             camera_adapter=get_camera_adapter(),
             web_socket_adapter=get_web_socket_adapter(),
-            image_predictor_adapter=get_image_predictor_adapter()
+            image_predictor_adapter=get_image_predictor_adapter(),
+            should_predict=SHOULD_PREDICT
         )
     return _camera_streamer
 
