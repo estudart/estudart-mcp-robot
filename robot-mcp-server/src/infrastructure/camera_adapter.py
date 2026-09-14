@@ -12,7 +12,7 @@ class CameraAdapter:
         ret, frame = self._cap.read()
         return frame
     
-    def from_frame_to_b64(self, frame) -> None:
+    def from_frame_to_b64(self, frame) -> str:
         _, buffer = cv.imencode('.jpg', frame)
         b64_string = base64.b64encode(buffer).decode('utf-8')
         return b64_string
