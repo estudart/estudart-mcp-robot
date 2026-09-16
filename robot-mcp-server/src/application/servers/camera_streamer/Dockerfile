@@ -7,13 +7,16 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 WORKDIR /app
 
 ENV PATH="/app/.venv/bin:$PATH"
+ENV UV_LINK_MODE=copy
 
 COPY pyproject.toml uv.lock ./
 
-RUN uv sync --frozen --no-cache --no-install-project
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project
 
 COPY . .
 
-RUN uv sync --frozen --no-cache
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen
 
 CMD ["uv", "run", "python", "-m", "src.application.servers.camera_streamer.streamer"]

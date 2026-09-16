@@ -75,8 +75,11 @@ dependencies = [
     "smbus2==0.6.1",
     "sse-starlette==3.4.8",
     "starlette==1.6.0",
+    "torch==2.14.0",
+    "torchvision==0.29.0",
     "typing-extensions==4.16.0",
     "typing-inspection==0.4.4",
+    "ultralytics>=8.4.150",
     "uncalled-for==0.4.0",
     "uvicorn==0.52.4",
     "watchfiles==1.2.0",
@@ -85,3 +88,15 @@ dependencies = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+
+[tool.uv]
+exclude-dependencies = ["nvidia-ml-py"]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
