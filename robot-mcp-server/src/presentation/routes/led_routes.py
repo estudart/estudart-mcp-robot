@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import APIRouter, HTTPException
 from src.dependencies import get_robot_commander, get_speak_service
 
@@ -9,7 +11,7 @@ async def set_all_leds(color: str):
     print(color)
     try:
         get_robot_commander().set_all_leds(color=color)
-        get_speak_service().speak(f"Turning all LEDs to {color}")
+        asyncio.create_task(get_speak_service().speak(f"Turning all LEDs to {color}"))
         return {"status": "ok"}
     except Exception as err:
         raise HTTPException(status_code=404, detail=f"{err}")
