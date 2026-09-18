@@ -10,7 +10,7 @@ async def set_all_leds(background_tasks: BackgroundTasks, color: str):
     try:
         get_robot_commander().set_all_leds(color=color)
         background_tasks.add_task(
-            get_speak_service().speak(f"Turning all LEDs to {color}")
+            get_speak_service().speak, f"Turning all LEDs to {color}"
         )
         return {"status": "ok"}
     except Exception as err:
