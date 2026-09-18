@@ -3,7 +3,6 @@ import { ChatOpenAI } from "@langchain/openai";
 import { MCPAdapter } from "../../infrastructure/mcp-adapter.js";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { RobotAgentPort } from "../ports/robot-agent.port.js";
-import { ContentBlock } from "langchain";
 
 export class RobotAgent implements RobotAgentPort {
     _systemPrompt: string;
@@ -44,7 +43,7 @@ export class RobotAgent implements RobotAgentPort {
         });
     }
 
-    async invokeAgent(question: string): Promise<string | (ContentBlock | Text)[] | undefined> {
+    async invokeAgent(question: string): Promise<any> {
         const response = await this._agent.invoke({
             messages: [{ role: "user", content: question }],
         })

@@ -4,6 +4,8 @@ from pathlib import Path
 from src.infrastructure.robot_engine_adapter import RobotAdapter
 from src.application.services.robot_commander_service import RobotCommander
 from src.infrastructure.file_reader_adapter import FileReaderAdapter
+from src.infrastructure.speech_adapter import SpeechAdapter
+from src.application.services.speak_service import SpeakService
 from src.application.services.file_reader_service import FileReaderService
 from src.infrastructure.camera_adapter import CameraAdapter
 from src.infrastructure.web_socket_adapter import WebSocketAdapter
@@ -18,6 +20,8 @@ _robot_commander_service: RobotCommander = None
 _file_reader_adapter: FileReaderAdapter = None
 _file_reader_service: FileReaderService = None
 _camera_adapter: CameraAdapter = None
+_speech_adapter: SpeechAdapter = None
+_speak_service: SpeakService = None
 _web_socket_adapter: WebSocketAdapter = None
 _camera_streamer: CameraStreamer = None
 _distance_streamer: DistanceStreamer = None
@@ -62,6 +66,20 @@ def get_camera_adapter() -> CameraAdapter:
     if not _camera_adapter:
         _camera_adapter = CameraAdapter()
     return _camera_adapter
+
+def get_speech_adapter() -> SpeechAdapter:
+    global _speech_adapter
+    if not _speech_adapter:
+        _speech_adapter = SpeechAdapter()
+    return _speech_adapter
+
+def get_speak_service() -> SpeakService:
+    global _speak_service
+    if not _speak_service:
+        _speak_service = SpeakService(
+            speech_adapter=get_speech_adapter()
+        )
+    return _speak_service
 
 def get_web_socket_adapter() -> WebSocketAdapter:
     global _web_socket_adapter

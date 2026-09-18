@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import APIRouter, HTTPException, Response
 
 from src.dependencies import get_robot_commander
@@ -9,6 +11,7 @@ async def set_pan_angle(angle: int):
     service = get_robot_commander()
     try:
         service.set_pan_angle(angle=angle)
+        print(f"Set pan angle to {angle}")
         return Response(
             content="Pan angle updated!",
             status_code=200
@@ -25,6 +28,7 @@ def set_tilt_angle(angle: int):
     service = get_robot_commander()
     try:
         service.set_tilt_angle(angle=angle)
+        print(f"Set tilt angle to {angle}")
         return Response(
             content="Tilt angle updated",
             status_code=200
@@ -40,6 +44,7 @@ def servo_home():
     service = get_robot_commander()
     try:
         service.servo_home()
+        print("Set angle to home")
         return Response(
             content="Servo angle set to home!",
             status_code=200

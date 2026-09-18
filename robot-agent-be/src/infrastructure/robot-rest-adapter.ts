@@ -113,4 +113,15 @@ export class RobotRestAdapter implements RobotRestAdapterPort {
             throw new RobotError("Could not set servo to home angle")
         }
     }
+
+    async speak(text: string) {
+        try {
+            const { data } = await axios.post(
+                `${this._apiClientUrl}/speak?text=${text}`,
+            );
+            return data;
+        } catch (error) {
+            throw new RobotError("Could not speak text");
+        };
+    };
 }

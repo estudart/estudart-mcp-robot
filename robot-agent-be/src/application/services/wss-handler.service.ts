@@ -53,8 +53,10 @@ export class WebSocketService {
                         const question = data.question;
 
                         response = await this._robotAssistent.invoke(agent, question);
-
-                        ws.send(JSON.stringify({ type: "response", message: response, agent }))
+                        if (response !== undefined) {
+                            await this._robotAssistent.speak(response);
+                            ws.send(JSON.stringify({ type: "response", message: response, agent }))
+                        }
                     };
                 } catch (error) {
                     if (error instanceof UnknownAgentError) {

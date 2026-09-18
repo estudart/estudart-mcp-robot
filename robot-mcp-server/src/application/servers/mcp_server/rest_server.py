@@ -3,11 +3,11 @@ from fastmcp.utilities.lifespan import combine_lifespans
 from contextlib import asynccontextmanager
 import asyncio
 
-from src.dependencies import get_distance_streamer
 from src.presentation.routes.move_routes import move_router
 from src.presentation.routes.health_route import health_router
 from src.presentation.routes.led_routes import led_router
 from src.presentation.routes.servos_routes import servos_router
+from src.presentation.routes.speak_routes import speak_router
 from src.application.servers.mcp_server.mcp_server import mcp
 
 @asynccontextmanager
@@ -25,6 +25,7 @@ app.include_router(move_router)
 app.include_router(health_router)
 app.include_router(led_router)
 app.include_router(servos_router)
+app.include_router(speak_router)
 
 print("Starting MCP Server...")
 
