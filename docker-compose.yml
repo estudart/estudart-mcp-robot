@@ -9,7 +9,7 @@ services:
       - "8000:8000"
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
-      - "/dev/snd:/dev/snd"
+      - "/dev/shm:/dev/shm"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:8000/health"]
       interval: 30s
