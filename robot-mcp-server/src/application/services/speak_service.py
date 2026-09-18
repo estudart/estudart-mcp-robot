@@ -8,5 +8,6 @@ class SpeakService:
     ) -> None:
         self._speech_adapter = speech_adapter
     
-    def speak(self, text: str):
+    def speak(self, text: str) -> True:
         self._speech_adapter.speak(text=text)
+        return True
