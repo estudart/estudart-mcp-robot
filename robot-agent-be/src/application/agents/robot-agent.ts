@@ -43,7 +43,7 @@ export class RobotAgent implements RobotAgentPort {
         });
     }
 
-    async invokeAgent(question: string): Promise<string | undefined> {
+    async invokeAgent(question: string): Promise<any> {
         const response = await this._agent.invoke({
             messages: [{ role: "user", content: question }],
         })
