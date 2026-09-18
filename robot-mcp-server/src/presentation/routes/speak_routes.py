@@ -2,7 +2,7 @@ from fastapi import APIRouter, Response, HTTPException
 
 from src.dependencies import get_speak_service
 
-speak_router = APIRouter("/api", tags=["speak"])
+speak_router = APIRouter(prefix="/api", tags=["speak"])
 
 
 @speak_router.post("/speak")
