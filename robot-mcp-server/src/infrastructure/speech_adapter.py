@@ -9,7 +9,7 @@ class SpeechAdapter:
             return
         
         subprocess.run([
-            "espeak",
+            "espeak-ng",
             "-a", "200",
             "-s", "160",
             text
