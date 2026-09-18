@@ -2,13 +2,13 @@ import subprocess
 
 
 class SpeechAdapter:
-    async def speak(self, text: str) -> None:
+    def speak(self, text: str) -> None:
         text = str(text).strip()
         if not text:
             print("Did not receive a valid text")
             return
         
-        await subprocess.run([
+        subprocess.run([
             "espeak-ng",
             "-d", "plughw:CARD=Device,DEV=0",
             "-a", "200",

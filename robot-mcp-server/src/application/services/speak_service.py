@@ -8,9 +8,9 @@ class SpeakService:
     ) -> None:
         self._speech_adapter = speech_adapter
     
-    async def speak(self, text: str) -> bool:
+    def speak(self, text: str) -> bool:
         try:
-            await self._speech_adapter.speak(text=text)
+            self._speech_adapter.speak(text=text)
             return True
         except Exception as err:
             print(f"Could not play audio, reason: {err}")
