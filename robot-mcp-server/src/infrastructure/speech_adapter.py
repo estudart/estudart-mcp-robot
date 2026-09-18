@@ -1,5 +1,3 @@
-import asyncio
-
 import subprocess
 
 
@@ -10,11 +8,10 @@ class SpeechAdapter:
             print("Did not receive a valid text")
             return
         
-        process = await asyncio.create_subprocess_exec(
+        subprocess.run([
             "espeak-ng",
             "-d", "plughw:CARD=Device,DEV=0",
             "-a", "200",
             "-s", "160",
             text
-        )
-        await process.wait()
+        ])
