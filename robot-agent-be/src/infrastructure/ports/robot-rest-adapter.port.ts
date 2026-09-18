@@ -11,4 +11,5 @@ export interface RobotRestAdapterPort {
     setPanAngle(angle: number): Promise<AxiosResponse<any, any, {}, any>>;
     setTiltAngle(angle: number): Promise<AxiosResponse<any, any, {}, any>>;
     setServoHome(): Promise<AxiosResponse<any, any, {}, any>>;
+    speak(text: string): Promise<AxiosResponse<any, any, {}, any>>;
 }
