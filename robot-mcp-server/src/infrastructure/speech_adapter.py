@@ -10,6 +10,7 @@ class SpeechAdapter:
         
         subprocess.run([
             "espeak-ng",
+            "-d", "plughw:CARD=Device,DEV=0",
             "-a", "200",
             "-s", "160",
             text
