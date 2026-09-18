@@ -1,35 +1,34 @@
-from fastapi import APIRouter, BackgroundTasks
-from src.dependencies import get_robot_commander, get_speak_service
+from fastapi import APIRouter
+from src.dependencies import get_robot_commander
 
 move_router = APIRouter(prefix="/api/move", tags=["move"])
 
 @move_router.post("/forward")
-async def move_forward(background_tasks: BackgroundTasks):
+async def move_forward():
     get_robot_commander().move_forward()
-    background_tasks.add_task(get_speak_service().speak, "Moving forward!")
+    print("Moving forward!")
     return {"status": "ok"}
 
 @move_router.post("/backward")
-async def move_backward(background_tasks: BackgroundTasks):
+async def move_backward():
     get_robot_commander().move_backward()
-    background_tasks.add_task(get_speak_service().speak, "Moving backward!")
+    print("Moving backward!")
     return {"status": "ok"}
 
 @move_router.post("/turn-left")
-async def turn_left(background_tasks: BackgroundTasks):
+async def turn_left():
     get_robot_commander().turn_left()
-    background_tasks.add_task(get_speak_service().speak, "Turning left!")
+    print("Turning left!")
     return {"status": "ok"}
 
 @move_router.post("/turn-right")
-async def turn_right(background_tasks: BackgroundTasks):
+async def turn_right():
     get_robot_commander().turn_right()
-    background_tasks.add_task(get_speak_service().speak, "Turning right!")
+    print("Turning right!")
     return {"status": "ok"}
 
 @move_router.post("/stop")
-async def move_forward(background_tasks: BackgroundTasks):
+async def move_forward():
     get_robot_commander().stop()
-    background_tasks.add_task(get_speak_service().speak, "Stopping...")
-
+    print("Stopping...")
     return {"status": "ok"}
