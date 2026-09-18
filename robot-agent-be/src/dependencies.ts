@@ -38,7 +38,7 @@ const architectureAgent = new RobotAgent(
     pick(ARCHITECTURE_AGENT_TOOLS),
 )
 
-const robotAssistent = new RobotAssistent(robotAgent, architectureAgent);
+const robotAssistent = new RobotAssistent(robotRestAdapter, robotAgent, architectureAgent);
 
 async function getClient(url: string) {
     const transport = new StreamableHTTPClientTransport(new URL(url));
