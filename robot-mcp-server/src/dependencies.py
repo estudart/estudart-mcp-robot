@@ -48,6 +48,7 @@ def get_robot_commander() -> RobotCommander:
     global _robot_commander_service
     if not _robot_commander_service:
         _robot_commander_service = RobotCommander(
+            logger_service=get_logger_service(),
             robot_adapter=get_robot_adapter()
         )
     return _robot_commander_service

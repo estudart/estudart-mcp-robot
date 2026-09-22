@@ -3,10 +3,16 @@ import time
 from raspbot.types import LedColor
 
 from src.infrastructure.robot_engine_adapter import RobotAdapter
+from src.application.services.logging_service import LoggerService
 
 
 class RobotCommander:
-    def __init__(self, robot_adapter: RobotAdapter):
+    def __init__(
+        self,
+        logger_service: LoggerService,
+        robot_adapter: RobotAdapter
+    ) -> None:
+        self._logger_service = logger_service
         self._robot_adapter = robot_adapter
         self._color_map = {
             "RED": LedColor.RED,
@@ -23,7 +29,7 @@ class RobotCommander:
             return self._robot_adapter.leds_off()
         if color.upper() not in self._color_map:
             error_msg = f"Color {color}, is not valid"
-            print(error_msg)
+            self._logger_service._logger.error(error_msg)
             raise ValueError(error_msg)
         get_color = self._color_map[color.upper()]
         return self._robot_adapter.set_all_leds(get_color)
