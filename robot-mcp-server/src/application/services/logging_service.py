@@ -8,5 +8,8 @@ class LoggerService:
         self._level = level
         self._logger.setLevel(self._level)
 
-    def log_message(self, message: str) -> None:
+    def log_info_message(self, message: str) -> None:
         self._logger.info(message)
+
+    def log_error_message(self, message: str) -> None:
+        self._logger.error(message)
