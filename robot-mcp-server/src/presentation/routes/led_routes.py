@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from src.dependencies import get_robot_commander
+from src.dependencies import get_robot_commander, get_logger_service
 
 led_router = APIRouter(prefix="/api/led", tags=["led"])
 
@@ -8,7 +8,7 @@ async def set_all_leds(color: str):
     color = color.upper()
     try:
         get_robot_commander().set_all_leds(color=color)
-        print(f"Turning all LEDs to {color}")
+        get_logger_service().log_info_message(f"Turning all LEDs to {color}")
         return {"status": "ok"}
     except Exception as err:
         raise HTTPException(status_code=404, detail=f"{err}")
