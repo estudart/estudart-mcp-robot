@@ -86,6 +86,7 @@ def get_speak_service() -> SpeakService:
     global _speak_service
     if not _speak_service:
         _speak_service = SpeakService(
+            logger_service=get_logger_service(),
             speech_adapter=get_speech_adapter()
         )
     return _speak_service
