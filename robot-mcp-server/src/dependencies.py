@@ -12,6 +12,7 @@ from src.infrastructure.web_socket_adapter import WebSocketAdapter
 from src.application.services.camera_streamer import CameraStreamer
 from src.application.services.distance_streamer import DistanceStreamer
 from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
+from src.application.services.logging_service import LoggerService
 from src.config import settings
 
 _documenation_file_path = "README.md"
@@ -26,9 +27,16 @@ _web_socket_adapter: WebSocketAdapter = None
 _camera_streamer: CameraStreamer = None
 _distance_streamer: DistanceStreamer = None
 _image_predictor_adapter: ImagePredictorAdapter = None
+_logger_service: LoggerService = None
 
 WS_SERVER_URL = settings.WS_SERVER_URL
 SHOULD_PREDICT = settings.SHOULD_PREDICT
+
+def get_logger_service() -> LoggerService:
+    global _logger_service
+    if not _logger_service:
+        _logger_service = LoggerService()
+    return _logger_service
 
 def get_robot_adapter() -> RobotAdapter:
     global _robot_adapter
