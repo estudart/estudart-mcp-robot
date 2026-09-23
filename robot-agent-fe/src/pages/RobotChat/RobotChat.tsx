@@ -3,7 +3,7 @@ import useWebSocket from "../../hooks/webSocketHook";
 import ChatMessages from "../../components/ChatMessages";
 import styles from "../RobotChat/RobotChat.module.css"
 
-export default function RobotChat() {
+function RobotChat() {
     const [message, setMessage] = useState("");
     const [history, setHistory] = useState<Record<string, string | boolean>[]>([]);
     const [agent, setAgent] = useState<string>("robot-agent");
@@ -65,3 +65,5 @@ export default function RobotChat() {
         </div>
     )
 }
+
+export default RobotChat;
