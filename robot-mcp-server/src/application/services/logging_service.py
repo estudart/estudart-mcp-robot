@@ -4,6 +4,7 @@ import logging
 
 class LoggerService:
     def __init__(self, level):
+        logging.basicConfig()
         self._logger = logging.getLogger("Robot MCP Server")
         self._level = level
         self._logger.setLevel(self._level)
