@@ -119,6 +119,7 @@ def get_distance_streamer() -> DistanceStreamer:
     global _distance_streamer
     if not _distance_streamer:
         _distance_streamer = DistanceStreamer(
+            logger_service=get_logger_service(),
             robot_adapter=get_robot_adapter(),
             web_socket_adapter=get_web_socket_adapter(),
         )
