@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useWebSocket from "../../hooks/webSocketHook";
 import ChatMessages from "../../components/ChatMessages";
 import styles from "../RobotChat/RobotChat.module.css"
