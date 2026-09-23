@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useWebSocket from "../../hooks/webSocketHook";
 import ChatMessages from "../../components/ChatMessages";
 import styles from "../RobotChat/RobotChat.module.css"
 
@@ -10,43 +11,29 @@ export default function RobotChat() {
 
     const agents = ["robot-agent", "architecture-agent"];
 
-    useEffect(() => {
-        const ws = new WebSocket(
-            import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
-        );
-
-        ws.onopen = () => {
-            console.log("Websocket connection opened");
-            setWebSocket(ws);
+    const handleMessage = (data: Record<any, any>) => {
+        if (data.type === "response") {
+            setHistory(prev => [...prev, {
+                message: data.message,
+                isUser: false,
+                agent: data.agent,
+            }])
         }
+    }
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === "response") {
-                setHistory(prev => [...prev, {
-                    message: data.message,
-                    isUser: false,
-                    agent: data.agent,
-                }])
-            }
-        };
-
-        ws.onclose = () => {
-            console.log("Connection was closed");
-            setWebSocket(null);
+    const { send } = useWebSocket(
+        import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080",
+        { 
+            onMessage: (data: Record<any, any>) => handleMessage(data),
+            onClose: undefined,
+            onOpen: undefined,
+            reconnect: true
         }
-
-        return () => {
-            if (ws) {
-                ws.close();
-                setWebSocket(null);
-            }
-        };
-    }, []);
+    );
 
     const handleSendMessage = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        webSocket?.send(JSON.stringify({
+        send(JSON.stringify({
             type: agent,
             question: message,
         }));
