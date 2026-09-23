@@ -5,7 +5,6 @@ import styles from "../RobotChat/RobotChat.module.css"
 
 export default function RobotChat() {
     const [message, setMessage] = useState("");
-    const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
     const [history, setHistory] = useState<Record<string, string | boolean>[]>([]);
     const [agent, setAgent] = useState<string>("robot-agent");
 
