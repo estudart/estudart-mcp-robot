@@ -4,8 +4,12 @@ import logging
 
 class LoggerService:
     def __init__(self, level):
-        logging.basicConfig()
+        self._console_handler = logging.StreamHandler()
+        self._console_handler.setFormatter(
+            logging.Formatter("{levelname} - {message}", style="{")
+        )
         self._logger = logging.getLogger("Robot MCP Server")
+        self._logger.addHandler(self._console_handler)
         self._level = level
         self._logger.setLevel(self._level)
 
