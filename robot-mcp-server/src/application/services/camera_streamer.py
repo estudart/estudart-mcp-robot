@@ -3,16 +3,19 @@ import asyncio
 from src.infrastructure.camera_adapter import CameraAdapter
 from src.infrastructure.web_socket_adapter import WebSocketAdapter
 from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
+from src.application.services.logging_service import LoggerService
 
 
 class CameraStreamer:
     def __init__(
         self,
+        logger_service: LoggerService,
         camera_adapter: CameraAdapter,
         web_socket_adapter: WebSocketAdapter,
         image_predictor_adapter: ImagePredictorAdapter,
         should_predict: bool,
     ) -> None:
+        self._logger_service = logger_service
         self._camera_adapter = camera_adapter
         self._web_socket_adapter = web_socket_adapter
         self._image_predictor_adapter = image_predictor_adapter
@@ -22,11 +25,11 @@ class CameraStreamer:
     
     async def connect_stream(self):
         await self._web_socket_adapter.connect()
-        print("Connection stablished")
+        self._logger_service.log_info_message("Connection stablished")
 
     async def stream_frame(self):
         await self.connect_stream()
-        print("Starting camera streaming...")
+        self._logger_service.log_info_message("Starting camera streaming...")
         while True:
             try:
                 frame = self._camera_adapter.get_frame()
@@ -51,5 +54,7 @@ class CameraStreamer:
                     )
                 )
             except Exception as err:
-                print(f"Could not stream frame, reason: {err}")
+                self._logger_service.log_error_message(
+                    f"Could not stream frame, reason: {err}"
+                )
                 await asyncio.sleep(10)

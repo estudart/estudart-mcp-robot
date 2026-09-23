@@ -1,32 +1,50 @@
 import pytest
+import logging
 
 from src.application.services.robot_commander_service import RobotCommander
+from src.application.services.logging_service import LoggerService
 from tests.fakes.fake_robot_adapter import FakeRobotAdapter
 
 def test_robot_commander_raises_value_error_for_invalid_led():
     color = "TEST"
     robot_adapter = FakeRobotAdapter()
-    robot_commander_service = RobotCommander(robot_adapter=robot_adapter)
+    logging_service = LoggerService(level=logging.INFO)
+    robot_commander_service = RobotCommander(
+        logger_service=logging_service,
+        robot_adapter=robot_adapter
+    )
     with pytest.raises(ValueError, match=f"Color {color}, is not valid"):
         robot_commander_service.set_all_leds(color=color)
 
 @pytest.mark.parametrize("color", ["RED", "GREEN", "BLUE", "YELLOW", "PURPLE", "CYAN", "WHITE"])
 def test_valid_led_color_is_accepeted(color):
     robot_adapter = FakeRobotAdapter()
-    robot_commander_service = RobotCommander(robot_adapter=robot_adapter)
+    logging_service = LoggerService(level=logging.INFO)
+    robot_commander_service = RobotCommander(
+        logger_service=logging_service,
+        robot_adapter=robot_adapter
+    )
     response = robot_commander_service.set_all_leds(color=color)
     assert response == f"All leds set to: {color}"
 
 def test_led_off_is_accepted():
     color = "OFF"
     robot_adapter = FakeRobotAdapter()
-    robot_commander_service = RobotCommander(robot_adapter=robot_adapter)
+    logging_service = LoggerService(level=logging.INFO)
+    robot_commander_service = RobotCommander(
+        logger_service=logging_service,
+        robot_adapter=robot_adapter
+    )
     response = robot_commander_service.set_all_leds(color=color)
     assert response == "All leds off"
 
 def test_get_distance_is_called_correctly():
     robot_adapter = FakeRobotAdapter()
-    robot_commander_service = RobotCommander(robot_adapter=robot_adapter)
+    logging_service = LoggerService(level=logging.INFO)
+    robot_commander_service = RobotCommander(
+        logger_service=logging_service,
+        robot_adapter=robot_adapter
+    )
     distance_cm = robot_commander_service.get_distance_cm()
     distance_mm = robot_commander_service.get_distance_mm()
     assert distance_cm == 100

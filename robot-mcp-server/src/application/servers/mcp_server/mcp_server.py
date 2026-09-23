@@ -3,8 +3,11 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from fastmcp.exceptions import ToolError
 
-from src.dependencies import get_robot_commander, get_file_reader_service
-
+from src.dependencies import (
+    get_robot_commander,
+    get_file_reader_service,
+    get_logger_service
+)
 mcp = FastMCP("Robot Tools")
 
 
@@ -39,7 +42,7 @@ def set_all_leds(color: str):
             f"The physical I2C connection failed (DeviceNotFoundError). "
             f"Hardware details: {err}. Please report this hardware failure to the user."
         )
-        print(err_msg)
+        get_logger_service().log_error_message(err_msg)
         raise ToolError(err_msg)
 
 @mcp.tool(tags={"patrol"})
@@ -56,7 +59,7 @@ def robot_patrol():
             f"The physical motors or sensors failed to initialize via I2C. "
             f"Hardware details: {err}. Please report this navigation and hardware failure directly to the user."
         )
-        print(err_msg)
+        get_logger_service().log_error_message(err_msg)
         raise ToolError(err_msg)
 
 @mcp.tool(tags={"read-file"})
@@ -72,5 +75,5 @@ def read_documentation():
             f"CRITICAL ERROR: Cannot read the repository documentation. "
             f"Details: {err}. Please report this failure to the user."
         )
-        print(err_msg)
+        get_logger_service().log_error_message(err_msg)
         raise ToolError(err_msg)
