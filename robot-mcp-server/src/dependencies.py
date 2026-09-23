@@ -107,6 +107,7 @@ def get_camera_streamer() -> CameraStreamer:
     global _camera_streamer
     if not _camera_streamer:
         _camera_streamer = CameraStreamer(
+            logger_service=get_logger_service(),
             camera_adapter=get_camera_adapter(),
             web_socket_adapter=get_web_socket_adapter(),
             image_predictor_adapter=get_image_predictor_adapter(),
