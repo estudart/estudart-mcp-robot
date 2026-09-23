@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import logging
 
 from src.infrastructure.robot_engine_adapter import RobotAdapter
 from src.application.services.robot_commander_service import RobotCommander
@@ -35,7 +36,7 @@ SHOULD_PREDICT = settings.SHOULD_PREDICT
 def get_logger_service() -> LoggerService:
     global _logger_service
     if not _logger_service:
-        _logger_service = LoggerService()
+        _logger_service = LoggerService(level=logging.INFO)
     return _logger_service
 
 def get_robot_adapter() -> RobotAdapter:
