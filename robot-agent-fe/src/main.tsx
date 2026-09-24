@@ -3,16 +3,16 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css'
 import RobotChat from './pages/RobotChat/RobotChat'
-import RobotCommander from './pages/RobotCommander/RobotCommander'
+// import RobotCommander from './pages/RobotCommander/RobotCommander'
 import NavBar from './components/NavBar';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <NavBar />
-      <Routes>
+      {/* <Routes>
         <Route path='/' element={<RobotCommander/>}/>
-      </Routes>
+      </Routes> */}
       <Routes>
         <Route path='/robot-chat' element={<RobotChat/>}/>
       </Routes>
