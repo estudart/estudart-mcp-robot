@@ -116,7 +116,9 @@ export default function RobotCommander () {
 
         window.addEventListener('keydown', handleKeyDown);
 
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
     }, []);
 
     return (
