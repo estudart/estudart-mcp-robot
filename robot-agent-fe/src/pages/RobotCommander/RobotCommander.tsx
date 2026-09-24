@@ -31,7 +31,7 @@ export default function RobotCommander () {
     useWebSocket(
         `${WSS_URL}?subscribeType=robot-data-consumer`,
         {
-            onMessage: handleMessage,
+            onMessage: (data: Record<any, any>) => handleMessage(data),
             onClose: undefined,
             onOpen: undefined,
             reconnect: true
