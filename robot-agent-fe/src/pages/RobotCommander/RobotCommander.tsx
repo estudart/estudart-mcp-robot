@@ -21,8 +21,8 @@ function RobotCommander () {
     };
 
     const WSS_URL = import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
-    const { send } = useWebSocket(
-        `${WSS_URL}/?subscribeType=robot-data-consumer`,
+    useWebSocket(
+        `${WSS_URL}?subscribeType=robot-data-consumer`,
         {
             onMessage: (data: Record<any, any>) => handleMessage(data),
             onOpen: undefined,
