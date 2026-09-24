@@ -1,14 +1,14 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
-// import useWebSocket from "../../hooks/webSocketHook";
+import useWebSocket from "../../hooks/webSocketHook";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 function RobotCommander () {
     const [tiltAngle, setTiltAngle] = useState<number>(25);
     const [panAngle, setPanAngle] = useState<number>(90);
-    // const [distance, setDistance] = useState<string>("0")
-    // const [frame, setFrame] = useState("");
+    const [distance, setDistance] = useState<string>("0")
+    const [frame, setFrame] = useState("");
     const [ledColor, setLedColor] = useState<string>("WHITE");
 
     const ledColorsOptions = {
@@ -20,26 +20,23 @@ function RobotCommander () {
         "WHITE": "#FFFFFF"
     };
 
-    // const WSS_URL = import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
-    // const { send } = useWebSocket(
-    //     `${WSS_URL}?subscribeType=robot-data-consumer`,
-    //     {
-    //         onMessage: (data: Record<any, any>) => handleMessage(data),
-    //         onClose: undefined,
-    //         onOpen: undefined,
-    //         reconnect: true
-    //     }
-    // )
-    // const handleMessage = (data: Record<any, any>) => {
-    //     send(JSON.stringify({
-    //         type: 'test',
-    //     }));
-    //     if (data.type === "camera-frame") {
-    //         setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
-    //     } else if (data.type === "distance-cm") {
-    //         setDistance(data.distance);
-    //     };
-    // }
+    const WSS_URL = import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
+    const handleMessage = (data: Record<any, any>) => {
+        if (data.type === "camera-frame") {
+            setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
+        } else if (data.type === "distance-cm") {
+            setDistance(data.distance);
+        };
+    }
+    useWebSocket(
+        `${WSS_URL}?subscribeType=robot-data-consumer`,
+        {
+            onMessage: handleMessage,
+            onClose: undefined,
+            onOpen: undefined,
+            reconnect: true
+        }
+    )
 
     const REST_URL = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
@@ -126,7 +123,7 @@ function RobotCommander () {
         <div className={styles.robotCommanderPage}>
             <div className={styles.joyStickView}>
                 <div className={styles.distanceTracker}>
-                    {<p>Distance: {'10'}</p>}
+                    {<p>Distance: {distance}</p>}
                 </div>
                 <div className={styles.colorPannel}>
                     {Object.entries(ledColorsOptions).map((color) => 
@@ -174,11 +171,11 @@ function RobotCommander () {
                 </div>
             </div>
             <div className={styles.cameraView}>
-                {true ? (
+                {frame ? (
                     <>
                         <img
                             className={ styles.cameraFrame }
-                            src={'hey'}
+                            src={frame}
                         />
                         <div className={styles.cameraViewArrows}>
                             <div className={styles.cameraViewArrowsTop}>

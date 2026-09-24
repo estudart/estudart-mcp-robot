@@ -23,7 +23,7 @@ function RobotChat() {
     const { send } = useWebSocket(
         import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080",
         {
-            onMessage: (data: Record<any, any>) => handleReceiveMessage(data),
+            onMessage: handleReceiveMessage,
             onClose: undefined,
             onOpen: undefined,
             reconnect: true
