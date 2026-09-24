@@ -1,55 +1,44 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
+import { useWebSocket } from "../../hooks/webSocketHook";
 import ChatMessages from "../../components/ChatMessages";
 import styles from "../RobotChat/RobotChat.module.css"
 
-export default function RobotChat() {
+export function RobotChat() {
     const [message, setMessage] = useState("");
-    const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
     const [history, setHistory] = useState<Record<string, string | boolean>[]>([]);
     const [agent, setAgent] = useState<string>("robot-agent");
 
     const agents = ["robot-agent", "architecture-agent"];
 
-    useEffect(() => {
-        const ws = new WebSocket(
-            import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
-        );
-
-        ws.onopen = () => {
-            console.log("Websocket connection opened");
-            setWebSocket(ws);
-        }
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+    const handleReceiveMessage = useCallback(
+        (data: Record<any, any>) => {
             if (data.type === "response") {
                 setHistory(prev => [...prev, {
                     message: data.message,
                     isUser: false,
                     agent: data.agent,
                 }])
-            }
-        };
+            };
+        },
+        []
+    );
 
-        ws.onclose = () => {
-            console.log("Connection was closed");
-            setWebSocket(null);
+    const { send } = useWebSocket(
+        import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080",
+        {
+            onMessage: handleReceiveMessage,
+            onClose: undefined,
+            onOpen: undefined,
+            reconnect: true
         }
-
-        return () => {
-            if (ws) {
-                ws.close();
-                setWebSocket(null);
-            }
-        };
-    }, []);
+    );
 
     const handleSendMessage = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        webSocket?.send(JSON.stringify({
+        send({
             type: agent,
             question: message,
-        }));
+        });
         setHistory(prev => [...prev, { message, isUser: true, agent: agent }]);
         setMessage("");
     };

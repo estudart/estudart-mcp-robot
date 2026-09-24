@@ -1,9 +1,10 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
-import { useEffect, useState } from "react";
+import { useWebSocket } from "../../hooks/webSocketHook";
+import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
-function RobotCommander () {
+export function RobotCommander () {
     const [tiltAngle, setTiltAngle] = useState<number>(25);
     const [panAngle, setPanAngle] = useState<number>(90);
     const [distance, setDistance] = useState<string>("0")
@@ -19,7 +20,28 @@ function RobotCommander () {
         "WHITE": "#FFFFFF"
     };
 
-    const commanderUrl = (
+    const WSS_URL = import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
+    const handleMessage = useCallback(
+            (data: Record<any, any>) => {
+            if (data.type === "camera-frame") {
+                setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
+            } else if (data.type === "distance-cm") {
+                setDistance(data.distance);
+            };
+        },
+        []
+    );
+    useWebSocket(
+        `${WSS_URL}?subscribeType=robot-data-consumer`,
+        {
+            onMessage: handleMessage,
+            onClose: undefined,
+            onOpen: undefined,
+            reconnect: true
+        }
+    )
+
+    const REST_URL = (
         import.meta.env.VITE_BACKEND_REST_URL ?? "http://localhost:8080"
     );
 
@@ -32,9 +54,8 @@ function RobotCommander () {
             setPanAngle(prevAngle => prevAngle + angle);
         } else console.log(`Invalid direction: ${direction}`);
     };
-
     useEffect(() => {
-        axios.post(`${commanderUrl}/servo/setPanAngle?angle=${panAngle}`)
+        axios.post(`${REST_URL}/servo/setPanAngle?angle=${panAngle}`)
         .catch(err => console.log(`Could not set pan angle, reason: ${err}`));
     }, [panAngle]);
 
@@ -47,24 +68,22 @@ function RobotCommander () {
             setTiltAngle(prevAngle => prevAngle + angle);
         } else console.log(`Invalid direction: ${direction}`);
     };
-
     useEffect(() => {
-        axios.post(`${commanderUrl}/servo/setTiltAngle?angle=${tiltAngle}`)
+        axios.post(`${REST_URL}/servo/setTiltAngle?angle=${tiltAngle}`)
         .catch(err => console.log(`Could not set tilt angle, reason: ${err}`));
     }, [tiltAngle]);
 
     const handleLedColorChange = async (color: string) => {
         setLedColor(color);
     };
-
     useEffect(() => {
-        axios.post(`${commanderUrl}/led/setAllLeds?color=${ledColor}`)
+        axios.post(`${REST_URL}/led/setAllLeds?color=${ledColor}`)
         .catch(err => console.log(`Could not change led color, reason: ${err}`));
     }, [ledColor])
 
     const handleMove = async (direction: string) => {
         try {
-            const moveResponse = await axios.post(`${commanderUrl}/move/${direction}`);
+            const moveResponse = await axios.post(`${REST_URL}/move/${direction}`);
             return moveResponse.data;
         } catch (error) {
             console.log(`Could not move robot, reason: ${error}`);
@@ -72,30 +91,6 @@ function RobotCommander () {
     };
 
     useEffect(() => {
-        const url = (
-            import.meta.env.VITE_BACKEND_URL ?? 
-            "ws://localhost:8080"
-        )
-        const ws = new WebSocket(`${url}/?subscribeType=robot-data-consumer`);
-
-        ws.onopen = () => {
-            console.log("Websocket connection opened");
-        }
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const dataType = data.type;
-            if (dataType === "camera-frame") {
-                setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
-            } else if (dataType === "distance-cm") {
-                setDistance(data.distance);
-            };
-        };
-
-        ws.onclose = () => {
-            console.log("Connection was closed");
-        }
-
         const handleKeyDown = async (event: KeyboardEvent) => {
             const selectedKey = event.key;
             if (selectedKey == " ") event.preventDefault();
@@ -125,9 +120,6 @@ function RobotCommander () {
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            if (ws) {
-                ws.close();
-            }
             window.removeEventListener('keydown', handleKeyDown);
         }
     }, []);
@@ -216,5 +208,3 @@ function RobotCommander () {
         </div>
     )
 };
-
-export default RobotCommander;
