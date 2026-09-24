@@ -10,7 +10,7 @@ function RobotChat() {
 
     const agents = ["robot-agent", "architecture-agent"];
 
-    const handleMessage = (data: Record<any, any>) => {
+    const handleReceiveMessage = (data: Record<any, any>) => {
         if (data.type === "response") {
             setHistory(prev => [...prev, {
                 message: data.message,
@@ -23,7 +23,7 @@ function RobotChat() {
     const { send } = useWebSocket(
         import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080",
         {
-            onMessage: (data: Record<any, any>) => handleMessage(data),
+            onMessage: (data: Record<any, any>) => handleReceiveMessage(data),
             onClose: undefined,
             onOpen: undefined,
             reconnect: true

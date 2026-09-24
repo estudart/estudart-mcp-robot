@@ -21,7 +21,7 @@ function RobotCommander () {
     };
 
     const WSS_URL = import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
-    useWebSocket(
+    const { send } = useWebSocket(
         `${WSS_URL}?subscribeType=robot-data-consumer`,
         {
             onMessage: (data: Record<any, any>) => handleMessage(data),
@@ -31,6 +31,9 @@ function RobotCommander () {
         }
     )
     const handleMessage = (data: Record<any, any>) => {
+        send(JSON.stringify({
+            type: 'test',
+        }));
         if (data.type === "camera-frame") {
             setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
         } else if (data.type === "distance-cm") {
