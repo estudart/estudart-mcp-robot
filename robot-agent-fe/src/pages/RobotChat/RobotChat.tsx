@@ -1,9 +1,9 @@
 import { useState } from "react";
-import useWebSocket from "../../hooks/webSocketHook";
+import { useWebSocket } from "../../hooks/webSocketHook";
 import ChatMessages from "../../components/ChatMessages";
 import styles from "../RobotChat/RobotChat.module.css"
 
-function RobotChat() {
+export function RobotChat() {
     const [message, setMessage] = useState("");
     const [history, setHistory] = useState<Record<string, string | boolean>[]>([]);
     const [agent, setAgent] = useState<string>("robot-agent");
@@ -65,5 +65,3 @@ function RobotChat() {
         </div>
     )
 }
-
-export default RobotChat;

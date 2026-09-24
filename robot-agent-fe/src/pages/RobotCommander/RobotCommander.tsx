@@ -1,6 +1,6 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
-import useWebSocket from "../../hooks/webSocketHook";
+import { useWebSocket } from "../../hooks/webSocketHook";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 

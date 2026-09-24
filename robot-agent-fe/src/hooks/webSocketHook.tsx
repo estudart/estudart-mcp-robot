@@ -7,7 +7,7 @@ export type WebSocketOptions = {
     reconnect: Boolean;
 }
 
-function useWebSocket(url: string, options: WebSocketOptions) {
+export function useWebSocket(url: string, options: WebSocketOptions) {
     const { onMessage, onOpen, onClose, reconnect = true } = options;
     const wsRef = useRef<WebSocket | null>(null);
     const reconnectTimer = useRef<number | undefined>(undefined);
@@ -64,5 +64,3 @@ function useWebSocket(url: string, options: WebSocketOptions) {
 
     return { send, wsRef }
 }
-
-export default useWebSocket;
