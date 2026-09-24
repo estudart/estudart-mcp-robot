@@ -1,7 +1,7 @@
 import axios from "axios";
 import styles from "./RobotCommander.module.css"
 import { useWebSocket } from "../../hooks/webSocketHook";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 export function RobotCommander () {
@@ -21,17 +21,20 @@ export function RobotCommander () {
     };
 
     const WSS_URL = import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080"
-    const handleMessage = (data: Record<any, any>) => {
-        if (data.type === "camera-frame") {
-            setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
-        } else if (data.type === "distance-cm") {
-            setDistance(data.distance);
-        };
-    }
+    const handleMessage = useCallback(
+            (data: Record<any, any>) => {
+            if (data.type === "camera-frame") {
+                setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
+            } else if (data.type === "distance-cm") {
+                setDistance(data.distance);
+            };
+        },
+        []
+    );
     useWebSocket(
         `${WSS_URL}?subscribeType=robot-data-consumer`,
         {
-            onMessage: (data: Record<any, any>) => handleMessage(data),
+            onMessage: handleMessage,
             onClose: undefined,
             onOpen: undefined,
             reconnect: true

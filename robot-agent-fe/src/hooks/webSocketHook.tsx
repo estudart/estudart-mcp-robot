@@ -27,6 +27,7 @@ export function useWebSocket(url: string, options: WebSocketOptions) {
         };
 
         socket.onclose = (event) => {
+            console.log("WebSocket connection has been closed!")
             onClose?.(event);
             if (reconnect && event.code !== 1000) {
                 scheduleReconnect();

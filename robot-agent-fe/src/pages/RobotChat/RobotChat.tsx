@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useWebSocket } from "../../hooks/webSocketHook";
 import ChatMessages from "../../components/ChatMessages";
 import styles from "../RobotChat/RobotChat.module.css"
@@ -10,25 +10,24 @@ export function RobotChat() {
 
     const agents = ["robot-agent", "architecture-agent"];
 
-    const handleCloseConnection = () => {
-        console.log("Closing the connection with the server now!")
-    }
-
-    const handleReceiveMessage = (data: Record<any, any>) => {
-        if (data.type === "response") {
-            setHistory(prev => [...prev, {
-                message: data.message,
-                isUser: false,
-                agent: data.agent,
-            }])
-        }
-    }
+    const handleReceiveMessage = useCallback(
+        (data: Record<any, any>) => {
+            if (data.type === "response") {
+                setHistory(prev => [...prev, {
+                    message: data.message,
+                    isUser: false,
+                    agent: data.agent,
+                }])
+            };
+        },
+        []
+    );
 
     const { send } = useWebSocket(
         import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080",
         {
-            onMessage: (data: Record<any, any>) => handleReceiveMessage(data),
-            onClose: () => handleCloseConnection(),
+            onMessage: handleReceiveMessage,
+            onClose: undefined,
             onOpen: undefined,
             reconnect: true
         }
