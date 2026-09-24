@@ -56,7 +56,7 @@ export function useWebSocket(url: string, options: WebSocketOptions) {
         };
     }, [connect]);
 
-    const send = useCallback((data: string) => {
+    const send = useCallback((data: Record<any, any>) => {
         if (wsRef.current?.readyState === WebSocket.OPEN) {
             wsRef.current.send(JSON.stringify(data));
         }

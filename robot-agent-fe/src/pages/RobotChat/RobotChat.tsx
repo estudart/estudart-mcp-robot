@@ -36,10 +36,10 @@ export function RobotChat() {
 
     const handleSendMessage = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        send(JSON.stringify({
+        send({
             type: agent,
             question: message,
-        }));
+        });
         setHistory(prev => [...prev, { message, isUser: true, agent: agent }]);
         setMessage("");
     };
