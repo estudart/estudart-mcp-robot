@@ -10,6 +10,10 @@ export function RobotChat() {
 
     const agents = ["robot-agent", "architecture-agent"];
 
+    const handleCloseConnection = () => {
+        console.log("Closing the connection with the server now!")
+    }
+
     const handleReceiveMessage = (data: Record<any, any>) => {
         if (data.type === "response") {
             setHistory(prev => [...prev, {
@@ -24,7 +28,7 @@ export function RobotChat() {
         import.meta.env.VITE_BACKEND_URL ?? "ws://localhost:8080",
         {
             onMessage: (data: Record<any, any>) => handleReceiveMessage(data),
-            onClose: undefined,
+            onClose: () => handleCloseConnection(),
             onOpen: undefined,
             reconnect: true
         }
