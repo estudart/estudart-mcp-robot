@@ -4,7 +4,7 @@ import { useWebSocket } from "../../hooks/webSocketHook";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
-function RobotCommander () {
+export default function RobotCommander () {
     const [tiltAngle, setTiltAngle] = useState<number>(25);
     const [panAngle, setPanAngle] = useState<number>(90);
     const [distance, setDistance] = useState<string>("0")
@@ -203,5 +203,3 @@ function RobotCommander () {
         </div>
     )
 };
-
-export default RobotCommander;
