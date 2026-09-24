@@ -25,16 +25,15 @@ function RobotCommander () {
         `${WSS_URL}?subscribeType=robot-data-consumer`,
         {
             onMessage: (data: Record<any, any>) => handleMessage(data),
-            onOpen: undefined,
             onClose: undefined,
+            onOpen: undefined,
             reconnect: true
         }
     )
     const handleMessage = (data: Record<any, any>) => {
-        const dataType = data.type;
-        if (dataType === "camera-frame") {
+        if (data.type === "camera-frame") {
             setFrame(`data:image/jpeg;base64,${data.frame.trim()}`);
-        } else if (dataType === "distance-cm") {
+        } else if (data.type === "distance-cm") {
             setDistance(data.distance);
         };
     }
