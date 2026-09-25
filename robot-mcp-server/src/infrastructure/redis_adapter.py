@@ -34,7 +34,7 @@ class RedisAdapter:
                 f"Could not connect to Redis: {err}"
             )
 
-    async def set_key(self, key: str, value: str) -> None:
+    def set_key(self, key: str, value: str) -> None:
         if self._db:
             try:
                 self._db.set(key, pickle.dumps(value))

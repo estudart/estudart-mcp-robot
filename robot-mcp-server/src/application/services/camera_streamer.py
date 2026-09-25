@@ -52,7 +52,7 @@ class CameraStreamer:
                     
                     self._count_frame+=1
                 
-                await self._redis_adapter.set_key(
+                self._redis_adapter.set_key(
                     key=settings.ROBOT_CAMERA_FRAME_KEY,
                     value=self._camera_adapter.from_frame_to_bytes(frame)
                 )
