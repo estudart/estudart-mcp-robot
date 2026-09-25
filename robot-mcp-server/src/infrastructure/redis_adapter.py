@@ -10,6 +10,8 @@ class RedisAdapter:
         self._port = settings.REDIS_PORT
 
         self._db = None
+
+        self._create_connection()
     
     def _create_connection(self):
         try:
@@ -30,7 +32,7 @@ class RedisAdapter:
                 f"Could not connect to Redis: {err}"
             )
 
-    def set_key(self, key: str, value: str):
+    async def set_key(self, key: str, value: str):
         if self._db:
             try:
                 self._db.set(key, value)

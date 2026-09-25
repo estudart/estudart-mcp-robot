@@ -111,6 +111,7 @@ def get_camera_streamer() -> CameraStreamer:
     if not _camera_streamer:
         _camera_streamer = CameraStreamer(
             logger_service=get_logger_service(),
+            redis_adapter=get_redis_adapter(),
             camera_adapter=get_camera_adapter(),
             web_socket_adapter=get_web_socket_adapter(),
             image_predictor_adapter=get_image_predictor_adapter(),
@@ -131,5 +132,7 @@ def get_distance_streamer() -> DistanceStreamer:
 def get_redis_adapter() -> RedisAdapter:
     global _redis_adapter
     if not _redis_adapter:
-        _redis_adapter = RedisAdapter()
+        _redis_adapter = RedisAdapter(
+            logger_service=get_logger_service()
+        )
     return _redis_adapter
