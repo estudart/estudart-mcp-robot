@@ -16,6 +16,8 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
+    environment:
+      - REDIS_HOST=redis-db
     depends_on:
       redis-db:
         condition: service_started
