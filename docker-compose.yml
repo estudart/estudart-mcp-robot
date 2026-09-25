@@ -8,7 +8,6 @@ services:
     ports:
       - "8000:8000"
     devices:
-      - "/dev/video0:/dev/video0"
       - "/dev/i2c-1:/dev/i2c-1"
       - "/dev/snd:/dev/snd"
     healthcheck:
