@@ -1,3 +1,5 @@
+import pickle
+
 import redis
 
 from src.application.services.logging_service import LoggerService
@@ -44,3 +46,15 @@ class RedisAdapter:
                 self._logger_service.log_error_message(
                     f"Could not set Redis key, reason: {err}"
                 )
+
+    def get_key(self, key: str):
+        try:
+            value = self._db.get(key)
+            self._logger_service.log_info_message(
+                f"New value retrieved from Redis: {value}"
+            )
+            return pickle.loads(value)
+        except Exception as err:
+            self._logger_service.log_error_message(
+                f"Could not not fetch data from Redis"
+            )
