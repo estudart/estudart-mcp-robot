@@ -16,6 +16,10 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
+    depends_on:
+      redis-db:
+        condition: service_started
+
 
   robot-agent-be:
     build:
@@ -86,3 +90,16 @@ services:
         condition: service_started
       robot-distance-streamer:
         condition: service_started
+
+  redis-db:
+      image: redis:latest
+      container_name: redis-db
+      ports:
+          - '6379:6379'
+      volumes:
+          - redis-data:/data
+      restart: unless-stopped
+
+volumes:
+    redis-data:
+        driver: local
