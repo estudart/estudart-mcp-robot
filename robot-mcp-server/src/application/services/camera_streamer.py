@@ -32,7 +32,7 @@ class CameraStreamer:
         self._logger_service.log_info_message("Starting camera streaming...")
         while True:
             try:
-                frame = self._camera_adapter.get_frame()
+                frame = self._camera_adapter.get_frame("current_frame.jpg")
 
                 if self._should_predict:
                     if self._count_frame >= 5:
