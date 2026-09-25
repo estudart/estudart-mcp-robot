@@ -54,8 +54,8 @@ export class WebSocketService {
                         const question = data.question;
 
                         response = await this._robotAssistent.invoke(agent, question);
-                        if (response !== undefined && typeof response === 'string') {
-                            await this._robotAssistent.speak(response);
+                        if (response !== undefined && response[0].text) {
+                            await this._robotAssistent.speak(response[0].text);
                             ws.send(JSON.stringify({ type: "response", message: response, agent }))
                         }
                     };
