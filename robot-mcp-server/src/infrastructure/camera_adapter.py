@@ -11,6 +11,9 @@ class CameraAdapter:
     def get_frame(self):
         ret, frame = self._cap.read()
         return frame
+
+    def store_frame(self, frame):
+        cv.imwrite("current_frame.jpg", frame)
     
     def from_frame_to_b64(self, frame) -> str:
         _, buffer = cv.imencode('.jpg', frame)
