@@ -14,6 +14,7 @@ from src.application.services.camera_streamer import CameraStreamer
 from src.application.services.distance_streamer import DistanceStreamer
 from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
 from src.application.services.logging_service import LoggerService
+from src.infrastructure.redis_adapter import RedisAdapter
 from src.config import settings
 
 _documenation_file_path = "README.md"
@@ -29,6 +30,7 @@ _camera_streamer: CameraStreamer = None
 _distance_streamer: DistanceStreamer = None
 _image_predictor_adapter: ImagePredictorAdapter = None
 _logger_service: LoggerService = None
+_redis_adapter: RedisAdapter = None
 
 WS_SERVER_URL = settings.WS_SERVER_URL
 SHOULD_PREDICT = settings.SHOULD_PREDICT
@@ -125,3 +127,9 @@ def get_distance_streamer() -> DistanceStreamer:
             web_socket_adapter=get_web_socket_adapter(),
         )
     return _distance_streamer
+
+def get_redis_adapter() -> RedisAdapter:
+    global _redis_adapter
+    if not _redis_adapter:
+        _redis_adapter = RedisAdapter()
+    return _redis_adapter
