@@ -3,6 +3,7 @@ import { Stream } from "node:stream";
 import { IncomingMessage } from "node:http";
 import { RobotAssistent } from "./robot-assistent.service.js";
 import { UnknownAgentError } from "../errors/unknown-agent.error.js";
+import { string } from "zod";
 
 
 export class WebSocketService {
@@ -53,10 +54,9 @@ export class WebSocketService {
                         const question = data.question;
 
                         response = await this._robotAssistent.invoke(agent, question);
-                        if (response !== undefined) {
-                            const messageToString = JSON.stringify(message)
-                            await this._robotAssistent.speak(messageToString);
-                            ws.send(JSON.stringify({ type: "response", message: messageToString, agent }))
+                        if (response !== undefined && typeof response === 'string') {
+                            await this._robotAssistent.speak(response);
+                            ws.send(JSON.stringify({ type: "response", message: response, agent }))
                         }
                     };
                 } catch (error) {
