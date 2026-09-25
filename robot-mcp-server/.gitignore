@@ -1,3 +1,4 @@
 /.venv
 /scripts
 __pycache__/
+/current_frame.jpg
