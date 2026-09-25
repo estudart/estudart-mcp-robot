@@ -37,7 +37,7 @@ class RedisAdapter:
     async def set_key(self, key: str, value: str) -> None:
         if self._db:
             try:
-                self._db.set(key, value)
+                self._db.set(key, pickle.dumps(value))
                 self._logger_service.log_info_message(
                     f"New key set to Redis, "
                     f"key: {key}, value:{value}"
