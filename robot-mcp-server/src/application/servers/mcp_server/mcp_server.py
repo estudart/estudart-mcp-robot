@@ -8,8 +8,11 @@ from src.dependencies import (
     get_robot_commander,
     get_file_reader_service,
     get_logger_service,
-    get_camera_adapter
+    get_redis_adapter,
 )
+from src.config import settings
+
+
 mcp = FastMCP("Robot Tools")
 
 
@@ -86,10 +89,9 @@ def capture_image() -> Image:
     This tool allows you to capture an image frame
     """
     try:
-        camera_adapter = get_camera_adapter()
-        frame = camera_adapter.get_frame()
-        image_bytes = camera_adapter.from_frame_to_bytes(frame)
-        return Image(data=image_bytes, format="jpeg")
+        redis_adapter = get_redis_adapter()
+        frame = redis_adapter.get_key(settings.ROBOT_CAMERA_FRAME_KEY)
+        return Image(data=frame, format="jpeg")
     except Exception as err:
         err_msg = (
             f"CRITICAL ERROR: Cannot capture image frame. "

@@ -5,6 +5,9 @@ from src.infrastructure.web_socket_adapter import WebSocketAdapter
 from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
 from src.application.services.logging_service import LoggerService
 from src.infrastructure.redis_adapter import RedisAdapter
+from src.config import settings
+
+
 
 class CameraStreamer:
     def __init__(
@@ -34,7 +37,7 @@ class CameraStreamer:
         self._logger_service.log_info_message("Starting camera streaming...")
         while True:
             try:
-                frame = self._camera_adapter.get_frame("current_frame.jpg")
+                frame = self._camera_adapter.get_frame()
 
                 if self._should_predict:
                     if self._count_frame >= 5:
@@ -50,7 +53,7 @@ class CameraStreamer:
                     self._count_frame+=1
                 
                 await self._redis_adapter.set_key(
-                    key="robot:camera:latest",
+                    key=settings.ROBOT_CAMERA_FRAME_KEY,
                     value=self._camera_adapter.from_frame_to_bytes(frame)
                 )
 
