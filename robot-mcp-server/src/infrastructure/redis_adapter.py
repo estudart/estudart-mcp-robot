@@ -38,7 +38,7 @@ class RedisAdapter:
         if self._db:
             try:
                 self._db.set(key, pickle.dumps(value))
-                self._logger_service.log_info_message(
+                self._logger_service.log_debug_message(
                     f"New key set to Redis, "
                     f"key: {key}, value:{value}"
                 )
