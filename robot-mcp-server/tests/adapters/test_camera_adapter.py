@@ -13,7 +13,6 @@ def test_can_capture_frame():
     )
 
 def test_can_store_frame():
-    is_read = False
     image_path = "current_frame.jpg"
     camera_adapter = CameraAdapter()
     time.sleep(3)
