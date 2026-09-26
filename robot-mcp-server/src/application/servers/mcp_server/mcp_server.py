@@ -84,13 +84,13 @@ def read_documentation():
         raise ToolError(err_msg)
 
 @mcp.tool(tags={"capture-image"})
-def capture_image() -> Image:
+async def capture_image() -> Image:
     """
     This tool allows you to capture an image frame
     """
     try:
         redis_adapter = get_redis_adapter()
-        frame = redis_adapter.get_key(settings.ROBOT_CAMERA_FRAME_KEY)
+        frame = await redis_adapter.get_key(settings.ROBOT_CAMERA_FRAME_KEY)
         return Image(data=frame, format="jpeg")
     except Exception as err:
         err_msg = (
