@@ -2,12 +2,17 @@ from fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from fastmcp.exceptions import ToolError
+from fastmcp.utilities.types import Image
 
 from src.dependencies import (
     get_robot_commander,
     get_file_reader_service,
-    get_logger_service
+    get_logger_service,
+    get_redis_adapter,
 )
+from src.config import settings
+
+
 mcp = FastMCP("Robot Tools")
 
 
@@ -73,6 +78,23 @@ def read_documentation():
     except Exception as err:
         err_msg = (
             f"CRITICAL ERROR: Cannot read the repository documentation. "
+            f"Details: {err}. Please report this failure to the user."
+        )
+        get_logger_service().log_error_message(err_msg)
+        raise ToolError(err_msg)
+
+@mcp.tool(tags={"capture-image"})
+def capture_image() -> Image:
+    """
+    This tool allows you to capture an image frame
+    """
+    try:
+        redis_adapter = get_redis_adapter()
+        frame = redis_adapter.get_key(settings.ROBOT_CAMERA_FRAME_KEY)
+        return Image(data=frame, format="jpeg")
+    except Exception as err:
+        err_msg = (
+            f"CRITICAL ERROR: Cannot capture image frame. "
             f"Details: {err}. Please report this failure to the user."
         )
         get_logger_service().log_error_message(err_msg)

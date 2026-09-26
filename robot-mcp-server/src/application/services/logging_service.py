@@ -13,6 +13,9 @@ class LoggerService:
         self._level = level
         self._logger.setLevel(self._level)
 
+    def log_debug_message(self, message: str) -> None:
+        self._logger.debug(message)
+
     def log_info_message(self, message: str) -> None:
         self._logger.info(message)
 

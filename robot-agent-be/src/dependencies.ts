@@ -9,7 +9,7 @@ import { WebSocketService } from "./application/services/wss-handler.service.js"
 import { RobotRestAdapter } from "./infrastructure/robot-rest-adapter.js";
 import { RobotCommanderService } from "./application/services/robot-commander.service.js";
 
-const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol"];
+const ROBOT_AGENT_TOOLS = ["hello_world", "set_all_leds", "robot_patrol", "capture_image"];
 const ARCHITECTURE_AGENT_TOOLS = ["read_documentation"];
 const robotServerUrl = process.env.ROBOT_SERVER_URL ?? "http://localhost:8000"
 

@@ -17,7 +17,7 @@ class WebSocketAdapter:
                 print("Connection stablished with the server!")
                 break
             except Exception as err:
-                print(f"Could not stablish connection, reason: {err}")
+                print(f"Could not establish connection, reason: {err}")
                 retries+=1
             await asyncio.sleep(10)
 

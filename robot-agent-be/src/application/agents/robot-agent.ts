@@ -4,6 +4,31 @@ import { MCPAdapter } from "../../infrastructure/mcp-adapter.js";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { RobotAgentPort } from "../ports/robot-agent.port.js";
 
+const CAPTURE_IMAGE_TOOL = "capture_image";
+
+function formatToolResult(toolName: string, result: any) {
+    if (toolName !== CAPTURE_IMAGE_TOOL || !Array.isArray(result?.content)) {
+        return JSON.stringify(result);
+    }
+
+    const content = result.content.flatMap((item: any) => {
+        if (item?.type === "image" && typeof item.data === "string") {
+            return [{
+                type: "input_image",
+                image_url: `data:${item.mimeType ?? "image/jpeg"};base64,${item.data}`,
+            }];
+        }
+
+        if (item?.type === "text" && typeof item.text === "string") {
+            return [{ type: "input_text", text: item.text }];
+        }
+
+        return [];
+    });
+
+    return content.length > 0 ? content : JSON.stringify(result);
+}
+
 export class RobotAgent implements RobotAgentPort {
     _systemPrompt: string;
     _llmChat: ChatOpenAI;
@@ -22,9 +47,9 @@ export class RobotAgent implements RobotAgentPort {
         this._mcpAdapter = mcpAdapter;
         this._mcpTools = mcpTools;
 
-        this._llmChat = new ChatOpenAI({ 
+        this._llmChat = new ChatOpenAI({
             model: model,
-            
+            useResponsesApi: this._mcpTools.some((tool) => tool.name === CAPTURE_IMAGE_TOOL),
         });
 
         this._agent = createAgent({
@@ -37,7 +62,7 @@ export class RobotAgent implements RobotAgentPort {
                     schema: tool.inputSchema,
                     func: async (args: Record<string, string>) => {
                         const result = await this._mcpAdapter.callTool(tool.name, args)
-                        return JSON.stringify(result);
+                        return formatToolResult(tool.name, result);
                     }
                 }))
         });

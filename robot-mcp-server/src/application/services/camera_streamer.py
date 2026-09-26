@@ -4,18 +4,23 @@ from src.infrastructure.camera_adapter import CameraAdapter
 from src.infrastructure.web_socket_adapter import WebSocketAdapter
 from src.infrastructure.image_prediction_adapter import ImagePredictorAdapter
 from src.application.services.logging_service import LoggerService
+from src.infrastructure.redis_adapter import RedisAdapter
+from src.config import settings
+
 
 
 class CameraStreamer:
     def __init__(
         self,
         logger_service: LoggerService,
+        redis_adapter: RedisAdapter,
         camera_adapter: CameraAdapter,
         web_socket_adapter: WebSocketAdapter,
         image_predictor_adapter: ImagePredictorAdapter,
         should_predict: bool,
     ) -> None:
         self._logger_service = logger_service
+        self._redis_adapter = redis_adapter
         self._camera_adapter = camera_adapter
         self._web_socket_adapter = web_socket_adapter
         self._image_predictor_adapter = image_predictor_adapter
@@ -46,6 +51,11 @@ class CameraStreamer:
                         frame = self._last_result.plot(img=frame)
                     
                     self._count_frame+=1
+                
+                self._redis_adapter.set_key(
+                    key=settings.ROBOT_CAMERA_FRAME_KEY,
+                    value=self._camera_adapter.from_frame_to_bytes(frame)
+                )
 
                 await self._web_socket_adapter.send_message(
                     msg_type="camera-frame",

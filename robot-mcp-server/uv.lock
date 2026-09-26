@@ -1273,6 +1273,7 @@ dependencies = [
     { name = "python-multipart" },
     { name = "pyyaml" },
     { name = "raspbot" },
+    { name = "redis" },
     { name = "referencing" },
     { name = "requests" },
     { name = "rich" },
@@ -1358,6 +1359,7 @@ requires-dist = [
     { name = "python-multipart", specifier = "==0.0.32" },
     { name = "pyyaml", specifier = "==6.0.3" },
     { name = "raspbot", specifier = "==0.1.2" },
+    { name = "redis", specifier = ">=8.1.0" },
     { name = "referencing", specifier = "==0.37.0" },
     { name = "requests", specifier = ">=2.34.2" },
     { name = "rich", specifier = "==15.0.0" },
@@ -2091,6 +2093,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1a/0d/8ccf145a273215f687976d809b427a5fff9ccbf531e9eb0ecd04cadda9fa/raspbot-0.1.2.tar.gz", hash = "sha256:d7b36b43310d54a1b624106fd1c4db4e9d5c3dcbfa7ce0f5020aa578206e6849", size = 63405, upload-time = "2026-04-09T19:23:39.113Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ba/89/aeebc180ad48cdf79bde27dd430b2d40f8799cbc91d2f444be957878fd68/raspbot-0.1.2-py3-none-any.whl", hash = "sha256:b5e4a793d60d9ca994e3345a5ca93d70ee843369582b8655d19d0d980926c259", size = 32491, upload-time = "2026-04-09T19:23:38.225Z" },
+]
+
+[[package]]
+name = "redis"
+version = "8.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a8/99/604f0b666d4c616d891cf77ebb9db6bb21601344c051aebf1b72b9ff915f/redis-8.1.0.tar.gz", hash = "sha256:6e1a19beef9225c83efd689c7e6b7da2d5215b1f42cd13b7fc3714d0a09c7b25", size = 5254356, upload-time = "2026-07-30T08:51:00.269Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/66/9d/c5731f6e3608663d4d3656fd8d3aecee8b509c3082818f5a13eae925baea/redis-8.1.0-py3-none-any.whl", hash = "sha256:a4fe1aac3d3b3cc791d4b3d5931c5a956045dc951ee74d1c913ee3ac4d2ee9fb", size = 560618, upload-time = "2026-07-30T08:50:58.497Z" },
 ]
 
 [[package]]
