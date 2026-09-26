@@ -1,6 +1,6 @@
 import pickle
 
-import redis
+import redis.asyncio as redis
 
 from src.application.services.logging_service import LoggerService
 from src.config import settings
@@ -12,18 +12,16 @@ class RedisAdapter:
         self._port = settings.REDIS_PORT
 
         self._db = None
-
-        self._create_connection()
     
-    def _create_connection(self):
+    async def _create_connection(self):
         try:
-            self._db = redis.Redis(
+            self._db = await redis.Redis(
                 host=self._host,
                 port=self._port,
                 ssl=False,
             )
 
-            self._db.ping()
+            await self._db.ping()
             self._logger_service.log_info_message(
                 f"Connection with Redis was established, "
                 f"host: {self._host}:{self._port}"
@@ -34,10 +32,10 @@ class RedisAdapter:
                 f"Could not connect to Redis: {err}"
             )
 
-    def set_key(self, key: str, value: str) -> None:
+    async def set_key(self, key: str, value: str) -> None:
         if self._db:
             try:
-                self._db.set(key, pickle.dumps(value))
+                await self._db.set(key, pickle.dumps(value))
                 self._logger_service.log_debug_message(
                     f"New key set to Redis, "
                     f"key: {key}, value:{value}"
@@ -47,9 +45,9 @@ class RedisAdapter:
                     f"Could not set Redis key, reason: {err}"
                 )
 
-    def get_key(self, key: str):
+    async def get_key(self, key: str):
         try:
-            value = self._db.get(key)
+            value = await self._db.get(key)
             self._logger_service.log_info_message(
                 f"New value retrieved from Redis: {value}"
             )
