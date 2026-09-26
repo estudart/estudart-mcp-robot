@@ -10,12 +10,11 @@ class RedisAdapter:
         self._logger_service = logger_service
         self._host = settings.REDIS_HOST
         self._port = settings.REDIS_PORT
-
-        self._db = None
+        self._db: redis.Redis | None = None
     
     async def _create_connection(self):
         try:
-            self._db = await redis.Redis(
+            self._db = redis.Redis(
                 host=self._host,
                 port=self._port,
                 ssl=False,
@@ -48,7 +47,7 @@ class RedisAdapter:
     async def get_key(self, key: str):
         try:
             value = await self._db.get(key)
-            self._logger_service.log_info_message(
+            self._logger_service.log_debug_message(
                 f"New value retrieved from Redis: {value}"
             )
             return pickle.loads(value)
