@@ -34,7 +34,10 @@ class CameraStreamer:
 
     async def stream_frame(self):
         await self.connect_stream()
+        await self._redis_adapter._create_connection()
+
         self._logger_service.log_info_message("Starting camera streaming...")
+
         while True:
             try:
                 frame = self._camera_adapter.get_frame()
@@ -52,17 +55,16 @@ class CameraStreamer:
                     
                     self._count_frame+=1
                 
-                self._redis_adapter.set_key(
+                await self._redis_adapter.set_key(
                     key=settings.ROBOT_CAMERA_FRAME_KEY,
                     value=self._camera_adapter.from_frame_to_bytes(frame)
                 )
 
                 await self._web_socket_adapter.send_message(
                     msg_type="camera-frame",
-                    message=self._camera_adapter.from_frame_to_b64(
-                        frame=frame
-                    )
+                    message=self._camera_adapter.from_frame_to_b64(frame)
                 )
+
             except Exception as err:
                 self._logger_service.log_error_message(
                     f"Could not stream frame, reason: {err}"
