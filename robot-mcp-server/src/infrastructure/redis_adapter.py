@@ -32,19 +32,24 @@ class RedisAdapter:
             )
 
     async def set_key(self, key: str, value: str) -> None:
-        if self._db:
-            try:
-                await self._db.set(key, pickle.dumps(value))
-                self._logger_service.log_debug_message(
-                    f"New key set to Redis, "
-                    f"key: {key}, value:{value}"
-                )
-            except Exception as err:
-                self._logger_service.log_error_message(
-                    f"Could not set Redis key, reason: {err}"
-                )
+        if not self._db:
+            self._create_connection()
+
+        try:
+            await self._db.set(key, pickle.dumps(value))
+            self._logger_service.log_debug_message(
+                f"New key set to Redis, "
+                f"key: {key}, value:{value}"
+            )
+        except Exception as err:
+            self._logger_service.log_error_message(
+                f"Could not set Redis key, reason: {err}"
+            )
 
     async def get_key(self, key: str):
+        if not self._db:
+            self._create_connection()
+
         try:
             value = await self._db.get(key)
             self._logger_service.log_debug_message(
