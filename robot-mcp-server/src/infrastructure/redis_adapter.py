@@ -33,7 +33,7 @@ class RedisAdapter:
 
     async def set_key(self, key: str, value: str) -> None:
         if not self._db:
-            self._create_connection()
+            await self._create_connection()
 
         try:
             await self._db.set(key, pickle.dumps(value))
@@ -48,7 +48,7 @@ class RedisAdapter:
 
     async def get_key(self, key: str):
         if not self._db:
-            self._create_connection()
+            await self._create_connection()
 
         try:
             value = await self._db.get(key)
